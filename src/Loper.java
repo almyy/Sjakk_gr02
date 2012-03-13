@@ -13,8 +13,7 @@ import java.util.ArrayList;
 public class Loper extends Brikke {
     
     public Loper(Rute start){
-        super(start,5);
-        
+        super(start,5);  
     }
 
     @Override
