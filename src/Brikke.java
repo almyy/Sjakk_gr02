@@ -24,6 +24,10 @@ abstract class Brikke {
     public int getVerdi() {
         return verdi;
     }
-    public abstract Rute getCurrent();
-    public abstract Rute setCurrent();
+    public Rute getCurrent(){
+        return current;
+    }
+    public void setCurrent(Rute r){
+        current = r;
+    }
 }
