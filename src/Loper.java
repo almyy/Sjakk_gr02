@@ -20,17 +20,5 @@ public class Loper extends Brikke {
     public ArrayList<Rute> sjekkLovligeTrekk() {
         Rute current = getCurrent();
         
-    }
-
-    @Override
-    public Rute getCurrent() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Rute setCurrent() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    
+    }   
 }
