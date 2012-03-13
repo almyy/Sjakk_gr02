@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Bonde extends Brikke {
     private final boolean isHvit;
     
-    Bonde(Rute start, boolean isHvit){
+    public Bonde(Rute start, boolean isHvit){
         super(start, 1);
         this.isHvit = isHvit;
     }

@@ -1,12 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Rino
- */
 import java.util.ArrayList;
 abstract class Spiller {
     private ArrayList<Brikke> brikker;
@@ -25,7 +16,6 @@ abstract class Spiller {
         return false;
     }
     public Brikke promotePiece(Brikke b){
-        
         return b;
     }
     public void setMoves(String s){
