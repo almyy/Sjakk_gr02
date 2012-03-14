@@ -18,14 +18,16 @@ public class Springer extends Brikke {
     public ArrayList<Rute> sjekkLovligeTrekk() {
         ArrayList<Rute> lovligeTrekk = new ArrayList();
         Rute current = super.getCurrent();
-        lovligeTrekk.add(new Rute(current.getX() +1, current.getY() + 2));
-        lovligeTrekk.add(new Rute(current.getX() +1, current.getY() -2));
-        lovligeTrekk.add(new Rute(current.getX() -1, current.getY() + 2));
-        lovligeTrekk.add(new Rute(current.getX() -1, current.getY() -2));
-        lovligeTrekk.add(new Rute(current.getY() +1, current.getX() + 2));
-        lovligeTrekk.add(new Rute(current.getY() +1, current.getX() -2));
-        lovligeTrekk.add(new Rute(current.getY() -1, current.getX() + 2));
-        lovligeTrekk.add(new Rute(current.getY() -1, current.getX() -2));
+        int x = current.getX();
+        int y = current.getY();
+        lovligeTrekk.add(new Rute(x +1, y + 2));
+        lovligeTrekk.add(new Rute(x +1, y -2));
+        lovligeTrekk.add(new Rute(x -1, y + 2));
+        lovligeTrekk.add(new Rute(x -1, y -2));
+        lovligeTrekk.add(new Rute(y +1, x + 2));
+        lovligeTrekk.add(new Rute(y +1, x -2));
+        lovligeTrekk.add(new Rute(y -1, x + 2));
+        lovligeTrekk.add(new Rute(y -1, x -2));
         return lovligeTrekk;
     }
 }
