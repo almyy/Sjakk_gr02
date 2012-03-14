@@ -40,5 +40,6 @@ public class Loper extends Brikke {
                 lovligeRuter.add(new Rute(i,u));
             }
         }
+        return lovligeRuter;
     }   
 }
