@@ -20,8 +20,8 @@ public class Loper extends Brikke {
     public ArrayList<Rute> sjekkLovligeTrekk() {
         ArrayList<Rute> lovligeRuter = new ArrayList<>();
         Rute current = super.getCurrent();
-        for(int i = current.getX()+1; i < 8; i++){
-            for(int u = current.getY()+1; u < 8; u++){
+        for(int i = current.getX()+1; i < 9; i++){
+            for(int u = current.getY()+1; u < 9; u++){
                 lovligeRuter.add(new Rute(i,u));
             }
         }
@@ -31,11 +31,11 @@ public class Loper extends Brikke {
             }//lol
         }
         for(int i = current.getX() -1; i > 0; i--){
-            for(int u = current.getY() + 1; i < 8; i++){
+            for(int u = current.getY() + 1; i < 9; i++){
                 lovligeRuter.add(new Rute(i,u));
             }
         }
-        for(int i = current.getX() + 1; i < 8; i++){
+        for(int i = current.getX() + 1; i < 9; i++){
             for(int u = current.getY() - 1; u > 0; u--){
                 lovligeRuter.add(new Rute(i,u));
             }
