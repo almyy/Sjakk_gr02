@@ -7,6 +7,17 @@
  *
  * @author Rino
  */
-public class Springer {
-    
+import java.util.ArrayList;
+
+public class Springer extends Brikke{
+
+    public Springer(Rute start) {
+        super(start);
+    }
+
+    @Override
+    public ArrayList<Rute> sjekkLovligeTrekk() {
+        ArrayList<Rute> lovligeTrekk = new ArrayList();
+        Rute current = super.getCurrent();
+    }
 }
