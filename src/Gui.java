@@ -8,7 +8,7 @@ import javax.swing.*;
  *
  * @author Rino
  */
-public class Gui extends JFrame {
+public class GUI extends JFrame {
     private Brett brett;
     //dmd      
 }
