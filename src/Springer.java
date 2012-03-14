@@ -9,15 +9,14 @@
  */
 import java.util.ArrayList;
 
-public class Springer {
-    private final boolean isHvit;
-    
-    public Springer(Rute start, boolean isHvit){
-        super(start, 1);  
+public class Springer extends Brikke{
+
+    public Springer(Rute start) {
+        super(start);
     }
-    
+
     @Override
-    public ArrayList<Rute> sjekkLovligeTrekk(){
+    public ArrayList<Rute> sjekkLovligeTrekk() {
         ArrayList<Rute> lovligeTrekk = new ArrayList();
         Rute current = super.getCurrent();
     }
