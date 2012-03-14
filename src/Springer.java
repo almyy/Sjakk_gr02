@@ -15,7 +15,7 @@ public class Springer extends Brikke {
         super(start, 1);  
     }
     @Override
-    public ArrayList<Rute> sjekkLovligeTrekk(){
+    public ArrayList<Rute> sjekkLovligeTrekk() {
         ArrayList<Rute> lovligeTrekk = new ArrayList();
         Rute current = super.getCurrent();
         return lovligeTrekk;
