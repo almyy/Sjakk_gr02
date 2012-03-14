@@ -36,9 +36,18 @@ public class Brett {
                     lovligeTrekk.remove(i);
                 }
                 else if(lovligeTrekk.get(i).getX() == currentX+1 && lovligeTrekk.get(i).getY() == currentY+1) {
-                    boolean isHvit = bonde.
+                    boolean isHvit = bonde.isHvit();
+                    if(isHvit && ruter[currentX+1][currentY+1].getBrikke().isHvit()) {
+                        lovligeTrekk.remove(i);
+                    }
+                    else if(!isHvit && !ruter[currentX+1][currentY+1].getBrikke().isHvit()) {
+                        lovligeTrekk.remove(i);
+                    }
                 }
             }
+        }
+        if(brikke instanceof Springer) {
+            
         }
     }
 }
