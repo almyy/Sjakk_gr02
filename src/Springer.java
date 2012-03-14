@@ -20,14 +20,14 @@ public class Springer extends Brikke {
         Rute current = super.getCurrent();
         int x = current.getX();
         int y = current.getY();
-        lovligeTrekk.add(new Rute(x +1, y + 2));
+        lovligeTrekk.add(new Rute(x +1, y +2));
         lovligeTrekk.add(new Rute(x +1, y -2));
-        lovligeTrekk.add(new Rute(x -1, y + 2));
+        lovligeTrekk.add(new Rute(x -1, y +2));
         lovligeTrekk.add(new Rute(x -1, y -2));
-        lovligeTrekk.add(new Rute(y +1, x + 2));
-        lovligeTrekk.add(new Rute(y +1, x -2));
-        lovligeTrekk.add(new Rute(y -1, x + 2));
-        lovligeTrekk.add(new Rute(y -1, x -2));
+        lovligeTrekk.add(new Rute(x +2, y +1));
+        lovligeTrekk.add(new Rute(x +2, y -1));
+        lovligeTrekk.add(new Rute(x -2, y +1));
+        lovligeTrekk.add(new Rute(x -2, y -1));
         return lovligeTrekk;
     }
 }
