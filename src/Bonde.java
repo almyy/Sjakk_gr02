@@ -22,7 +22,7 @@ public class Bonde extends Brikke {
         Rute rute = super.getCurrent();
         int x = rute.getX();
         int y = rute.getY();
-        if(super.isHvit() && y < 8) {
+        if(isHvit() && y < 8) {
             lovligeTrekk.add(new Rute(x, y+1));
             if (x < 8) {
                 lovligeTrekk.add(new Rute(x + 1, y + 1));
@@ -32,7 +32,7 @@ public class Bonde extends Brikke {
             }
             return lovligeTrekk;
         }
-        else if(!super.isHvit() && y > 8) {
+        else if(!isHvit() && y > 0) {
             lovligeTrekk.add(new Rute(x, y-1));
             if(x < 8) {
                 lovligeTrekk.add(new Rute(x-1, y+1));
