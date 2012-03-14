@@ -10,7 +10,7 @@ import javax.swing.*;
  */
 public class GUI extends JFrame {
     private Brett brett;
-    //dmdkddndnf
+    //dmd
     
     
 }
