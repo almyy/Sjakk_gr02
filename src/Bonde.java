@@ -20,16 +20,9 @@ public class Bonde extends Brikke {
 
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public int getVerdi() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Rute getCurrent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ArrayList<Rute> lovligeTrekk = new ArrayList<>();
+        Rute rute = super.getCurrent();
+        int x = rute.getX();
+        int y = rute.getY();
     }
 }
