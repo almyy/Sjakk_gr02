@@ -29,7 +29,8 @@ public class Konge extends Brikke{
         lovligeTrekk.add(new Rute(x-1,y));
         lovligeTrekk.add(new Rute(x-1,y+1));
         lovligeTrekk.add(new Rute(x-1,y-1));
-        lovligeTrekk.add(new Rute())
+        lovligeTrekk.add(new Rute(x,y+1));
+        lovligeTrekk.add(new Rute(x,y-1));
         
         return lovligeTrekk;
         
