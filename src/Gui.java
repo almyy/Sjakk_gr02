@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -10,5 +11,6 @@ import javax.swing.*;
  */
 public class GUI extends JFrame {
     private Brett brett;
-    //dmdh
+      
+    
 }
