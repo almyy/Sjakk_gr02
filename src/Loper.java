@@ -28,7 +28,7 @@ public class Loper extends Brikke {
         for(int i = current.getX() -1; i > 0; i--){
             for(int u = current.getY() - 1; i>0; i--){
                 lovligeRuter.add(new Rute(i,u));
-            }
+            }//lol
         }
         for(int i = current.getX() -1; i > 0; i--){
             for(int u = current.getY() + 1; i < 8; i++){
