@@ -22,4 +22,10 @@ public class Brett {
         this.hvit = new Hvit();
         this.svart = new Svart();
     }
+    public ArrayList<Rute> sjekkLovligeTrekk(Rute rute) {
+        Brikke brikke = rute.getBrikke();
+        if(brikke instanceof Bonde) {
+            
+        }
+    }
 }
