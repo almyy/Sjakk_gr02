@@ -2,10 +2,6 @@ import java.util.ArrayList;
 abstract class Spiller {
     private ArrayList<Brikke> brikker;
     private ArrayList<String> moves;
-    
-    public Spiller(ArrayList<Brikke> brikker){
-        this.brikker = new ArrayList<>();    
-    }
     public boolean removePiece(Brikke b){
         for(int i = 0; i < brikker.size(); i++){
             if(brikker.get(i).equals(b)){
