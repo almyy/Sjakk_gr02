@@ -7,6 +7,7 @@
  *
  * @author Rino
  */
+import java.util.ArrayList;
 public class Dronning extends Brikke {
     
     public Dronning(Rute start) {
