@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class Springer extends Brikke {
     
-    public Springer(Rute start){
-        super(start, 1);  
+    public Springer(Rute start, boolean isHvit){
+        super(start, 1, isHvit);  
     }
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk() {

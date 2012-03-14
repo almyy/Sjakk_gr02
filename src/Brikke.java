@@ -12,11 +12,13 @@ abstract class Brikke {
     private final int verdi;
     private Rute start;
     private Rute current;
+    private boolean isHvit;
     
-    public Brikke(Rute start, int verdi){
+    public Brikke(Rute start, int verdi, boolean isHvit){
         this.start = start;
         this.current = start;
         this.verdi = verdi;
+        this.isHvit = isHvit;
     }
     
     public abstract ArrayList<Rute> sjekkLovligeTrekk();
@@ -29,5 +31,8 @@ abstract class Brikke {
     }
     public void setCurrent(Rute r){
         current = r;
+    }
+    public boolean isHvit() {
+        return isHvit;
     }
 }

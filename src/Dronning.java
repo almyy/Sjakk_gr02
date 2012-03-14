@@ -7,10 +7,11 @@
  *
  * @author Rino
  */
+import java.util.ArrayList;
 public class Dronning extends Brikke {
     
-    public Dronning(Rute start) {
-            super(start,6);
+    public Dronning(Rute start, boolean isHvit) {
+            super(start,6, isHvit);
     
 } 
     public ArrayList<Rute> sjekkLovligeTrekk() {

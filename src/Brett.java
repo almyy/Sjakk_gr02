@@ -7,6 +7,8 @@
  *
  * @author Rino
  */
+import java.util.ArrayList;
+
 public class Brett {
 
     private Rute[][] ruter;
@@ -25,7 +27,18 @@ public class Brett {
     public ArrayList<Rute> sjekkLovligeTrekk(Rute rute) {
         Brikke brikke = rute.getBrikke();
         if(brikke instanceof Bonde) {
-            
+            Bonde bonde = (Bonde) brikke;
+            int currentX = bonde.getCurrent().getX();
+            int currentY = bonde.getCurrent().getY();
+            ArrayList<Rute> lovligeTrekk = bonde.sjekkLovligeTrekk();
+            for(int i = 0; i < lovligeTrekk.size(); i++) {
+                if(lovligeTrekk.get(i).getX() == currentX && ruter[currentX][currentY+1].isOccupied()) {
+                    lovligeTrekk.remove(i);
+                }
+                else if(lovligeTrekk.get(i).getX() == currentX+1 && lovligeTrekk.get(i).getY() == currentY+1) {
+                    boolean isHvit = bonde.
+                }
+            }
         }
     }
 }

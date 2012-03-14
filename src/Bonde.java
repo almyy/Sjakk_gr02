@@ -11,11 +11,9 @@ import java.util.ArrayList;
  * @author Rino
  */
 public class Bonde extends Brikke {
-    private final boolean isHvit;
     
     public Bonde(Rute start, boolean isHvit){
-        super(start, 1);
-        this.isHvit = isHvit;
+        super(start, 1, isHvit);
     }
 
     @Override
@@ -24,7 +22,7 @@ public class Bonde extends Brikke {
         Rute rute = super.getCurrent();
         int x = rute.getX();
         int y = rute.getY();
-        if(isHvit && y < 8) {
+        if(super.isHvit() && y < 8) {
             lovligeTrekk.add(new Rute(x, y+1));
             if (x < 8) {
                 lovligeTrekk.add(new Rute(x + 1, y + 1));
@@ -34,7 +32,7 @@ public class Bonde extends Brikke {
             }
             return lovligeTrekk;
         }
-        else if(!isHvit && y > 8) {
+        else if(!super.isHvit() && y > 8) {
             lovligeTrekk.add(new Rute(x, y-1));
             if(x < 8) {
                 lovligeTrekk.add(new Rute(x-1, y+1));
