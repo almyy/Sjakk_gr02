@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public class Konge extends Brikke{
     
-    public Konge(Rute start){
-        super(start,0);
+    public Konge(Rute start, boolean isHvit){
+        super(start,0, isHvit);
     }
 
     @Override

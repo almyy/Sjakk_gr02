@@ -12,8 +12,8 @@ import java.util.ArrayList;
  */
 public class Loper extends Brikke {
     
-    public Loper(Rute start){
-        super(start,5);  
+    public Loper(Rute start, boolean isHvit){
+        super(start,5, isHvit);  
     }
 
     @Override
