@@ -17,13 +17,13 @@ public class Hvit extends Spiller {
             brikker.add(new Bonde(new Rute(i,2),true));
         }
         brikker.add(new Taarn(new Rute(1,1)));
-        brikker.add(new Taarn(new Rute(1,8)));
-        brikker.add(new Loper(new Rute(1,2)));
-        brikker.add(new Loper(new Rute(1,7)));
-        brikker.add(new Springer(new Rute(1,3)));
-        brikker.add(new Springer(new Rute(1,6)));
-        brikker.add(new Dronning(new Rute(1,4)));
-        brikker.add(new Konge(new Rute(1,5)));
+        brikker.add(new Taarn(new Rute(8,1)));
+        brikker.add(new Loper(new Rute(2,1)));
+        brikker.add(new Loper(new Rute(7,1)));
+        brikker.add(new Springer(new Rute(3,1)));
+        brikker.add(new Springer(new Rute(6,1)));
+        brikker.add(new Dronning(new Rute(4,1)));
+        brikker.add(new Konge(new Rute(5,1)));
         
     }
     @Override
