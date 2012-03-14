@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Taarn extends Brikke {
     
-    public Taarn(boolean isHvit, Rute start) {
+    public Taarn(Rute start, boolean isHvit) {
         super(start, 5, isHvit);
     }
 
