@@ -34,7 +34,7 @@ public class Bonde extends Brikke {
             }
             return lovligeTrekk;
         }
-        else if(!isHvit && y > 8) {
+        else if(!isHvit && y > 1) {
             lovligeTrekk.add(new Rute(x, y-1));
             if(x < 8) {
                 lovligeTrekk.add(new Rute(x-1, y+1));

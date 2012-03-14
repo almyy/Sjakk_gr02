@@ -11,11 +11,9 @@ import java.util.ArrayList;
  * @author Rino
  */
 public class Taarn extends Brikke {
-    private final boolean isHvit;
     
-    public Taarn(boolean isHvit, Rute start) {
+    public Taarn(Rute start) {
         super(start, 5);
-        this.isHvit = isHvit;
     }
 
     @Override
