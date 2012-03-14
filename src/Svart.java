@@ -27,4 +27,25 @@ public class Svart {
         brikker.add(new Dronning(new Rute(4,8),false));
         brikker.add(new Konge(new Rute(5,8),false));        
     }
+    public boolean removePiece(Brikke b){
+        for(int i = 0; i < brikker.size(); i++){
+            if(brikker.get(i).equals(b)){
+                brikker.remove(b);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean promotePiece(Brikke b, Brikke p){
+        int x = b.getCurrent().getX();
+        int y = b.getCurrent().getY();
+        for(int i = 0; i < brikker.size(); i++){
+            if(brikker.get(i).equals(b)){
+                brikker.remove(i);
+                brikker.add(p);
+                return true;
+            }
+        }
+        return false;
+    }
 }
