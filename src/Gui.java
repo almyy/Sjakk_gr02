@@ -41,6 +41,24 @@ class GUI extends JFrame{
             }
         }
         
+        squares[0][0].add(new JLabel(new ImageIcon("C:/Users/Martin/Desktop/taarn.png")));//Tårn
+        squares[0][2].add(new JLabel(new ImageIcon("")));//løper
+
+        squares[0][4].add(new JLabel(new ImageIcon("")));//hest
+        squares[0][5].add(new JLabel(new ImageIcon("")));//løper
+        squares[0][7].add(new JLabel(new ImageIcon("")));//Taarn
+
+        squares[7][0].add(new JLabel(new ImageIcon("")));
+        squares[7][2].add(new JLabel(new ImageIcon("")));
+        squares[7][4].add(new JLabel(new ImageIcon("")));
+        squares[7][5].add(new JLabel(new ImageIcon("")));
+        squares[7][7].add(new JLabel(new ImageIcon("")));
+
+        for (int i = 0; i < 8; i++) {
+            squares[1][i].add(new JLabel(new ImageIcon("")));
+            squares[6][i].add(new JLabel(new ImageIcon("")));
+        }
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
