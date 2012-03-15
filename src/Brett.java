@@ -37,6 +37,14 @@ public class Brett {
         return ruter;
     }
     
+    public ArrayList<String> getSvartMoves() {
+        return svart.getMoves();
+    }
+    
+    public ArrayList<String> getHvitMoves() {
+        return hvit.getMoves();
+    }
+    
     public ImageIcon getIcon(int i , int j){
         return ruter[i][j].getBrikke().getIcon();
     }
