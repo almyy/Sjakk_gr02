@@ -11,7 +11,7 @@ import javax.swing.*;
  *
  * @author Martin
  */
-class GUI extends JFrame {
+class GUI extends JFrame{
 
     private Brett brett;
     JFrame frame;
