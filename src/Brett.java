@@ -16,13 +16,18 @@ public class Brett {
     private Svart svart;
 
     public Brett() {
-        for (int i = 1; i < 9; i++) {
-            for (int u = 1; u < 9; u++) {
+        this.ruter = new Rute[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int u = 0; u < 8; u++) {
                 this.ruter[i][u] = new Rute(i, u);
             }
         }
         this.hvit = new Hvit();
         this.svart = new Svart();
+    }
+    
+    public Rute[][] getRuter() {
+        return ruter;
     }
 
     public ArrayList<Rute> sjekkLovligeTrekk(Rute rute) {
@@ -509,4 +514,5 @@ public class Brett {
         }
         return null;
     }
+    
 }

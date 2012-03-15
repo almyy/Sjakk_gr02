@@ -2,17 +2,21 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.EventListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 class Gui extends JFrame {
-    private Brett brett;    
+    private Brett brett = new Brett();
     public Gui(String tittel) { 
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(500,500));
         setLayout(new BorderLayout());
-        add(new Gui.Rutenett(),BorderLayout.CENTER);
+        add(new Rutenett(),BorderLayout.CENTER);
         pack();
     }
     private class Rutenett extends JPanel{
@@ -23,6 +27,7 @@ class Gui extends JFrame {
                     squares[i][j] = new JPanel();
                     squares[i][j].setPreferredSize(new Dimension(50,50));
                     add(squares[i][j]);
+                    squares[i][j].add(new MuseLytter());
                     if ((i + j) % 2 == 0) {
                         squares[i][j].setBackground(new Color(160,82,45));
                     } else {
@@ -31,6 +36,34 @@ class Gui extends JFrame {
                 }        
             }
         }
+    }
+    private class MuseLytter implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
     }
     public static void main(String[] args) {
         Gui b = new Gui("hore");
