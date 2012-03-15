@@ -30,7 +30,6 @@ public class Brett {
         if (brikke instanceof Bonde) {
             Bonde bonde = (Bonde) brikke;
             int currentX = bonde.getCurrent().getX();
-            int currentY = bonde.getCurrent().getY();
             ArrayList<Rute> lovligeTrekk = bonde.sjekkLovligeTrekk();
             int teller = lovligeTrekk.size();
             for (int i = 0; i < teller; i++) {
@@ -58,7 +57,8 @@ public class Brett {
         else if (brikke instanceof Springer) {
             Springer springer = (Springer) brikke;
             ArrayList<Rute> lovligeTrekk = springer.sjekkLovligeTrekk();
-            for (int i = 0; i < lovligeTrekk.size(); i++) {
+            int teller = lovligeTrekk.size()
+            for (int i = 0; i < teller; i++) {
                 if (ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].getBrikke().isHvit()) {
                     if (ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].isOccupied() && ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
@@ -73,7 +73,8 @@ public class Brett {
         } else if (brikke instanceof Konge) {
             Konge konge = (Konge) brikke;
             ArrayList<Rute> lovligeTrekk = konge.sjekkLovligeTrekk();
-            for (int i = 0; i < lovligeTrekk.size(); i++) {
+            int teller = lovligeTrekk.size();
+            for (int i = 0; i < teller; i++) {
                 int x = lovligeTrekk.get(i).getX();
                 int y = lovligeTrekk.get(i).getY();
                 if (konge.isHvit()) {
