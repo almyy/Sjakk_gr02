@@ -347,7 +347,6 @@ public class Brett {
                         i = helpI;
                     }
                     if(ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()){
-                        rutene.remove(i);
                         int helpI = i;
                         i++;
                         while(rutene.get(i).getX()> x && rutene.get(i).getY()>y){
