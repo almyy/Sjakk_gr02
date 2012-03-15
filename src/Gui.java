@@ -12,7 +12,7 @@ class Gui extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(500,500));
         setLayout(new BorderLayout());
-        add(new Rutenett(),BorderLayout.CENTER);
+        add(new Gui.Rutenett(),BorderLayout.CENTER);
         pack();
     }
     private class Rutenett extends JPanel{
