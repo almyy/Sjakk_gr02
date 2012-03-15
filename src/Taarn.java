@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 public class Taarn extends Brikke {
     
     public Taarn(Rute start, boolean isHvit) {
-        super(start, 5, isHvit,new ImageIcon("images/icon.gif"));
+        super(start, 5, isHvit,new ImageIcon("src/images/icon.gif"));
     }
 
     @Override
