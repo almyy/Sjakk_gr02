@@ -18,8 +18,6 @@ class Gui extends JFrame {
         setLayout(new BorderLayout());
         add(new Rutenett(), BorderLayout.CENTER);
         add(new GameInfo(), BorderLayout.EAST);
-        JLabel spiller2 = new JLabel("Spiller2");
-        spiller2.setFont(new Font("Serif", Font.BOLD, 20));
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
         add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
         pack();
