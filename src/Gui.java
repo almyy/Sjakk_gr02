@@ -1,6 +1,8 @@
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.*;
+import javax.swing.*;
 /*
  * To change this template, choose Tools | Templates and open the template in
  * the editor.
@@ -35,8 +37,9 @@ class GUI extends JFrame {
                 frame.add(squares[i][j]);
             }
         }
-
-        squares[0][0].add(new JLabel(new ImageIcon("")));//Taarn
+        
+        
+        squares[0][0].add(new JLabel(new ImageIcon("C:\Users\Martin\Desktop\taarn.png")));
         squares[0][2].add(new JLabel(new ImageIcon("")));//løper
 
         squares[0][4].add(new JLabel(new ImageIcon("")));//hest
