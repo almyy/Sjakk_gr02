@@ -7,7 +7,7 @@ class Gui extends JFrame {
 
     private Brett brett;
     JPanel squares[][] = new JPanel[8][8];
-    //dmd
+    public Gui(String tittel){
 
         setTitle(tittel);
         setPreferredSize(new Dimension(500, 500));
