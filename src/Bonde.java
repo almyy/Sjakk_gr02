@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /*
  * To change this template, choose Tools | Templates
@@ -13,8 +14,8 @@ import javax.swing.Icon;
  */
 public class Bonde extends Brikke {
     
-    public Bonde(Rute start, boolean isHvit,Icon icon){
-        super(start, 1, isHvit,icon);
+    public Bonde(Rute start, boolean isHvit){
+        super(start, 1, isHvit,new ImageIcon("images/icon.gif"));
     }
 
     @Override

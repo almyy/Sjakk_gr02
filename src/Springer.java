@@ -9,11 +9,12 @@
  */
 import java.util.ArrayList;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class Springer extends Brikke {
     
-    public Springer(Rute start, boolean isHvit, Icon icon){
-        super(start, 1, isHvit,icon);  
+    public Springer(Rute start, boolean isHvit){
+        super(start, 1, isHvit,new ImageIcon("images/icon.gif"));  
     }
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk() {

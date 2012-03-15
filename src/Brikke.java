@@ -9,14 +9,15 @@
  */
 import java.util.ArrayList;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 abstract class Brikke {
     private final int verdi;
     private Rute start;
     private Rute current;
     private boolean isHvit;
-    private final Icon icon;
+    private ImageIcon icon;
     
-    public Brikke(Rute start, int verdi, boolean isHvit, Icon icon){
+    public Brikke(Rute start, int verdi, boolean isHvit, ImageIcon icon){
         this.start = start;
         this.current = start;
         this.verdi = verdi;

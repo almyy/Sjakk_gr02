@@ -1,6 +1,7 @@
 
 import java.util.ArrayList;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 /*
  * To change this template, choose Tools | Templates
@@ -13,8 +14,8 @@ import javax.swing.Icon;
  */
 public class Taarn extends Brikke {
     
-    public Taarn(Rute start, boolean isHvit,Icon icon) {
-        super(start, 5, isHvit,icon);
+    public Taarn(Rute start, boolean isHvit) {
+        super(start, 5, isHvit,new ImageIcon("images/icon.gif"));
     }
 
     @Override
