@@ -16,7 +16,7 @@ class GUI extends JFrame {
     private Brett brett;
     JFrame frame;
     JPanel squares[][] = new JPanel[8][8];
-    //dmdxf
+    //dm
 
     public GUI(String tittel) {
 
