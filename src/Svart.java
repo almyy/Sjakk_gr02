@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Svart {
     private ArrayList<Brikke> brikker;
     
-    public Svart(ArrayList<Brikke> brikker){
+    public Svart(){
         this.brikker = new ArrayList<>();
         for(int i = 1; i < 9; i++){
             brikker.add(new Bonde(new Rute(i,7),false));
