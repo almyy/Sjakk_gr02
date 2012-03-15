@@ -20,6 +20,9 @@ public class Rute {
     public Brikke getBrikke() {
         return brikke;
     }
+    public void setBrikke(Brikke b){
+        brikke = b;
+    }
 
     public int getX() {
         return x;
