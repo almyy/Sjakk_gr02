@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Hvit extends Spiller {
     private ArrayList<Brikke> brikker;
     
-    public Hvit(ArrayList<Brikke> brikker){
+    public Hvit(){
         this.brikker = new ArrayList<>();
         for(int i = 1; i < 9; i++){
             brikker.add(new Bonde(new Rute(i,2),true));
