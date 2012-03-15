@@ -48,4 +48,7 @@ public class Svart extends Spiller{
         }
         return false;
     }
+    public ArrayList<Brikke> getBrikker(){
+        return brikker;
+    }
 }
