@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 public class Dronning extends Brikke {
     
     public Dronning(Rute start, boolean isHvit) {
-            super(start,6, isHvit,new ImageIcon("images/icon.gif"));
+            super(start,6, isHvit,new ImageIcon("src/images/icon.gif"));
     
 } 
     public ArrayList<Rute> sjekkLovligeTrekk() {

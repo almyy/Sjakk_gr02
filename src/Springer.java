@@ -14,7 +14,7 @@ import javax.swing.ImageIcon;
 public class Springer extends Brikke {
     
     public Springer(Rute start, boolean isHvit){
-        super(start, 1, isHvit,new ImageIcon("images/icon.gif"));  
+        super(start, 1, isHvit,new ImageIcon("src/images/icon.gif"));  
     }
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk() {

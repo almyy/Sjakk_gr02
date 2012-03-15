@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 public class Konge extends Brikke{
     
     public Konge(Rute start, boolean isHvit){
-        super(start,0, isHvit,new ImageIcon("images/icon.gif"));
+        super(start,0, isHvit,new ImageIcon("src/images/icon.gif"));
     }
 
     @Override
