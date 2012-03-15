@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import javax.swing.Icon;
 
 /*
  * To change this template, choose Tools | Templates
@@ -12,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Konge extends Brikke{
     
-    public Konge(Rute start, boolean isHvit){
-        super(start,0, isHvit);
+    public Konge(Rute start, boolean isHvit, Icon icon){
+        super(start,0, isHvit,icon);
     }
 
     @Override

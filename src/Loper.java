@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import javax.swing.Icon;
 
 /*
  * To change this template, choose Tools | Templates
@@ -12,8 +13,8 @@ import java.util.ArrayList;
  */
 public class Loper extends Brikke {
     
-    public Loper(Rute start, boolean isHvit){
-        super(start,5, isHvit);  
+    public Loper(Rute start, boolean isHvit,Icon icon){
+        super(start,5, isHvit,icon);  
     }
 
     @Override

@@ -8,10 +8,11 @@
  * @author Rino
  */
 import java.util.ArrayList;
+import javax.swing.Icon;
 public class Dronning extends Brikke {
     
-    public Dronning(Rute start, boolean isHvit) {
-            super(start,6, isHvit);
+    public Dronning(Rute start, boolean isHvit,Icon icon) {
+            super(start,6, isHvit,icon);
     
 } 
     public ArrayList<Rute> sjekkLovligeTrekk() {

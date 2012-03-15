@@ -8,11 +8,12 @@
  * @author Rino
  */
 import java.util.ArrayList;
+import javax.swing.Icon;
 
 public class Springer extends Brikke {
     
-    public Springer(Rute start, boolean isHvit){
-        super(start, 1, isHvit);  
+    public Springer(Rute start, boolean isHvit, Icon icon){
+        super(start, 1, isHvit,icon);  
     }
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk() {

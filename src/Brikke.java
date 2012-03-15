@@ -8,17 +8,20 @@
  * @author Rino
  */
 import java.util.ArrayList;
+import javax.swing.Icon;
 abstract class Brikke {
     private final int verdi;
     private Rute start;
     private Rute current;
     private boolean isHvit;
+    private final Icon icon;
     
-    public Brikke(Rute start, int verdi, boolean isHvit){
+    public Brikke(Rute start, int verdi, boolean isHvit, Icon icon){
         this.start = start;
         this.current = start;
         this.verdi = verdi;
         this.isHvit = isHvit;
+        this.icon=icon;
     }
     
     public abstract ArrayList<Rute> sjekkLovligeTrekk();
