@@ -13,8 +13,8 @@ public class Hvit extends Spiller {
     
     public Hvit(){
         this.brikker = new ArrayList<>();
-        for(int i = 1; i < 9; i++){
-            brikker.add(new Bonde(new Rute(i,2),true));
+        for(int i = 0; i < 8; i++){
+            brikker.add(new Bonde(new Rute(i,1),true));
         }
         brikker.add(new Taarn(new Rute(1,1),true));
         brikker.add(new Taarn(new Rute(8,1),true));
