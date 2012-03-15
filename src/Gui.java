@@ -39,7 +39,7 @@ class GUI extends JFrame {
         }
         
         
-        squares[0][0].add(new JLabel(new ImageIcon("C:\Users\Martin\Desktop\taarn.png")));
+        squares[0][0].add(new JLabel(new ImageIcon("C:\Users\Martin\Desktop\taarn.png")));//Taarn
         squares[0][2].add(new JLabel(new ImageIcon("")));//løper
 
         squares[0][4].add(new JLabel(new ImageIcon("")));//hest
