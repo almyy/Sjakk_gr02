@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author Rino
  */
-public class Svart {
+public class Svart extends Spiller{
     private ArrayList<Brikke> brikker;
     
     public Svart(){

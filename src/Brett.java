@@ -8,6 +8,7 @@
  * @author Rino
  */
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 public class Brett {
 
@@ -17,17 +18,27 @@ public class Brett {
 
     public Brett() {
         this.ruter = new Rute[8][8];
+        this.hvit = new Hvit();
+        this.svart = new Svart();
         for (int i = 0; i < 8; i++) {
             for (int u = 0; u < 8; u++) {
                 this.ruter[i][u] = new Rute(i, u);
             }
+        }    
+        ArrayList<Brikke> bonderH = hvit.getBrikker();
+        ArrayList<Brikke> bonderS = svart.getBrikker();
+        for(int i = 0; i < 8; i++){
+            this.ruter[1][i].setBrikke(bonderH.get(i));
+            this.ruter[6][i].setBrikke(bonderS.get(i));
         }
-        this.hvit = new Hvit();
-        this.svart = new Svart();
     }
     
     public Rute[][] getRuter() {
         return ruter;
+    }
+    
+    public ImageIcon getIcon(int i , int j){
+        return ruter[i][j].getBrikke().getIcon();
     }
 
     public ArrayList<Rute> sjekkLovligeTrekk(Rute rute) {

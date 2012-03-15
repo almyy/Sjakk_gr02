@@ -24,7 +24,9 @@ abstract class Brikke {
         this.isHvit = isHvit;
         this.icon=icon;
     }
-    
+    public ImageIcon getIcon(){
+        return icon;
+    }
     public abstract ArrayList<Rute> sjekkLovligeTrekk();
     
     public int getVerdi() {
