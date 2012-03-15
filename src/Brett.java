@@ -28,8 +28,8 @@ public class Brett {
         ArrayList<Brikke> bonderH = hvit.getBrikker();
         ArrayList<Brikke> bonderS = svart.getBrikker();
         for(int i = 0; i < 8; i++){
-            this.ruter[1][i].setBrikke(bonderH.get(i));
-            this.ruter[6][i].setBrikke(bonderS.get(i));
+            this.ruter[i][1].setBrikke(bonderH.get(i));
+            this.ruter[i][6].setBrikke(bonderS.get(i));
         }
     }
     

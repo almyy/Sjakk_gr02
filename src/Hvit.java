@@ -40,4 +40,7 @@ public class Hvit extends Spiller {
         brikker.remove(b);
         brikker.add(p);
     }
+    public ArrayList<Brikke> getBrikker(){
+        return brikker;
+    }
 }
