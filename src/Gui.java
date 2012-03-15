@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.net.*;
@@ -22,6 +21,7 @@ class GUI extends JFrame {
     public GUI(String tittel) {
 
         frame = new JFrame(tittel);
+        setBounds(400,10,800,800);
         frame.setSize(500, 500);
         frame.setLayout(new GridLayout(8, 8));
 
