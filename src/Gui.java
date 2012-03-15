@@ -5,9 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.EventListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 class Gui extends JFrame {
     private Brett brett = new Brett();
@@ -27,7 +25,10 @@ class Gui extends JFrame {
                     squares[i][j] = new JPanel();
                     squares[i][j].setPreferredSize(new Dimension(50,50));
                     add(squares[i][j]);
-                    squares[i][j].add(new MuseLytter());
+                    //squares[i][j].add(new MuseLytter());
+                    JLabel u = new JLabel(new ImageIcon("src/images/icon.gif"));
+                    u.setPreferredSize(new Dimension(40, 40));
+                    squares[i][j].add(u);
                     if ((i + j) % 2 == 0) {
                         squares[i][j].setBackground(new Color(160,82,45));
                     } else {
@@ -41,7 +42,7 @@ class Gui extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            
         }
 
         @Override
