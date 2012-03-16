@@ -36,6 +36,9 @@ public class Brett {
     public Rute[][] getRuter() {
         return ruter;
     }
+    public Rute getRute(int x, int y) {
+        return ruter[x][y];
+    }
     
     public ArrayList<String> getSvartMoves() {
         return svart.getMoves();
@@ -62,17 +65,21 @@ public class Brett {
                 if (bonde.isHvit()) {
                     if (currentX == x && ruter[x][y].isOccupied()) {
                         lovligeTrekk.remove(i);
+                        teller--;
                     }
                     else if(currentX != x && ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
+                        teller--;
                     }
                 }
                 else if(!bonde.isHvit()) {
                     if (currentX == x && ruter[x][y].isOccupied()) {
                         lovligeTrekk.remove(i);
+                        teller--;
                     }
                     else if(currentX != x && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
+                        teller--;
                     }
                 }
             }

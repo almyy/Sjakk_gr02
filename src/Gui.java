@@ -11,6 +11,7 @@ class Gui extends JFrame {
 
     private Brett brett = new Brett();
     private JPanel squares[][] = new JPanel[8][8];
+    boolean isHighlighted = false;
     
     public Gui(String tittel) {
         setTitle(tittel);
@@ -40,12 +41,16 @@ class Gui extends JFrame {
             setLayout(new GridLayout(8, 8));
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    squares[i][j] = new JPanel();
-                    squares[i][j].setPreferredSize(new Dimension(50, 50));
-                    add(squares[i][j]);
+                    //squares[i][j] = new Rute();
+                    //add(squares[i][j]);
                     if (i == 1 || i == 6) {
-                        squares[i][j].add(new JLabel(brett.getIcon(1, 1)));
-
+                        JLabel bilde = new JLabel(brett.getIcon(1, 1));
+                        squares[i][j] = new GuiRute(bilde);
+                        add(squares[i][j]);
+                    }
+                    else {
+                        squares[i][j] = new GuiRute();
+                        add(squares[i][j]);
                     }
                     if ((i + j) % 2 == 0) {
                         squares[i][j].setBackground(new Color(160, 82, 45));
@@ -57,14 +62,33 @@ class Gui extends JFrame {
             }
         }
     }
-
+    private class GuiRute extends JPanel {
+        private JLabel bilde;
+        public GuiRute(JLabel bilde) {
+            setPreferredSize(new Dimension(50, 50));
+            this.bilde = bilde;
+            add(bilde);
+        }
+        public GuiRute() {
+            setPreferredSize(new Dimension(50, 50));
+        }
+        public void setBilde(JLabel nyBilde) {
+            if(bilde == null && nyBilde != null) {
+                bilde = nyBilde;
+                add(bilde);
+            }
+        }
+        public boolean hasLabel() {
+            return bilde != null;
+        }
+    }
     private class GameInfo extends JPanel{
 
         ArrayList<String> hvitTrekk;
         ArrayList<String> svartTrekk;
 
         public GameInfo() {
-
+            setLayout(new FlowLayout());
             hvitTrekk = brett.getHvitMoves();
             svartTrekk = brett.getSvartMoves();
             setPreferredSize(new Dimension(150, 500));
@@ -79,16 +103,22 @@ class Gui extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            JPanel denne = (JPanel) e.getSource();
+            GuiRute denne = (GuiRute) e.getSource();
             Color highlighted = new Color(100, 149, 237);
-            denne.setBackground(highlighted);
-            System.out.println("Lol");
+            if (!isHighlighted && denne.hasLabel()) {
+                denne.setBackground(highlighted);
+                isHighlighted = true;
+            }
             for(int i = 0; i < 8; i++) {
                 for(int j = 0; j < 8; j++) {
                     if(squares[i][j].getBackground().equals(highlighted)) {
                         int x = j;
                         int y = i;
-                        System.out.println("x; " + x + ", y: " + j);
+                        System.out.println("x; " + x + ", y: " + y);
+                        ArrayList<Rute> lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
+                        for(int u = 0; u < lovligeTrekk.size(); u++) {
+                            squares[lovligeTrekk.get(u).getX()-1][lovligeTrekk.get(u).getY()-1].setBackground(highlighted);
+                        }
                     }
                 }
             }
@@ -112,7 +142,7 @@ class Gui extends JFrame {
     }
 
     public static void main(String[] args) {
-        Gui b = new Gui("hore");
+        Gui b = new Gui("Sjakk");
         b.setVisible(true);
     }
 }
