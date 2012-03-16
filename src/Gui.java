@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 class Gui extends JFrame {
 
     private Brett brett = new Brett();
-
+    private JPanel squares[][] = new JPanel[8][8];
+    
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,8 +36,6 @@ class Gui extends JFrame {
 
     private class Rutenett extends JPanel {
 
-        private JPanel squares[][] = new JPanel[8][8];
-
         public Rutenett() {
             setLayout(new GridLayout(8, 8));
             for (int i = 0; i < 8; i++) {
@@ -44,7 +43,6 @@ class Gui extends JFrame {
                     squares[i][j] = new JPanel();
                     squares[i][j].setPreferredSize(new Dimension(50, 50));
                     add(squares[i][j]);
-                    //squares[i][j].add(new MuseLytter());
                     if (i == 1 || i == 6) {
                         squares[i][j].add(new JLabel(brett.getIcon(1, 1)));
 
@@ -54,12 +52,13 @@ class Gui extends JFrame {
                     } else {
                         squares[i][j].setBackground(new Color(160, 82, 45, 127));
                     }
+                    squares[i][j].addMouseListener(new MuseLytter());
                 }
             }
         }
     }
 
-    private class GameInfo extends JPanel {
+    private class GameInfo extends JPanel{
 
         ArrayList<String> hvitTrekk;
         ArrayList<String> svartTrekk;
@@ -76,30 +75,39 @@ class Gui extends JFrame {
         }
     }
 
-    private class MuseLytter implements MouseListener {
+    private class MuseLytter implements MouseListener  {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            JPanel denne = (JPanel) e.getSource();
+            Color highlighted = new Color(100, 149, 237);
+            denne.setBackground(highlighted);
+            System.out.println("Lol");
+            for(int i = 0; i < 8; i++) {
+                for(int j = 0; j < 8; j++) {
+                    if(squares[i][j].getBackground().equals(highlighted)) {
+                        int x = j;
+                        int y = i;
+                        System.out.println("x; " + x + ", y: " + j);
+                    }
+                }
+            }
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet.");
         }
     }
 
