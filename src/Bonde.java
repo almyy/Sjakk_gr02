@@ -21,9 +21,9 @@ public class Bonde extends Brikke {
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk() {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
-        Rute rute = super.getCurrent();
-        int x = rute.getX();
-        int y = rute.getY();
+        Rute current = super.getCurrent();
+        int x = current.getX();
+        int y = current.getY();
         if(isHvit() && y < 8) {
             lovligeTrekk.add(new Rute(x, y+1));
             if (x < 8) {

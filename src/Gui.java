@@ -39,7 +39,7 @@ class Gui extends JFrame {
 
         public Rutenett() {
             setLayout(new GridLayout(8, 8));
-            for (int i = 0; i < 8; i++) {
+            for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
                     //squares[i][j] = new Rute();
                     //add(squares[i][j]);
@@ -111,7 +111,7 @@ class Gui extends JFrame {
             }
             for(int i = 0; i < 8; i++) {
                 for(int j = 0; j < 8; j++) {
-                    if(squares[i][j].getBackground().equals(highlighted)) {
+                    if(squares[i][j].getBackground().equals(highlighted)&&squares[i][j] != null) {
                         int x = j;
                         int y = i;
                         System.out.println("x; " + x + ", y: " + y);
