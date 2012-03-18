@@ -24,13 +24,13 @@ public class Taarn extends Brikke {
         Rute rute = super.getCurrent();
         int x = rute.getX();
         int y = rute.getY();
-        for(int i = x; i < 9; i++) {
+        for(int i = x; i < 8; i++) {
             lovligeTrekk.add(new Rute(i, y));
         }
         for(int i = x; i < 0; i--) {
             lovligeTrekk.add(new Rute(i, y));
         }
-        for(int i = y; i < 9; i++) {
+        for(int i = y; i < 8; i++) {
             lovligeTrekk.add(new Rute(x, i));
         }
         for(int i = y; i < 0; i--) {

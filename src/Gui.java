@@ -95,14 +95,14 @@ class Gui extends JFrame {
             TextField tekstFelt = new TextField("Siste trekk:");
             tekstFelt.setPreferredSize(new Dimension(150, 500));
             add(tekstFelt);
-
         }
     }
 
-    private class MuseLytter implements MouseListener  {
+    private class MuseLytter implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            
             GuiRute denne = (GuiRute) e.getSource();
             Color highlighted = new Color(100, 149, 237);
             if (!isHighlighted && denne.hasLabel()) {

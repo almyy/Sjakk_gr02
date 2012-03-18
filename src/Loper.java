@@ -24,23 +24,23 @@ public class Loper extends Brikke {
         Rute current = super.getCurrent();
         int x = current.getX();
         int y = current.getY();
-        for(int i = x+1; i < 9; i++){
-            for(int u = y+1; u < 9; u++){
+        for(int i = x+1; i < 8; i++){
+            for(int u = y+1; u < 8; u++){
                 lovligeRuter.add(new Rute(i,u));
             }
         }
-        for(int i = x -1; i > 0; i--){
-            for(int u = y - 1; i>0; i--){
-                lovligeRuter.add(new Rute(i,u));
-            }//lol
-        }
-        for(int i = x -1; i > 0; i--){
-            for(int u = y + 1; i < 9; i++){
+        for(int i = x -1; i >= 0; i--){
+            for(int u = y - 1; i >= 0; i--){
                 lovligeRuter.add(new Rute(i,u));
             }
         }
-        for(int i = x + 1; i < 9; i++){
-            for(int u = y - 1; u > 0; u--){
+        for(int i = x -1; i >= 0; i--){
+            for(int u = y + 1; i < 8; i++){
+                lovligeRuter.add(new Rute(i,u));
+            }
+        }
+        for(int i = x + 1; i < 8; i++){
+            for(int u = y - 1; u >= 0; u--){
                 lovligeRuter.add(new Rute(i,u));
             }
         }
