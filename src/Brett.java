@@ -169,7 +169,7 @@ public class Brett {
         } else if (brikke instanceof Loper) {
             Loper loper = (Loper) brikke;
             ArrayList<Rute> rutene = loper.sjekkLovligeTrekk(rute);
-            int teller = rutene.size();
+            /*int teller = rutene.size();
             for (int i = 0; i < teller; i++) {
                 int x = rutene.get(i).getX();
                 int y = rutene.get(i).getY();
@@ -295,7 +295,7 @@ public class Brett {
                         i = helpI;
                     }
                 }
-            }
+            }*/
             return rutene;
         } else if (brikke instanceof Dronning) {
             Dronning dronning = (Dronning) brikke;

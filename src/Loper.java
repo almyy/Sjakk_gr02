@@ -32,8 +32,8 @@ public class Loper extends Brikke {
             if(y>0){
                 int u = y-1;
                 for(int i = x -1; i >= 0; i--){
-                    lovligeRuter.add(new Rute(i,u));
-                    if(u>0){
+                    if(u>=0){
+                        lovligeRuter.add(new Rute(i,u));
                         u--;                    
                     }
                 }
@@ -41,8 +41,8 @@ public class Loper extends Brikke {
             if(y<7){
                 int u = y+1;
                 for(int i = x -1; i >= 0; i--){
-                    lovligeRuter.add(new Rute(i,u));
-                    if(u<7){
+                    if(u<=7){
+                        lovligeRuter.add(new Rute(i,u));
                         u++;
                     }
                 }
@@ -52,8 +52,8 @@ public class Loper extends Brikke {
             if(y>0){
                 int u = y-1;
                 for(int i = x +1; i <= 7; i++){
-                    lovligeRuter.add(new Rute(i,u));
-                    if(u>0){
+                    if(u>=0){
+                        lovligeRuter.add(new Rute(i,u));
                         u--;                    
                     }
                 }
@@ -61,8 +61,8 @@ public class Loper extends Brikke {
             if(y<7){
                 int u = y+1;
                 for(int i = x+1; i <= 7; i++){
-                    lovligeRuter.add(new Rute(i,u));
-                    if(u<7){
+                    if(u<=7){
+                        lovligeRuter.add(new Rute(i,u));
                         u++;
                     }
                 }
