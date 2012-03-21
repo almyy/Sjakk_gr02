@@ -668,5 +668,6 @@ public class Brett {
         int nX = rute.getY();
         System.out.println("x " + nX + " y " + nY);
         this.ruter[nX][nY].setBrikke(ruter[bX][bY].getBrikke());
+        this.ruter[bX][bY].setBrikke(null);
     }
 }

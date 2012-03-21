@@ -79,13 +79,24 @@ class Gui extends JFrame {
             this.y=y;
         }
         public void setBilde(JLabel nyBilde) {
-            if(bilde == null && nyBilde != null) {
-                bilde = nyBilde;
+            bilde = nyBilde;
+            if (bilde!=null) {
                 add(bilde);
             }
+            this.repaint();
         }
         public JLabel getBilde(){
             return bilde;
+        }
+        public void removeBilde(int x,int y){
+            for(int i = 0; i< 8; i++){
+                for(int u = 0; u < 8; u++){
+                    if(i==x && y==u){
+                        this.bilde = null;
+                        this.repaint();
+                    }
+                }
+            }
         }
         public boolean hasLabel() {
             return bilde != null;
@@ -166,14 +177,16 @@ class Gui extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             
-            GuiRute denne = (GuiRute) e.getSource();
+            GuiRute denne = (GuiRute)e.getSource();
             Color highlighted = new Color(100, 149, 237);
             Color highlightedTrekk = new Color(1,1,1);
             Rute r = new Rute(0,0);
             JLabel l = new JLabel();
+            GuiRute f = null;
             for(int i = 0; i < 8; i++){
                 for(int u = 0; u < 8; u++){
                     if(squares[i][u].getBackground().equals(highlighted)){
+                        f = squares[i][u];
                         r = new Rute(i,u);
                         l = squares[i][u].getBilde();
                     }
@@ -182,6 +195,7 @@ class Gui extends JFrame {
             if(denne.getBackground().equals(highlightedTrekk)){
                 brett.flyttBrikke(new Rute(denne.getXen(),denne.getYen()),lovligeTrekk,r);
                 denne.setBilde(l);
+                f.removeBilde(f.getXen(), f.getYen());
             }
         }
 
