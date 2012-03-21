@@ -13,8 +13,12 @@ import javax.swing.ImageIcon;
 public class Dronning extends Brikke {
     
     public Dronning(boolean isHvit) {
-            super(6, isHvit,new ImageIcon("src/images/icon.gif"));
-    
+            super(6, isHvit,null);
+            if(isHvit){
+                super.setIcon("src/images/whitepawn.gif");
+            }else{
+                super.setIcon("src/images/blackpawn.gif");
+            }
 } 
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk(Rute r) {

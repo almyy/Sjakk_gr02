@@ -96,7 +96,10 @@ public class Brett {
     }
     
     public ImageIcon getIcon(int i , int j){
-        return ruter[i][j].getBrikke().getIcon();
+        if(ruter[i][j].getBrikke().getIcon()!=null){
+            return ruter[i][j].getBrikke().getIcon();
+        }
+        return null;
     }
 
     public ArrayList<Rute> sjekkLovligeTrekk(Rute rute) {

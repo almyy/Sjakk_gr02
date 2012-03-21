@@ -15,7 +15,12 @@ import javax.swing.ImageIcon;
 public class Loper extends Brikke {
     
     public Loper(boolean isHvit){
-        super(5, isHvit,new ImageIcon("src/images/icon.gif"));  
+        super(5, isHvit,null);  
+        if(isHvit){
+            super.setIcon("src/images/whitepawn.gif");
+        }else{
+            super.setIcon("src/images/blackpawn.gif");
+        }
     }
 
     @Override

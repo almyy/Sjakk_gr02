@@ -15,7 +15,12 @@ import javax.swing.ImageIcon;
 public class Konge extends Brikke{
     
     public Konge(boolean isHvit){
-        super(0, isHvit,new ImageIcon("src/images/icon.gif"));
+        super(0, isHvit,null);
+        if(isHvit){
+            super.setIcon("src/images/whiteSpringer.gif");
+        }else{
+            super.setIcon("src/images/blackSpringer.gif");
+        }
     }
 
     @Override

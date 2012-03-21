@@ -41,17 +41,43 @@ class Gui extends JFrame {
             setLayout(new GridLayout(8, 8));
             for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
-                    //squares[i][j] = new Rute();
-                    //add(squares[i][j]);
+                    
                     if (i == 1){
-                        JLabel bilde = new JLabel(brett.getIcon(1,1));
+                        JLabel bilde = new JLabel(brett.getIcon(j,i));
+                        squares[i][j] = new GuiRute(bilde);
+                        add(squares[i][j]);
+                    }                   
+                    else if(i == 6) {
+                        JLabel bilde = new JLabel(brett.getIcon(j, i));
                         squares[i][j] = new GuiRute(bilde);
                         add(squares[i][j]);
                     }
-                    else if(i == 6) {
-                        JLabel bilde = new JLabel(brett.getIcon(1, 6));
-                        squares[i][j] = new GuiRute(bilde);
-                        add(squares[i][j]);
+                    else if(i==7){
+                        if(j == 0 || j == 7){
+                            JLabel bilde = new JLabel(brett.getIcon(j,i));
+                            squares[i][j] = new GuiRute(bilde);
+                            add(squares[i][j]);
+                        }
+                        else if(j==1 || j == 6){
+                            JLabel bilde = new JLabel(brett.getIcon(j,i));
+                            squares[i][j] = new GuiRute(bilde);
+                            add(squares[i][j]);
+                        }
+                        else if(j==2 || j==5){
+                            JLabel bilde = new JLabel(brett.getIcon(j,i));
+                            squares[i][j] = new GuiRute(bilde);
+                            add(squares[i][j]);
+                        }
+                        else if(j == 3){
+                            JLabel bilde = new JLabel(brett.getIcon(j,i));
+                            squares[i][j] = new GuiRute(bilde);
+                            add(squares[i][j]);
+                        }
+                        else if(j==4){
+                            JLabel bilde = new JLabel(brett.getIcon(j,i));
+                            squares[i][j] = new GuiRute(bilde);
+                            add(squares[i][j]);
+                        }
                     }
                     else {
                         
