@@ -28,24 +28,44 @@ public class Loper extends Brikke {
         ArrayList<Rute> lovligeRuter = new ArrayList<>();
         int x = r.getX();
         int y = r.getY();
-        for(int i = x+1; i < 8; i++){
-            for(int u = y+1; u < 8; u++){
-                lovligeRuter.add(new Rute(i,u));
+        if(x>0){
+            if(y>0){
+                int u = y-1;
+                for(int i = x -1; i >= 0; i--){
+                    lovligeRuter.add(new Rute(i,u));
+                    if(u>0){
+                        u--;                    
+                    }
+                }
+            } 
+            if(y<7){
+                int u = y+1;
+                for(int i = x -1; i >= 0; i--){
+                    lovligeRuter.add(new Rute(i,u));
+                    if(u<7){
+                        u++;
+                    }
+                }
             }
         }
-        for(int i = x -1; i >= 0; i--){
-            for(int u = y - 1; i >= 0; i--){
-                lovligeRuter.add(new Rute(i,u));
-            }
-        }
-        for(int i = x -1; i >= 0; i--){
-            for(int u = y + 1; i < 8; i++){
-                lovligeRuter.add(new Rute(i,u));
-            }
-        }
-        for(int i = x + 1; i < 8; i++){
-            for(int u = y - 1; u >= 0; u--){
-                lovligeRuter.add(new Rute(i,u));
+        if(x<7){
+            if(y>0){
+                int u = y-1;
+                for(int i = x +1; i <= 7; i++){
+                    lovligeRuter.add(new Rute(i,u));
+                    if(u>0){
+                        u--;                    
+                    }
+                }
+            } 
+            if(y<7){
+                int u = y+1;
+                for(int i = x+1; i <= 7; i++){
+                    lovligeRuter.add(new Rute(i,u));
+                    if(u<7){
+                        u++;
+                    }
+                }
             }
         }
         return lovligeRuter;

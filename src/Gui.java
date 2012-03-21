@@ -10,7 +10,8 @@ import javax.swing.JPanel;
 class Gui extends JFrame {
 
     private Brett brett = new Brett();
-    private JPanel squares[][] = new JPanel[8][8];
+    private GuiRute squares[][] = new GuiRute[8][8];
+    private ArrayList<Rute> lovligeTrekk;
     boolean isHighlighted = false;
     
     public Gui(String tittel) {
@@ -42,13 +43,13 @@ class Gui extends JFrame {
             for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
                     
-                    if(i==0||i==1||i==6||i==7) {
+                    if(i==0||i==7) {
                         JLabel bilde = new JLabel(brett.getIcon(j,i));
-                        squares[i][j] = new GuiRute(bilde);
+                        squares[i][j] = new GuiRute(bilde,i,j);
                         add(squares[i][j]);
                     }
                     else { 
-                        squares[i][j] = new GuiRute();
+                        squares[i][j] = new GuiRute(i,j);
                         add(squares[i][j]);
                     }
                     if ((i + j) % 2 == 0) {
@@ -63,13 +64,19 @@ class Gui extends JFrame {
     }
     private class GuiRute extends JPanel {
         private JLabel bilde;
-        public GuiRute(JLabel bilde) {
+        private int x;
+        private int y;
+        public GuiRute(JLabel bilde,int x, int y) {
             setPreferredSize(new Dimension(50, 50));
             this.bilde = bilde;
+            this.x=x;
+            this.y=y;
             add(bilde);
         }
-        public GuiRute() {
+        public GuiRute(int x,int y) {
             setPreferredSize(new Dimension(50, 50));
+            this.x=x;
+            this.y=y;
         }
         public void setBilde(JLabel nyBilde) {
             if(bilde == null && nyBilde != null) {
@@ -77,9 +84,19 @@ class Gui extends JFrame {
                 add(bilde);
             }
         }
+        public JLabel getBilde(){
+            return bilde;
+        }
         public boolean hasLabel() {
             return bilde != null;
         }
+        public int getXen(){
+            return x;
+        }
+        public int getYen(){
+            return y;
+        }
+        
     }
     private class GameInfo extends JPanel{
 
@@ -116,12 +133,55 @@ class Gui extends JFrame {
                         int y = i;
                         System.out.println("x; " + x + ", y: " + y);
                         System.out.println("" + brett.getRute(x,y).getX() + " y " + brett.getRute(x,y).getY());
-                        ArrayList<Rute> lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
+                      
+                        lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
                         for(int u = 0; u < lovligeTrekk.size(); u++) {
-                            squares[lovligeTrekk.get(u).getY()][lovligeTrekk.get(u).getX()].setBackground(highlightedTrekk);
+                            int lX = lovligeTrekk.get(u).getX();
+                            int lY = lovligeTrekk.get(u).getY();
+                            squares[lY][lX].setBackground(highlightedTrekk);
+                            squares[lY][lX].addMouseListener(new MuseLytter2());
                         }
                     }
                 }
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
+    }private class MuseLytter2 implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            
+            GuiRute denne = (GuiRute) e.getSource();
+            Color highlighted = new Color(100, 149, 237);
+            Color highlightedTrekk = new Color(1,1,1);
+            Rute r = new Rute(0,0);
+            JLabel l = new JLabel();
+            for(int i = 0; i < 8; i++){
+                for(int u = 0; u < 8; u++){
+                    if(squares[i][u].getBackground().equals(highlighted)){
+                        r = new Rute(i,u);
+                        l = squares[i][u].getBilde();
+                    }
+                }
+            }
+            if(denne.getBackground().equals(highlightedTrekk)){
+                brett.flyttBrikke(new Rute(denne.getXen(),denne.getYen()),lovligeTrekk,r);
+                denne.setBilde(l);
             }
         }
 

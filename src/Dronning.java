@@ -29,13 +29,12 @@ public class Dronning extends Brikke {
         for(int i = x+1; i < 8; i++){
                 lovligeRuter.add(new Rute(i,y));
         }       
-        for(int i = y +1; i < 8; i--){
+        for(int i = y +1; i < 8; i++){
               lovligeRuter.add(new Rute(x,i));
            
         }
         for(int i = x -1; i >= 0; i--){
-               lovligeRuter.add(new Rute(i,y));
-            
+               lovligeRuter.add(new Rute(i,y)); 
         }
         for(int u = y - 1; u >= 0; u--){
                 lovligeRuter.add(new Rute(x,u));

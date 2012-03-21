@@ -24,15 +24,15 @@ public class Brett {
             for (int u = 0; u < 8; u++) {
                 this.ruter[i][u] = new Rute(i, u);
             }
-        }    
+        }   
         ArrayList<Brikke> bonderH = hvit.getBrikker();
         ArrayList<Brikke> bonderS = svart.getBrikker();
         
         for(int i = 0; i < bonderS.size(); i++){
             if(bonderS.get(i) instanceof Bonde) {
-                for (int j = 0; j < 8; j++) {
+                /*for (int j = 0; j < 8; j++) {
                     this.ruter[j][6].setBrikke(bonderS.get(i));
-                }
+                }*/
             }
             else if(bonderS.get(i) instanceof Taarn) {
                 this.ruter[0][7].setBrikke(bonderS.get(i));
@@ -55,9 +55,9 @@ public class Brett {
         }
         for(int i = 0; i < bonderH.size(); i++){
             if(bonderH.get(i) instanceof Bonde) {
-                for (int j = 0; j < 8; j++) {
+                /*for (int j = 0; j < 8; j++) {
                     this.ruter[j][1].setBrikke(bonderH.get(i));
-                }
+                }*/
             }
             else if(bonderH.get(i) instanceof Taarn) {
                 this.ruter[0][0].setBrikke(bonderH.get(i));
@@ -669,5 +669,14 @@ public class Brett {
             return rutene;
         }
         return null;
+    }
+
+    public void flyttBrikke(Rute rute, ArrayList<Rute> lovligeTrekk, Rute r) {
+        int bY = r.getX();
+        int bX = r.getY();
+        int nY = rute.getX();
+        int nX = rute.getY();
+        System.out.println("x " + nX + " y " + nY);
+        this.ruter[nX][nY].setBrikke(ruter[bX][bY].getBrikke());
     }
 }
