@@ -1,4 +1,3 @@
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -12,6 +11,11 @@ class Gui extends JFrame {
     private Brett brett = new Brett();
     private GuiRute squares[][] = new GuiRute[8][8];
     private ArrayList<Rute> lovligeTrekk;
+    private final Color brown = new Color(160, 82, 45);
+    private final Color lightBrown = new Color(244, 164, 96);
+    private final Color highlighted = new Color(195, 205, 205);
+    private final Color highlightedTrekk = new Color(191,239,255);
+    private boolean whiteTurn = true;
     boolean isHighlighted = false;
     
     public Gui(String tittel) {
@@ -53,9 +57,9 @@ class Gui extends JFrame {
                         add(squares[i][j]);
                     }
                     if ((i + j) % 2 == 0) {
-                        squares[i][j].setBackground(new Color(160, 82, 45));
+                        squares[i][j].setBackground(brown);
                     } else {
-                        squares[i][j].setBackground(new Color(160, 82, 45, 127));
+                        squares[i][j].setBackground(lightBrown);
                     }
                     squares[i][j].addMouseListener(new MuseLytter());
                 }
@@ -131,8 +135,6 @@ class Gui extends JFrame {
         public void mouseClicked(MouseEvent e) {
             
             GuiRute denne = (GuiRute) e.getSource();
-            Color highlighted = new Color(100, 149, 237);
-            Color highlightedTrekk = new Color(1,1,1);
             if (!isHighlighted && denne.hasLabel()) {
                 denne.setBackground(highlighted);
                 isHighlighted = true;
@@ -178,8 +180,6 @@ class Gui extends JFrame {
         public void mouseClicked(MouseEvent e) {
             
             GuiRute denne = (GuiRute)e.getSource();
-            Color highlighted = new Color(100, 149, 237);
-            Color highlightedTrekk = new Color(1,1,1);
             Rute r = new Rute(0,0);
             JLabel l = new JLabel();
             GuiRute f = null;
@@ -196,6 +196,19 @@ class Gui extends JFrame {
                 brett.flyttBrikke(new Rute(denne.getXen(),denne.getYen()),lovligeTrekk,r);
                 denne.setBilde(l);
                 f.removeBilde(f.getXen(), f.getYen());
+                for(int i = 0; i < 8; i++){
+                    for(int u = 0; u < 8; u++){
+                        if(squares[i][u].getBackground().equals(highlighted)||squares[i][u].getBackground().equals(highlightedTrekk)){
+                            if((i+u)%2==0){
+                                squares[i][u].setBackground(brown);
+                            }
+                            else{
+                                squares[i][u].setBackground(lightBrown);
+                            }
+                        }
+                    }
+                }
+                
             }
         }
 
