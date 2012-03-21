@@ -12,14 +12,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 abstract class Brikke {
     private final int verdi;
-    private Rute start;
-    private Rute current;
     private boolean isHvit;
     private ImageIcon icon;
     
-    public Brikke(Rute start, int verdi, boolean isHvit, ImageIcon icon){
-        this.start = start;
-        this.current = start;
+    public Brikke(int verdi, boolean isHvit, ImageIcon icon){
         this.verdi = verdi;
         this.isHvit = isHvit;
         this.icon=icon;
@@ -27,16 +23,10 @@ abstract class Brikke {
     public ImageIcon getIcon(){
         return icon;
     }
-    public abstract ArrayList<Rute> sjekkLovligeTrekk();
+    public abstract ArrayList<Rute> sjekkLovligeTrekk(Rute r);
     
     public int getVerdi() {
         return verdi;
-    }
-    public Rute getCurrent(){
-        return current;
-    }
-    public void setCurrent(Rute r){
-        current = r;
     }
     public boolean isHvit() {
         return isHvit;

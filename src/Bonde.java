@@ -14,16 +14,15 @@ import javax.swing.ImageIcon;
  */
 public class Bonde extends Brikke {
     
-    public Bonde(Rute start, boolean isHvit){
-        super(start, 1, isHvit,new ImageIcon("src/images/icon.gif"));
+    public Bonde(boolean isHvit){
+        super(1, isHvit,new ImageIcon("src/images/icon.gif"));
     }
 
     @Override
-    public ArrayList<Rute> sjekkLovligeTrekk() {
+    public ArrayList<Rute> sjekkLovligeTrekk(Rute r) {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
-        Rute current = super.getCurrent();
-        int x = current.getX();
-        int y = current.getY();
+        int x = r.getX();
+        int y = r.getY();
         if(isHvit() && y < 8) {
             lovligeTrekk.add(new Rute(x, y+1));
             if (x < 8) {

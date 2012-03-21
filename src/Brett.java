@@ -20,7 +20,7 @@ public class Brett {
         this.ruter = new Rute[8][8];
         this.hvit = new Hvit();
         this.svart = new Svart();
-        for (int i = 0; i < 8; i++) {
+        for (int i = 7; i>=0; i++) {
             for (int u = 0; u < 8; u++) {
                 this.ruter[i][u] = new Rute(i, u);
             }
@@ -103,8 +103,8 @@ public class Brett {
         Brikke brikke = rute.getBrikke();
         if (brikke instanceof Bonde) {
             Bonde bonde = (Bonde) brikke;
-            int currentX = bonde.getCurrent().getX();
-            ArrayList<Rute> lovligeTrekk = bonde.sjekkLovligeTrekk();
+            int currentX = rute.getX();
+            ArrayList<Rute> lovligeTrekk = bonde.sjekkLovligeTrekk(rute);
             int teller = lovligeTrekk.size();
             for (int i = 0; i < teller; i++) {
                 int x = lovligeTrekk.get(i).getX();
@@ -134,7 +134,7 @@ public class Brett {
         }
         else if (brikke instanceof Springer) {
             Springer springer = (Springer) brikke;
-            ArrayList<Rute> lovligeTrekk = springer.sjekkLovligeTrekk();
+            ArrayList<Rute> lovligeTrekk = springer.sjekkLovligeTrekk(rute);
             int teller = lovligeTrekk.size();
             for (int i = 0; i < teller; i++) {
                 if (ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].getBrikke().isHvit()) {
@@ -152,7 +152,7 @@ public class Brett {
             return lovligeTrekk;
         } else if (brikke instanceof Konge) {
             Konge konge = (Konge) brikke;
-            ArrayList<Rute> lovligeTrekk = konge.sjekkLovligeTrekk();
+            ArrayList<Rute> lovligeTrekk = konge.sjekkLovligeTrekk(rute);
             int teller = lovligeTrekk.size();
             for (int i = 0; i < teller; i++) {
                 int x = lovligeTrekk.get(i).getX();
@@ -173,7 +173,7 @@ public class Brett {
         }
         else if(brikke instanceof Loper) {
             Loper loper = (Loper)brikke;
-            ArrayList<Rute> rutene = loper.sjekkLovligeTrekk();
+            ArrayList<Rute> rutene = loper.sjekkLovligeTrekk(rute);
             int teller = rutene.size();
             for(int i = 0; i < teller; i++){
                 int x = rutene.get(i).getX();
@@ -305,7 +305,7 @@ public class Brett {
         }
         else if(brikke instanceof Dronning) {
             Dronning dronning = (Dronning)brikke;
-            ArrayList<Rute> rutene = dronning.sjekkLovligeTrekk();
+            ArrayList<Rute> rutene = dronning.sjekkLovligeTrekk(rute);
             int teller = rutene.size();
             for(int i = 0; i < teller; i++){
                 int x = rutene.get(i).getX();
@@ -532,7 +532,7 @@ public class Brett {
         }
         else if(brikke instanceof Taarn) {
             Taarn taarn = (Taarn)brikke;
-            ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk();
+            ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk(rute);
             int teller = rutene.size();
             for(int i = 0; i < teller; i++){
                 int x = rutene.get(i).getX();

@@ -12,16 +12,15 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 public class Dronning extends Brikke {
     
-    public Dronning(Rute start, boolean isHvit) {
-            super(start,6, isHvit,new ImageIcon("src/images/icon.gif"));
+    public Dronning(boolean isHvit) {
+            super(6, isHvit,new ImageIcon("src/images/icon.gif"));
     
 } 
     @Override
-    public ArrayList<Rute> sjekkLovligeTrekk() {
+    public ArrayList<Rute> sjekkLovligeTrekk(Rute r) {
     ArrayList<Rute> lovligeRuter = new ArrayList<>();
-        Rute current = super.getCurrent();
-        int x = current.getX();
-        int y = current.getY();
+        int x = r.getX();
+        int y = r.getY();
         
         for(int i = x+1; i < 8; i++){
                 lovligeRuter.add(new Rute(i,y));

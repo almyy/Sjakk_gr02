@@ -14,16 +14,15 @@ import javax.swing.ImageIcon;
  */
 public class Taarn extends Brikke {
     
-    public Taarn(Rute start, boolean isHvit) {
-        super(start, 5, isHvit,new ImageIcon("src/images/icon.gif"));
+    public Taarn(boolean isHvit) {
+        super(5, isHvit,new ImageIcon("src/images/icon.gif"));
     }
 
     @Override
-    public ArrayList<Rute> sjekkLovligeTrekk() {
+    public ArrayList<Rute> sjekkLovligeTrekk(Rute r) {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
-        Rute rute = super.getCurrent();
-        int x = rute.getX();
-        int y = rute.getY();
+        int x = r.getX();
+        int y = r.getY();
         for(int i = x; i < 8; i++) {
             lovligeTrekk.add(new Rute(i, y));
         }

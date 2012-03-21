@@ -14,16 +14,16 @@ public class Hvit extends Spiller {
     public Hvit(){
         this.brikker = new ArrayList<>();
         for(int i = 0; i < 8; i++){
-            brikker.add(new Bonde(new Rute(i,6),true));
+            brikker.add(new Bonde(true));
         }
-        brikker.add(new Taarn(new Rute(0,7),true));
-        brikker.add(new Taarn(new Rute(7,7),true));
-        brikker.add(new Loper(new Rute(1,7),true));
-        brikker.add(new Loper(new Rute(6,7),true));
-        brikker.add(new Springer(new Rute(2,7),true));
-        brikker.add(new Springer(new Rute(5,7),true));
-        brikker.add(new Dronning(new Rute(4,7),true));
-        brikker.add(new Konge(new Rute(3,7),true));
+        brikker.add(new Taarn(true));
+        brikker.add(new Taarn(true));
+        brikker.add(new Loper(true));
+        brikker.add(new Loper(true));
+        brikker.add(new Springer(true));
+        brikker.add(new Springer(true));
+        brikker.add(new Dronning(true));
+        brikker.add(new Konge(true));
         
     }
     @Override
