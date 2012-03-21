@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
 public class Bonde extends Brikke {
     
     public Bonde(boolean isHvit){
-        super(1, isHvit,new ImageIcon("src/images/icon.gif"));
+        super(1, isHvit,new ImageIcon("src/images/whitepawn.gif"));
     }
 
     @Override
