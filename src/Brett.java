@@ -30,11 +30,10 @@ public class Brett {
 
         for (int i = 0; i < bonderS.size(); i++) {
             if (bonderS.get(i) instanceof Bonde) {
-                /*
-                 * for (int j = 0; j < 8; j++) {
-                 * this.ruter[j][6].setBrikke(bonderS.get(i));
+                for (int j = 0; j < 8; j++) {
+                    this.ruter[j][6].setBrikke(bonderS.get(i));
                 }
-                 */
+                 
             } else if (bonderS.get(i) instanceof Taarn) {
                 this.ruter[0][7].setBrikke(bonderS.get(i));
                 this.ruter[7][7].setBrikke(bonderS.get(i));
@@ -52,11 +51,10 @@ public class Brett {
         }
         for (int i = 0; i < bonderH.size(); i++) {
             if (bonderH.get(i) instanceof Bonde) {
-                /*
-                 * for (int j = 0; j < 8; j++) {
-                 * this.ruter[j][1].setBrikke(bonderH.get(i));
+                for (int j = 0; j < 8; j++) {
+                    this.ruter[j][1].setBrikke(bonderH.get(i));
                 }
-                 */
+                 
             } else if (bonderH.get(i) instanceof Taarn) {
                 this.ruter[0][0].setBrikke(bonderH.get(i));
                 this.ruter[7][0].setBrikke(bonderH.get(i));
