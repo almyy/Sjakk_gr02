@@ -43,12 +43,18 @@ class Gui extends JFrame {
                 for (int j = 0; j < 8; j++) {
                     //squares[i][j] = new Rute();
                     //add(squares[i][j]);
-                    if (i == 1 || i == 6) {
-                        JLabel bilde = new JLabel(brett.getIcon(1, 1));
+                    if (i == 1){
+                        JLabel bilde = new JLabel(brett.getIcon(1,1));
+                        squares[i][j] = new GuiRute(bilde);
+                        add(squares[i][j]);
+                    }
+                    else if(i == 6) {
+                        JLabel bilde = new JLabel(brett.getIcon(1, 6));
                         squares[i][j] = new GuiRute(bilde);
                         add(squares[i][j]);
                     }
                     else {
+                        
                         squares[i][j] = new GuiRute();
                         add(squares[i][j]);
                     }
@@ -105,6 +111,7 @@ class Gui extends JFrame {
             
             GuiRute denne = (GuiRute) e.getSource();
             Color highlighted = new Color(100, 149, 237);
+            Color highlightedTrekk = new Color(1,1,1);
             if (!isHighlighted && denne.hasLabel()) {
                 denne.setBackground(highlighted);
                 isHighlighted = true;
@@ -115,9 +122,10 @@ class Gui extends JFrame {
                         int x = j;
                         int y = i;
                         System.out.println("x; " + x + ", y: " + y);
+                        System.out.println("" + brett.getRute(x,y).getX() + " y " + brett.getRute(x,y).getY());
                         ArrayList<Rute> lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
                         for(int u = 0; u < lovligeTrekk.size(); u++) {
-                            squares[lovligeTrekk.get(u).getX()-1][lovligeTrekk.get(u).getY()-1].setBackground(highlighted);
+                            squares[lovligeTrekk.get(u).getY()][lovligeTrekk.get(u).getX()].setBackground(highlightedTrekk);
                         }
                     }
                 }
