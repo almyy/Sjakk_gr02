@@ -47,7 +47,7 @@ class Gui extends JFrame {
             for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
                     
-                    if(i==0||i==1||i==6||i==7) {
+                    if(i==0||i==7) {
                         JLabel bilde = new JLabel(brett.getIcon(j,i));
                         squares[i][j] = new GuiRute(bilde,i,j);
                         add(squares[i][j]);
@@ -133,7 +133,6 @@ class Gui extends JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            
             GuiRute denne = (GuiRute) e.getSource();
             if (!isHighlighted && denne.hasLabel()) {
                 denne.setBackground(highlighted);
@@ -171,11 +170,11 @@ class Gui extends JFrame {
         @Override
         public void mouseExited(MouseEvent e) {
         }
-    }private class MuseLytter2 implements MouseListener {
+    }
+    private class MuseLytter2 implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
-            
+        public void mouseClicked(MouseEvent e) { 
             GuiRute denne = (GuiRute)e.getSource();
             Rute r = new Rute(0,0);
             JLabel l = new JLabel();
@@ -204,8 +203,8 @@ class Gui extends JFrame {
                             }
                         }
                     }
-                }
-                
+                    isHighlighted = false;
+                }   
             }
         }
 
