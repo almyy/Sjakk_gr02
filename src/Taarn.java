@@ -17,9 +17,9 @@ public class Taarn extends Brikke {
     public Taarn(boolean isHvit) {
         super(5, isHvit,null);
         if(isHvit){
-            super.setIcon("src/images/whitepawn.gif");
+            super.setIcon("src/images/whiteTaarn.gif");
         }else{
-            super.setIcon("src/images/blackpawn.gif");
+            super.setIcon("src/images/blackTaarn.gif");
         }
     }
 

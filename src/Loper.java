@@ -17,9 +17,9 @@ public class Loper extends Brikke {
     public Loper(boolean isHvit){
         super(5, isHvit,null);  
         if(isHvit){
-            super.setIcon("src/images/whitepawn.gif");
+            super.setIcon("src/images/whiteLoper.gif");
         }else{
-            super.setIcon("src/images/blackpawn.gif");
+            super.setIcon("src/images/blackLoper.gif");
         }
     }
 

@@ -42,45 +42,12 @@ class Gui extends JFrame {
             for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
                     
-                    if (i == 1){
+                    if(i==0||i==1||i==6||i==7) {
                         JLabel bilde = new JLabel(brett.getIcon(j,i));
                         squares[i][j] = new GuiRute(bilde);
                         add(squares[i][j]);
-                    }                   
-                    else if(i == 6) {
-                        JLabel bilde = new JLabel(brett.getIcon(j, i));
-                        squares[i][j] = new GuiRute(bilde);
-                        add(squares[i][j]);
                     }
-                    else if(i==7){
-                        if(j == 0 || j == 7){
-                            JLabel bilde = new JLabel(brett.getIcon(j,i));
-                            squares[i][j] = new GuiRute(bilde);
-                            add(squares[i][j]);
-                        }
-                        else if(j==1 || j == 6){
-                            JLabel bilde = new JLabel(brett.getIcon(j,i));
-                            squares[i][j] = new GuiRute(bilde);
-                            add(squares[i][j]);
-                        }
-                        else if(j==2 || j==5){
-                            JLabel bilde = new JLabel(brett.getIcon(j,i));
-                            squares[i][j] = new GuiRute(bilde);
-                            add(squares[i][j]);
-                        }
-                        else if(j == 3){
-                            JLabel bilde = new JLabel(brett.getIcon(j,i));
-                            squares[i][j] = new GuiRute(bilde);
-                            add(squares[i][j]);
-                        }
-                        else if(j==4){
-                            JLabel bilde = new JLabel(brett.getIcon(j,i));
-                            squares[i][j] = new GuiRute(bilde);
-                            add(squares[i][j]);
-                        }
-                    }
-                    else {
-                        
+                    else { 
                         squares[i][j] = new GuiRute();
                         add(squares[i][j]);
                     }

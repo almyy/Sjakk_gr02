@@ -17,9 +17,9 @@ public class Konge extends Brikke{
     public Konge(boolean isHvit){
         super(0, isHvit,null);
         if(isHvit){
-            super.setIcon("src/images/whiteSpringer.gif");
+            super.setIcon("src/images/whiteKing.png");
         }else{
-            super.setIcon("src/images/blackSpringer.gif");
+            super.setIcon("src/images/blackKing.png");
         }
     }
 
