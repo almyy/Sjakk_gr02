@@ -105,6 +105,7 @@ class Gui extends JFrame {
             
             GuiRute denne = (GuiRute) e.getSource();
             Color highlighted = new Color(100, 149, 237);
+            Color highlightedTrekk = new Color(1,1,1);
             if (!isHighlighted && denne.hasLabel()) {
                 denne.setBackground(highlighted);
                 isHighlighted = true;
@@ -115,9 +116,10 @@ class Gui extends JFrame {
                         int x = j;
                         int y = i;
                         System.out.println("x; " + x + ", y: " + y);
+                        System.out.println("" + brett.getRute(x,y).getX() + " y " + brett.getRute(x,y).getY());
                         ArrayList<Rute> lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
                         for(int u = 0; u < lovligeTrekk.size(); u++) {
-                            squares[lovligeTrekk.get(u).getX()-1][lovligeTrekk.get(u).getY()-1].setBackground(highlighted);
+                            squares[lovligeTrekk.get(u).getX()][lovligeTrekk.get(u).getY()].setBackground(highlightedTrekk);
                         }
                     }
                 }
