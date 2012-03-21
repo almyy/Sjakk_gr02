@@ -43,12 +43,18 @@ class Gui extends JFrame {
                 for (int j = 0; j < 8; j++) {
                     //squares[i][j] = new Rute();
                     //add(squares[i][j]);
-                    if (i == 1 || i == 6) {
-                        JLabel bilde = new JLabel(brett.getIcon(1, 1));
+                    if (i == 1){
+                        JLabel bilde = new JLabel(brett.getIcon(1,1));
+                        squares[i][j] = new GuiRute(bilde);
+                        add(squares[i][j]);
+                    }
+                    else if(i == 6) {
+                        JLabel bilde = new JLabel(brett.getIcon(1, 6));
                         squares[i][j] = new GuiRute(bilde);
                         add(squares[i][j]);
                     }
                     else {
+                        
                         squares[i][j] = new GuiRute();
                         add(squares[i][j]);
                     }
@@ -119,7 +125,7 @@ class Gui extends JFrame {
                         System.out.println("" + brett.getRute(x,y).getX() + " y " + brett.getRute(x,y).getY());
                         ArrayList<Rute> lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
                         for(int u = 0; u < lovligeTrekk.size(); u++) {
-                            squares[lovligeTrekk.get(u).getX()][lovligeTrekk.get(u).getY()].setBackground(highlightedTrekk);
+                            squares[lovligeTrekk.get(u).getY()][lovligeTrekk.get(u).getX()].setBackground(highlightedTrekk);
                         }
                     }
                 }

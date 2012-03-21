@@ -23,6 +23,9 @@ abstract class Brikke {
     public ImageIcon getIcon(){
         return icon;
     }
+    public void setIcon(String i){
+        this.icon = new ImageIcon(i);
+    }
     public abstract ArrayList<Rute> sjekkLovligeTrekk(Rute r);
     
     public int getVerdi() {
