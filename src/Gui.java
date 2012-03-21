@@ -143,10 +143,7 @@ class Gui extends JFrame {
                 for(int j = 0; j < 8; j++) {
                     if(squares[i][j].getBackground().equals(highlighted)&&squares[i][j] != null) {
                         int x = j;
-                        int y = i;
-                        System.out.println("x; " + x + ", y: " + y);
-                        System.out.println("" + brett.getRute(x,y).getX() + " y " + brett.getRute(x,y).getY());
-                      
+                        int y = i;                      
                         lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
                         for(int u = 0; u < lovligeTrekk.size(); u++) {
                             int lX = lovligeTrekk.get(u).getX();

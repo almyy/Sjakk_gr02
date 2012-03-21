@@ -127,7 +127,6 @@ public class Brett {
         } else if (brikke instanceof Springer) {
             Springer springer = (Springer) brikke;
             ArrayList<Rute> lovligeTrekk = springer.sjekkLovligeTrekk(rute);
-            System.out.println("sda " + lovligeTrekk.size());
             int teller = lovligeTrekk.size();
             int cX = rute.getX();
             int cY = rute.getY();
@@ -146,7 +145,6 @@ public class Brett {
                     }
                 }
             }
-            System.out.println("t: " + teller);
             return lovligeTrekk;
         } else if (brikke instanceof Konge) {
             Konge konge = (Konge) brikke;
@@ -532,7 +530,6 @@ public class Brett {
             for (int i = 0; i < teller; i++) {
                 int x = rutene.get(i).getX();
                 int y = rutene.get(i).getY();
-                System.out.println("X: " + x + " Y " + y);
                 if (taarn.isHvit()) {
                     if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
                         int helpI = i;
@@ -661,13 +658,13 @@ public class Brett {
         return null;
     }
 
-    public void flyttBrikke(Rute rute, ArrayList<Rute> lovligeTrekk, Rute r) {
-        int bY = r.getX();
-        int bX = r.getY();
-        int nY = rute.getX();
-        int nX = rute.getY();
-        System.out.println("x " + nX + " y " + nY);
-        this.ruter[nX][nY].setBrikke(ruter[bX][bY].getBrikke());
-        this.ruter[bX][bY].setBrikke(null);
+    public void flyttBrikke(Rute startRute, ArrayList<Rute> lovligeTrekk, Rute flyttRute) {
+        int fY = startRute.getX();
+        int fX = startRute.getY();
+        int sY = flyttRute.getX();
+        int sX = flyttRute.getY();
+        System.out.println("x " + fX + " y " + fY);
+        this.ruter[fX][fY].setBrikke(ruter[sX][sY].getBrikke());
+        this.ruter[sX][sY].setBrikke(null);
     }
 }

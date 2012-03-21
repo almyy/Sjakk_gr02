@@ -29,7 +29,6 @@ public class Bonde extends Brikke {
         int x = r.getX();
         int y = r.getY();
         if(isHvit() && y < 8) {
-            System.out.println("første: x: "+  x +" y: " +y+1);
             lovligeTrekk.add(new Rute(x, y+1));
             if(y==1){
                 lovligeTrekk.add(new Rute(x,y+2));
