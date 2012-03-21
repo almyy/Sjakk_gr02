@@ -180,25 +180,21 @@ public class Brett {
                         
                         while (rutene.get(i).getX() > x && rutene.get(i).getY() > y) {
                             rutene.remove(i);
-                            teller--;
                             i++;
                         }
                         i = helpI + 1;
                         while (rutene.get(i).getX() < x && rutene.get(i).getY() < y) {
                             rutene.remove(i);
-                            teller--;
                             i++;
                         }
                         i = helpI + 1;
                         while (rutene.get(i).getX() < x && rutene.get(i).getY() > y) {
                             rutene.remove(i);
-                            teller--;
                             i++;
                         }
-                        i = helpI + 1;
+                        i = helpI+1;
                         while (rutene.get(i).getX() > x && rutene.get(i).getY() < y) {
                             rutene.remove(i);
-                            teller--;
                             i++;
                         }
                         i = helpI;

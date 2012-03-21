@@ -135,8 +135,22 @@ class Gui extends JFrame {
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
             if (!isHighlighted && denne.hasLabel()) {
-                denne.setBackground(highlighted);
-                isHighlighted = true;
+                if(whiteTurn){
+                    Rute sjekk = brett.getRute(denne.getYen(),denne.getXen());
+                    if(sjekk.getBrikke().isHvit()){
+                        denne.setBackground(highlighted);
+                        isHighlighted = true;
+                        whiteTurn = false;
+                    }
+                }
+                else{
+                    Rute sjekk = brett.getRute(denne.getYen(),denne.getXen());
+                    if(!sjekk.getBrikke().isHvit()){
+                        denne.setBackground(highlighted);
+                        isHighlighted = true;
+                        whiteTurn = true;
+                    }
+                }
             }
             for(int i = 0; i < 8; i++) {
                 for(int j = 0; j < 8; j++) {
