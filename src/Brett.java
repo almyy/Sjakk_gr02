@@ -138,20 +138,26 @@ public class Brett {
         else if (brikke instanceof Springer) {
             Springer springer = (Springer) brikke;
             ArrayList<Rute> lovligeTrekk = springer.sjekkLovligeTrekk(rute);
+            System.out.println("sda " + lovligeTrekk.size());
             int teller = lovligeTrekk.size();
+            int cX = rute.getX();
+            int cY = rute.getY();
             for (int i = 0; i < teller; i++) {
-                if (ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].getBrikke().isHvit()) {
-                    if (ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].isOccupied() && ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].getBrikke().isHvit()) {
+                int x = lovligeTrekk.get(i).getX();
+                int y = lovligeTrekk.get(i).getY();
+                if (ruter[cX][cY].getBrikke().isHvit()) {
+                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
                         teller--;
                     }
-                } else if (!ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].getBrikke().isHvit()) {
-                    if (ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].isOccupied() && !ruter[lovligeTrekk.get(i).getX()][lovligeTrekk.get(i).getY()].getBrikke().isHvit()) {
+                } else{
+                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
                         teller--;
                     }
                 }
             }
+            System.out.println("t: " + teller);
             return lovligeTrekk;
         } else if (brikke instanceof Konge) {
             Konge konge = (Konge) brikke;
