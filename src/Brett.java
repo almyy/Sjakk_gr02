@@ -169,14 +169,15 @@ public class Brett {
         } else if (brikke instanceof Loper) {
             Loper loper = (Loper) brikke;
             ArrayList<Rute> rutene = loper.sjekkLovligeTrekk(rute);
-            /*int teller = rutene.size();
+            int teller = rutene.size();
             for (int i = 0; i < teller; i++) {
                 int x = rutene.get(i).getX();
                 int y = rutene.get(i).getY();
                 if (loper.isHvit()) {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()&&x<7&&y<7&&x>0&&y>0) {
                         int helpI = i;
                         i++;
+                        
                         while (rutene.get(i).getX() > x && rutene.get(i).getY() > y) {
                             rutene.remove(i);
                             teller--;
@@ -202,12 +203,12 @@ public class Brett {
                         }
                         i = helpI;
                     }
-                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
+                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()&&x<7&&x>0&&y<7&&y>0) {
                         rutene.remove(i);
                         teller--;
                         int helpI = i;
                         i++;
-                        while (rutene.get(i).getX() > x && rutene.get(i).getY() > y) {
+                        while (rutene.get(i).getX() > x && rutene.get(i).getY() > y&&i<rutene.size()) {
                             rutene.remove(i);
                             teller--;
                             i++;
@@ -295,7 +296,7 @@ public class Brett {
                         i = helpI;
                     }
                 }
-            }*/
+            }
             return rutene;
         } else if (brikke instanceof Dronning) {
             Dronning dronning = (Dronning) brikke;
