@@ -20,7 +20,7 @@ public class Brett {
         this.ruter = new Rute[8][8];
         this.hvit = new Hvit();
         this.svart = new Svart();
-        for (int i = 7; i>=0; i++) {
+        for (int i = 7; i>=0; i--) {
             for (int u = 0; u < 8; u++) {
                 this.ruter[i][u] = new Rute(i, u);
             }
