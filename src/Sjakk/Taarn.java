@@ -31,7 +31,7 @@ public class Taarn extends Brikke {
         int x = r.getX();
         int y = r.getY();
         if(x<7){
-            for(int i = x+1; i < 8; i++) {
+            for(int i = x+1; i < 7; i++) {
                 lovligeTrekk.add(new Rute(i, y));
                 System.out.println("i " + i + " y " + y);
             }
@@ -42,7 +42,7 @@ public class Taarn extends Brikke {
             }
         }
         if(y<7){
-            for(int i = y+1; i < 8; i++) {
+            for(int i = y+1; i < 7; i++) {
                 lovligeTrekk.add(new Rute(x, i));
             }
         }
