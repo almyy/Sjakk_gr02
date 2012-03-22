@@ -16,7 +16,7 @@ class Gui extends JFrame {
     private final Color highlighted = new Color(195, 205, 205);
     private final Color highlightedTrekk = new Color(191,239,255);
     private boolean whiteTurn = true;
-    boolean isHighlighted = false;
+    private boolean isHighlighted = false;
     
     public Gui(String tittel) {
         setTitle(tittel);
