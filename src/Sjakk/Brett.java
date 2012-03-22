@@ -198,7 +198,7 @@ public class Brett {
                         int help2 = 0;
                         teller = rutene.size();
                         while(help<teller && rutene.get(help).getX() > x && rutene.get(help).getY()>y){
-                            rutene.remove(help);
+                            rutene.remove(help--);
                             help++;
                             teller=rutene.size();
                         }
