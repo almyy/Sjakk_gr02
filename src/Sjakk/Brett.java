@@ -176,8 +176,7 @@ public class Brett {
             System.out.println("STR: " + teller);
             int i = 0;
             while(i < teller) {
-                System.out.println("Teller: " + teller);
-                System.out.println("Size " + rutene.size());
+                System.out.println("Arraeyt X: " + rutene.get(i).getX() + " Y: " + rutene.get(i).getY());
                 int x = rutene.get(i).getX();
                 int y = rutene.get(i).getY();
                 if (loper.isHvit()) {
@@ -192,15 +191,16 @@ public class Brett {
                         help = i;
                         
                     }
-                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()&&x<Brikke.OVRE_GRENSE&&y<Brikke.OVRE_GRENSE&&x>Brikke.NEDRE_GRENSE&&y>Brikke.NEDRE_GRENSE) {
+                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()&&x<=Brikke.OVRE_GRENSE&&y<=Brikke.OVRE_GRENSE&&x>=Brikke.NEDRE_GRENSE&&y>=Brikke.NEDRE_GRENSE) {
                         rutene.remove(i);
                         int help = i+1;
-                        int help2 = 0;
                         teller = rutene.size();
                         while(help<teller && rutene.get(help).getX() > x && rutene.get(help).getY()>y){
-                            rutene.remove(help--);
+                            help--;
+                            rutene.remove(help);
                             help++;
                             teller=rutene.size();
+                            System.out.println("aae " + teller);
                         }
                         help = i+1;
                         teller = rutene.size();
