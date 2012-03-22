@@ -141,7 +141,7 @@ class Gui extends JFrame {
                     if(sjekk.getBrikke().isHvit()){
                         denne.setBackground(highlighted);
                         isHighlighted = true;
-                        whiteTurn = false;
+                        whiteTurn = true;
                     }
                 }
                 else{

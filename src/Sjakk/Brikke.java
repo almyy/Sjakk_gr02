@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 abstract class Brikke {
+    protected final static int OVRE_GRENSE = 7;
+    protected final static int OVRE_GRENSE_TO = 6;
+    protected final static int NEDRE_GRENSE = 0;
+    protected final static int NEDRE_GRENSE_TO = 1;
     private final int verdi;
     private boolean isHvit;
     private ImageIcon icon;
