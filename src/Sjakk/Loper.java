@@ -30,40 +30,40 @@ public class Loper extends Brikke {
         ArrayList<Rute> lovligeRuter = new ArrayList<>();
         int x = r.getX();
         int y = r.getY();
-        if(x>0){
-            if(y>0){
+        if(x>Brikke.NEDRE_GRENSE){
+            if(y>Brikke.NEDRE_GRENSE){
                 int u = y-1;
                 for(int i = x -1; i >= 0; i--){
-                    if(u>=0){
+                    if(u>=Brikke.NEDRE_GRENSE){
                         lovligeRuter.add(new Rute(i,u));
                         u--;                    
                     }
                 }
             } 
-            if(y<7){
+            if(y<Brikke.OVRE_GRENSE){
                 int u = y+1;
                 for(int i = x -1; i >= 0; i--){
-                    if(u<=7){
+                    if(u<=Brikke.OVRE_GRENSE){
                         lovligeRuter.add(new Rute(i,u));
                         u++;
                     }
                 }
             }
         }
-        if(x<7){
-            if(y>0){
+        if(x<Brikke.OVRE_GRENSE){
+            if(y>Brikke.NEDRE_GRENSE){
                 int u = y-1;
                 for(int i = x +1; i <= 7; i++){
-                    if(u>=0){
+                    if(u>=Brikke.NEDRE_GRENSE){
                         lovligeRuter.add(new Rute(i,u));
                         u--;                    
                     }
                 }
             } 
-            if(y<7){
+            if(y<Brikke.OVRE_GRENSE){
                 int u = y+1;
                 for(int i = x+1; i <= 7; i++){
-                    if(u<=7){
+                    if(u<=Brikke.OVRE_GRENSE){
                         lovligeRuter.add(new Rute(i,u));
                         u++;
                     }
