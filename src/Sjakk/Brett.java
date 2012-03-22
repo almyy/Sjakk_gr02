@@ -171,22 +171,62 @@ public class Brett {
         } else if (brikke instanceof Loper) {
             Loper loper = (Loper) brikke;
             ArrayList<Rute> rutene = loper.sjekkLovligeTrekk(rute);
+            
             int teller = rutene.size();
-            for (int i = 0; i < teller; i++) {
+            System.out.println("STR: " + teller);
+            int i = 0;
+            while(i < teller) {
+                System.out.println("Teller: " + teller);
+                System.out.println("Size " + rutene.size());
                 int x = rutene.get(i).getX();
                 int y = rutene.get(i).getY();
                 if (loper.isHvit()) {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()&&x<Brikke.OVRE_GRENSE&&y<Brikke.OVRE_GRENSE&&x<Brikke.NEDRE_GRENSE&&y>Brikke.NEDRE_GRENSE) {
-                        int help = i;
-                        i++;
-                        while(rutene.get(i).getX() > x && rutene.get(i).getY()>y){
+                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()&&x<Brikke.OVRE_GRENSE&&y<Brikke.OVRE_GRENSE&&x>Brikke.NEDRE_GRENSE&&y>Brikke.NEDRE_GRENSE) {
+                        int help = i+1;
+                        teller = rutene.size();
+                        while(rutene.get(i).getX() > x && rutene.get(i).getY()>y&&i<teller){
                             rutene.remove(i);
-                            i++;
+                            help++;
+                            teller--;
                         }
-                        i = help+1;
+                        help = i;
                         
                     }
-                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()&&x<Brikke.OVRE_GRENSE&&y<Brikke.OVRE_GRENSE&&x<Brikke.NEDRE_GRENSE&&y>Brikke.NEDRE_GRENSE) {
+                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()&&x<Brikke.OVRE_GRENSE&&y<Brikke.OVRE_GRENSE&&x>Brikke.NEDRE_GRENSE&&y>Brikke.NEDRE_GRENSE) {
+                        rutene.remove(i);
+                        int help = i+1;
+                        int help2 = 0;
+                        teller = rutene.size();
+                        while(help<teller && rutene.get(help).getX() > x && rutene.get(help).getY()>y){
+                            rutene.remove(help);
+                            help++;
+                            teller=rutene.size();
+                        }
+                        help = i+1;
+                        teller = rutene.size();
+                        while(help<teller && rutene.get(help).getX() > x && rutene.get(help).getY()<y){
+                            rutene.remove(help);
+                            help++;
+                            teller--;
+                        }
+                        help=i+1;
+                        teller = rutene.size();
+                        while(help<teller && rutene.get(help).getX() < x && rutene.get(help).getY() < y&&help<teller){
+                            rutene.remove(help);
+                            help++;
+                            teller--;
+                        }
+                        help=i+1;
+                        teller = rutene.size();
+                        while(help<teller && rutene.get(help).getX() < x && rutene.get(help).getY() > y&&help<teller){
+                            rutene.remove(help);
+                            help++;
+                            teller--;
+                        }
+                        help=i;
+                    }
+                } else {
+                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
                         int help = i;
                         i++;
                         while(rutene.get(i).getX() > x && rutene.get(i).getY()>y){
@@ -210,13 +250,9 @@ public class Brett {
                         }
                         i=help;
                     }
-                } else {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                       
-                    }
                     if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
                     }
-                }
+                }i++;teller=rutene.size();
             }
             return rutene;
         } else if (brikke instanceof Dronning) {
