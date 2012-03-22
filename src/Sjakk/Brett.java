@@ -205,23 +205,26 @@ public class Brett {
                         help = i+1;
                         teller = rutene.size();
                         while(help<teller && rutene.get(help).getX() > x && rutene.get(help).getY()<y){
+                            help--;
                             rutene.remove(help);
                             help++;
-                            teller--;
+                            teller=rutene.size();
                         }
                         help=i+1;
                         teller = rutene.size();
                         while(help<teller && rutene.get(help).getX() < x && rutene.get(help).getY() < y&&help<teller){
+                            help--;
                             rutene.remove(help);
                             help++;
-                            teller--;
+                            teller=rutene.size();
                         }
                         help=i+1;
                         teller = rutene.size();
                         while(help<teller && rutene.get(help).getX() < x && rutene.get(help).getY() > y&&help<teller){
+                            help--;
                             rutene.remove(help);
                             help++;
-                            teller--;
+                            teller=rutene.size();
                         }
                         help=i;
                     }
