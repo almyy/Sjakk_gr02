@@ -47,7 +47,7 @@ class Gui extends JFrame {
             for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
                     
-                    if(i==0||i==1||i==6||i==7) {
+                    if(i==0||i==7) {
                         JLabel bilde = new JLabel(brett.getIcon(j,i));
                         squares[i][j] = new GuiRute(bilde,i,j);
                         add(squares[i][j]);
