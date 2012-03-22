@@ -1,3 +1,5 @@
+package Sjakk;
+
 
 import java.util.ArrayList;
 

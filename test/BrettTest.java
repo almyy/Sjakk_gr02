@@ -3,6 +3,8 @@
  * and open the template in the editor.
  */
 
+import Sjakk.Brett;
+import Sjakk.Rute;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import org.junit.*;
