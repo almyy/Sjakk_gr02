@@ -30,16 +30,20 @@ public class Bonde extends Brikke {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
         int x = r.getX();
         int y = r.getY();
-        if(isHvit() && y < 8) {
+        if(isHvit() && y < Brikke.OVRE_GRENSE) {
             lovligeTrekk.add(new Rute(x, y+1));
-            if(y==1){
+            if(x<Brikke.OVRE_GRENSE)lovligeTrekk.add(new Rute(x+1,y+1));
+            if(x>Brikke.NEDRE_GRENSE)lovligeTrekk.add(new Rute(x-1,y+1));
+            if(y==Brikke.NEDRE_GRENSE_TO){
                 lovligeTrekk.add(new Rute(x,y+2));
             }
             return lovligeTrekk;
         }
-        else if(!isHvit() && y > 0) {
+        else if(!isHvit() && y > Brikke.NEDRE_GRENSE) {
             lovligeTrekk.add(new Rute(x, y-1));
-            if(y==6){
+            if(x<Brikke.OVRE_GRENSE)lovligeTrekk.add(new Rute(x+1,y-1));
+            if(x>Brikke.NEDRE_GRENSE)lovligeTrekk.add(new Rute(x-1,y-1));
+            if(y==Brikke.OVRE_GRENSE_TO){
                 lovligeTrekk.add(new Rute(x,y-2));
             }
             return lovligeTrekk;
