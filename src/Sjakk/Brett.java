@@ -54,7 +54,7 @@ public class Brett {
         for (int i = 0; i < bonderH.size(); i++) {
             if (bonderH.get(i) instanceof Bonde) {
                 for (int j = 0; j < 8; j++) {
-                   // this.ruter[j][1].setBrikke(bonderH.get(i));
+                   this.ruter[j][1].setBrikke(bonderH.get(i));
                 }
                  
             } else if (bonderH.get(i) instanceof Taarn) {
@@ -180,10 +180,11 @@ public class Brett {
                 int x = rutene.get(i).getX();
                 int y = rutene.get(i).getY();
                 if (loper.isHvit()) {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()&&x<Brikke.OVRE_GRENSE&&y<Brikke.OVRE_GRENSE&&x>Brikke.NEDRE_GRENSE&&y>Brikke.NEDRE_GRENSE) {
-                        int help = i+1;
+                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()&&x<Brikke.OVRE_GRENSE && y <Brikke.OVRE_GRENSE
+                        && x > Brikke.NEDRE_GRENSE && y > Brikke.NEDRE_GRENSE) {
+                        int help = i+1; 
                         teller = rutene.size();
-                        while(rutene.get(i).getX() > x && rutene.get(i).getY()>y&&i<teller){
+                        while(rutene.get(i).getX() > x && rutene.get(i).getY() > y && i< teller){
                             rutene.remove(i);
                             help++;
                             teller--;
@@ -220,7 +221,7 @@ public class Brett {
                         }
                         help=i+1;
                         teller = rutene.size();
-                        while(help<teller && rutene.get(help).getX() < x && rutene.get(help).getY() > y&&help<teller){
+                        while(help<teller && rutene.get(help).getX() < x && rutene.get(help).getY() > y && help < teller){
                             help--;
                             rutene.remove(help);
                             help++;
