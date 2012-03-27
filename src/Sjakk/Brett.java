@@ -1,10 +1,9 @@
 package Sjakk;
 
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template, choose Tools | Templates and open the template in
+ * the editor.
  */
-
 /**
  *
  * @author Rino
@@ -38,7 +37,7 @@ public class Brett {
                 for (int j = 0; j < 8; j++) {
                     this.ruter[j][6].setBrikke(bonderS.get(i));
                 }
-                 
+
             } else if (bonderS.get(i) instanceof Taarn) {
                 this.ruter[0][7].setBrikke(bonderS.get(i));
                 this.ruter[7][7].setBrikke(bonderS.get(i));
@@ -59,7 +58,7 @@ public class Brett {
                 for (int j = 0; j < 8; j++) {
                     this.ruter[j][1].setBrikke(bonderH.get(i));
                 }
-                 
+
             } else if (bonderH.get(i) instanceof Taarn) {
                 this.ruter[0][0].setBrikke(bonderH.get(i));
                 this.ruter[7][0].setBrikke(bonderH.get(i));
@@ -315,26 +314,19 @@ public class Brett {
                 int y = rutene.get(i).getY();
                 if (dronning.isHvit()) {
                     if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                        
                     }
                     if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
-                        
-
                     }
-                }
-                else {
+                } else {
                     if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                        
                     }
                     if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
-                        
                     }
                 }
-            return rutene;
+                return rutene;
             }
 
-        }
-            else if (brikke instanceof Taarn) {
+        } else if (brikke instanceof Taarn) {
             Taarn taarn = (Taarn) brikke;
             ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk(rute);
             int teller = rutene.size();
