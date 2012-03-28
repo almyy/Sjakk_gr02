@@ -414,11 +414,13 @@ public class Brett {
     }
     
     public void registrateMove(String move, String move2, boolean s){
-      String completeMove = (move + "-->" +move2);  
+        
       if(s) {
-          svart.setMoves(completeMove);
+          String completeMoveS = ("Svart spiller: " + move + " til " +move2);
+          svart.setMoves(completeMoveS);
       } else {
-          hvit.setMoves(completeMove);
+          String completeMoveH = ("Hvit spiller: " + move + " til " +move2);
+          hvit.setMoves(completeMoveH);
       }
     
     
