@@ -329,19 +329,19 @@ public class Brett {
                     else if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
                         rutene.remove(i);
                         teller--;
-                        while (teller > 0 && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
+                        while (teller > 0 &&i<teller&& rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
                             rutene.remove(i);
                             teller--;
                         }
-                        while (teller > 0 && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
+                        while (teller > 0 &&i<teller&& rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
                             rutene.remove(i);
                             teller--;
                         }
-                        while (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
+                        while (teller > 0 &&i<teller&& rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
                             rutene.remove(i);
                             teller--;
                         }
-                        while (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
+                        while (teller > 0 &&i<teller&& rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
                             rutene.remove(i);
                             teller--;
                         }
@@ -350,6 +350,27 @@ public class Brett {
 
                 } else {
                     if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+                        rutene.remove(i);
+                        teller--;
+                        while (teller > 0 &&i<teller&& rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
+                            rutene.remove(i);
+                            teller--;
+                        }
+                        while (teller > 0 &&i<teller&& rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
+                            rutene.remove(i);
+                            teller--;
+                        }
+                        while (teller > 0 &&i<teller&& rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
+                            rutene.remove(i);
+                            teller--;
+                        }
+                        while (teller > 0 &&i<teller&& rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
+                            rutene.remove(i);
+                            teller--;
+                        }
+                        i--;
+                    }
+                    else if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
                         i++;
                         System.out.println("Teller: " + teller);
                         System.out.println("I: " + i);
@@ -376,27 +397,6 @@ public class Brett {
                             rutene.remove(i);
                             teller--;
                             i--;
-                        }
-                        i--;
-                    }
-                    else if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
-                        rutene.remove(i);
-                        teller--;
-                        while (teller > 0 && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
-                            rutene.remove(i);
-                            teller--;
                         }
                         i--;
                     }
