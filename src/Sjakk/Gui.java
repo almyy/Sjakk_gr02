@@ -27,10 +27,11 @@ class Gui extends JFrame {
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(650, 500));
+        setPreferredSize(new Dimension(1000, 700));
         setLayout(new BorderLayout());
         add(new Rutenett(), BorderLayout.CENTER);
         add(new GameInfo(), BorderLayout.EAST);
+        add(new GameInfo(), BorderLayout.WEST);
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
         add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
         pack();
@@ -134,8 +135,8 @@ class Gui extends JFrame {
             hvitTrekk = brett.getHvitMoves();
             svartTrekk = brett.getSvartMoves();
             setPreferredSize(new Dimension(150, 500));
-            TextField tekstFelt = new TextField("Siste trekk:");
-            tekstFelt.setPreferredSize(new Dimension(150, 500));
+            TextArea tekstFelt = new TextArea("Siste trekk:");
+            tekstFelt.setPreferredSize(new Dimension(150, 700));
             add(tekstFelt);
         }
     }
