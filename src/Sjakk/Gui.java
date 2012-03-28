@@ -8,8 +8,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
-class Gui extends JFrame {
-    
+class Gui extends JFrame{
+
     private Brett brett = new Brett();
     private GuiRute squares[][] = new GuiRute[8][8];
     private ArrayList<Rute> lovligeTrekk;
@@ -22,20 +22,22 @@ class Gui extends JFrame {
     private final Color highlightedTrekk = new Color(191, 239, 255);
     private boolean whiteTurn = true;
     private boolean isHighlighted = false;
-    
+    private Rutenett rutenett;
+
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(1000, 700));
         setLayout(new BorderLayout());
-        add(new Rutenett(), BorderLayout.CENTER);
+        rutenett = new Rutenett();
+        add(rutenett, BorderLayout.CENTER);
         add(new GameInfo(), BorderLayout.EAST);
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
         add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
         setJMenuBar(new MenyBar());
-        pack();
+        pack();        
     }
-    
+
     private class MenyBar extends JMenuBar {
 
         public MenyBar() {
@@ -69,17 +71,51 @@ class Gui extends JFrame {
             this.navn = navn;
             this.setText(navn);
         }
-        
+
         @Override
         public String toString() {
             return navn;
         }
-        
     }
-    private void setStartPos() {
-        for (int i = 7; i >= 0; i--) {
+
+    private class MenyListener implements ActionListener  {
+        
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String valg = e.getSource().toString();
+            String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences"};
+            if (valg.equals(navn[0])) {
+                brett = new Brett();
+            } else if (valg.equals(navn[1])) {
+                throw new UnsupportedOperationException("Not implemented yet.");
+            } else if (valg.equals(navn[2])) {
+                throw new UnsupportedOperationException("Not implemented yet.");
+            } else if (valg.equals(navn[3])) {
+                throw new UnsupportedOperationException("Not implemented yet.");
+            } else {
+                throw new UnsupportedOperationException("Not implemented yet.");
+            }
+        }
+    }
+
+    private class SpillerNavn extends JPanel {
+
+        public SpillerNavn(String navn) {
+            setLayout(new FlowLayout());
+            JLabel spiller = new JLabel(navn);
+            spiller.setFont(new Font("Serif", Font.BOLD, 20));
+            add(spiller);
+        }
+    }
+
+    private class Rutenett extends JPanel {
+
+        public Rutenett() {
+            setLayout(new GridLayout(8, 8));
+            for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
-                    squares[i][j].removeBilde();
+
                     if (i == 0 || i == 1 || i == 6 || i == 7) {
                         JLabel bilde = new JLabel(brett.getIcon(j, i));
                         squares[i][j] = new GuiRute(bilde, i, j);
@@ -94,54 +130,17 @@ class Gui extends JFrame {
                         squares[i][j].setBackground(lightBrown);
                     }
                     squares[i][j].addMouseListener(new MuseLytter());
-                }
-            }
-    }
-    private class MenyListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String valg = e.getSource().toString();
-            String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences"};
-            if (valg.equals(navn[0])) {
-                brett = new Brett();
-                
-            } else if (valg.equals(navn[1])) {
-                throw new UnsupportedOperationException("Not implemented yet.");
-            } else if (valg.equals(navn[2])) {
-                throw new UnsupportedOperationException("Not implemented yet.");
-            } else if (valg.equals(navn[3])) {
-                throw new UnsupportedOperationException("Not implemented yet.");
-            } else {
-                throw new UnsupportedOperationException("Not implemented yet.");
+                }   
             }
         }
     }
 
-    private class SpillerNavn extends JPanel {
-        
-        public SpillerNavn(String navn) {
-            setLayout(new FlowLayout());
-            JLabel spiller = new JLabel(navn);
-            spiller.setFont(new Font("Serif", Font.BOLD, 20));
-            add(spiller);
-        }
-    }
-    
-    private class Rutenett extends JPanel {
-        
-        public Rutenett() {
-            setLayout(new GridLayout(8, 8));
-            setStartPos();
-        }
-    }
-    
     private class GuiRute extends JPanel {
-        
+
         private JLabel bilde;
         private int x;
         private int y;
-        
+
         public GuiRute(JLabel bilde, int x, int y) {
             setPreferredSize(new Dimension(50, 50));
             this.bilde = bilde;
@@ -149,13 +148,13 @@ class Gui extends JFrame {
             this.y = y;
             add(bilde);
         }
-        
+
         public GuiRute(int x, int y) {
             setPreferredSize(new Dimension(50, 50));
             this.x = x;
             this.y = y;
         }
-        
+
         public void setBilde(JLabel nyBilde) {
             bilde = nyBilde;
             if (bilde != null) {
@@ -163,36 +162,36 @@ class Gui extends JFrame {
             }
             this.repaint();
         }
-        
+
         public JLabel getBilde() {
             return bilde;
         }
-        
+
         public void removeBilde() {
             if (bilde != null) {
                 this.remove(bilde);
-            }            
+            }
             this.setBilde(null);
         }
-        
+
         public boolean hasLabel() {
             return bilde != null;
         }
-        
+
         public int getXen() {
             return x;
         }
-        
+
         public int getYen() {
             return y;
         }
     }
-    
+
     private class GameInfo extends JPanel {
-        
+
         ArrayList<String> hvitTrekk;
         ArrayList<String> svartTrekk;
-        
+
         public GameInfo() {
             setLayout(new FlowLayout());
             hvitTrekk = brett.getHvitMoves();
@@ -203,9 +202,9 @@ class Gui extends JFrame {
             add(tekstFelt);
         }
     }
-    
+
     private class MuseLytter implements MouseListener {
-        
+
         @Override
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
@@ -243,26 +242,26 @@ class Gui extends JFrame {
                 }
             }
         }
-        
+
         @Override
         public void mousePressed(MouseEvent e) {
         }
-        
+
         @Override
         public void mouseReleased(MouseEvent e) {
         }
-        
+
         @Override
         public void mouseEntered(MouseEvent e) {
         }
-        
+
         @Override
         public void mouseExited(MouseEvent e) {
         }
     }
-    
+
     private class MuseLytter2 implements MouseListener {
-        
+
         @Override
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
@@ -312,19 +311,19 @@ class Gui extends JFrame {
                 }
             }
         }
-        
+
         @Override
         public void mousePressed(MouseEvent e) {
         }
-        
+
         @Override
         public void mouseReleased(MouseEvent e) {
         }
-        
+
         @Override
         public void mouseEntered(MouseEvent e) {
         }
-        
+
         @Override
         public void mouseExited(MouseEvent e) {
         }
