@@ -47,6 +47,7 @@ class Gui extends JFrame {
             MenuItem loadGame = new MenuItem("Load game");
             MenuItem exit = new MenuItem("Exit");
             MenuItem preferences = new MenuItem("Preferences");
+            ButtonGroup bg = new ButtonGroup();
             filMeny.add(newGame);
             filMeny.add(saveGame);
             filMeny.add(loadGame);
@@ -76,8 +77,20 @@ class Gui extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String valg = e.getSource().toString();
             String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences" };
-            switch(valg) {
-                
+            if(valg.equals(navn[0])) {
+                brett = new Brett();
+            }
+            else if(valg.equals(navn[1])) {
+                throw new UnsupportedOperationException("Not implemented yet.");
+            }
+            else if(valg.equals(navn[2])) {
+                throw new UnsupportedOperationException("Not implemented yet.");
+            }
+            else if(valg.equals(navn[3])) {
+                throw new UnsupportedOperationException("Not implemented yet.");
+            }
+            else {
+                throw new UnsupportedOperationException("Not implemented yet.");
             }
         }
         
