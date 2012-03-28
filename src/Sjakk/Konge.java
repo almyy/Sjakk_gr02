@@ -31,14 +31,18 @@ public class Konge extends Brikke{
         int x = r.getX();
         int y = r.getY();
         
-        lovligeTrekk.add(new Rute(x+1,y));
-        lovligeTrekk.add(new Rute(x+1,y+1));
-        lovligeTrekk.add(new Rute(x+1,y-1));
-        lovligeTrekk.add(new Rute(x-1,y));
-        lovligeTrekk.add(new Rute(x-1,y+1));
-        lovligeTrekk.add(new Rute(x-1,y-1));
-        lovligeTrekk.add(new Rute(x,y+1));
-        lovligeTrekk.add(new Rute(x,y-1));
+        if(x<Brikke.OVRE_GRENSE){
+            lovligeTrekk.add(new Rute(x+1,y));
+            if(y<Brikke.OVRE_GRENSE)lovligeTrekk.add(new Rute(x+1,y+1));
+            if(y>Brikke.NEDRE_GRENSE)lovligeTrekk.add(new Rute(x+1,y-1));
+        }
+        if(x>Brikke.NEDRE_GRENSE){
+            lovligeTrekk.add(new Rute(x-1,y));
+            if(y<Brikke.OVRE_GRENSE)lovligeTrekk.add(new Rute(x-1,y+1));
+            if(y>Brikke.NEDRE_GRENSE)lovligeTrekk.add(new Rute(x-1,y-1));
+        }        
+        if(y<Brikke.OVRE_GRENSE)lovligeTrekk.add(new Rute(x,y+1));
+        if(y>Brikke.NEDRE_GRENSE)lovligeTrekk.add(new Rute(x,y-1));
         
         return lovligeTrekk;
         

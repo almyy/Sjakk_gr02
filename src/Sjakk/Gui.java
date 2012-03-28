@@ -1,8 +1,10 @@
 package Sjakk;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,13 +14,16 @@ class Gui extends JFrame {
     private Brett brett = new Brett();
     private GuiRute squares[][] = new GuiRute[8][8];
     private ArrayList<Rute> lovligeTrekk;
+    private String[] trekk = {"A","B","C","D","E","F","G","H"};
+    private String move;
+    private String move2;
     private final Color brown = new Color(160, 82, 45);
     private final Color lightBrown = new Color(244, 164, 96);
     private final Color highlighted = new Color(195, 205, 205);
-    private final Color highlightedTrekk = new Color(191,239,255);
+    private final Color highlightedTrekk = new Color(191, 239, 255);
     private boolean whiteTurn = true;
     private boolean isHighlighted = false;
-    
+
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,14 +52,13 @@ class Gui extends JFrame {
             setLayout(new GridLayout(8, 8));
             for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
-                    
-                    if(i==0||i==7) {
-                        JLabel bilde = new JLabel(brett.getIcon(j,i));
-                        squares[i][j] = new GuiRute(bilde,i,j);
+
+                    if (i == 0 || i == 1 || i == 6 || i == 7) {
+                        JLabel bilde = new JLabel(brett.getIcon(j, i));
+                        squares[i][j] = new GuiRute(bilde, i, j);
                         add(squares[i][j]);
-                    }
-                    else { 
-                        squares[i][j] = new GuiRute(i,j);
+                    } else {
+                        squares[i][j] = new GuiRute(i, j);
                         add(squares[i][j]);
                     }
                     if ((i + j) % 2 == 0) {
@@ -67,54 +71,60 @@ class Gui extends JFrame {
             }
         }
     }
+
     private class GuiRute extends JPanel {
+
         private JLabel bilde;
         private int x;
         private int y;
-        public GuiRute(JLabel bilde,int x, int y) {
+
+        public GuiRute(JLabel bilde, int x, int y) {
             setPreferredSize(new Dimension(50, 50));
             this.bilde = bilde;
-            this.x=x;
-            this.y=y;
+            this.x = x;
+            this.y = y;
             add(bilde);
         }
-        public GuiRute(int x,int y) {
+
+        public GuiRute(int x, int y) {
             setPreferredSize(new Dimension(50, 50));
-            this.x=x;
-            this.y=y;
+            this.x = x;
+            this.y = y;
         }
+
         public void setBilde(JLabel nyBilde) {
             bilde = nyBilde;
-            if (bilde!=null) {
+            if (bilde != null) {
                 add(bilde);
             }
             this.repaint();
         }
-        public JLabel getBilde(){
+
+        public JLabel getBilde() {
             return bilde;
         }
-        public void removeBilde(int x,int y){
-            for(int i = 0; i< 8; i++){
-                for(int u = 0; u < 8; u++){
-                    if(i==x && y==u){
-                        this.bilde = null;
-                        this.repaint();
-                    }
-                }
-            }
+
+        public void removeBilde() {
+            if(bilde!=null){
+                this.remove(bilde);
+            } 
+            this.setBilde(null);
         }
+
         public boolean hasLabel() {
             return bilde != null;
         }
-        public int getXen(){
+
+        public int getXen() {
             return x;
         }
-        public int getYen(){
+
+        public int getYen() {
             return y;
         }
-        
     }
-    private class GameInfo extends JPanel{
+
+    private class GameInfo extends JPanel {
 
         ArrayList<String> hvitTrekk;
         ArrayList<String> svartTrekk;
@@ -136,30 +146,30 @@ class Gui extends JFrame {
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
             if (!isHighlighted && denne.hasLabel()) {
-                if(whiteTurn){
-                    Rute sjekk = brett.getRute(denne.getYen(),denne.getXen());
-                    if(sjekk.getBrikke().isHvit()){
+                if (whiteTurn) {
+                    Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
+                    if (sjekk.getBrikke().isHvit()) {
                         denne.setBackground(highlighted);
                         isHighlighted = true;
-                        whiteTurn = true;
+                        whiteTurn = false;
                     }
-                }
-                else{
-                    Rute sjekk = brett.getRute(denne.getYen(),denne.getXen());
-                    if(!sjekk.getBrikke().isHvit()){
+                } else {
+                    Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
+                    if (!sjekk.getBrikke().isHvit()) {
                         denne.setBackground(highlighted);
                         isHighlighted = true;
                         whiteTurn = true;
                     }
                 }
             }
-            for(int i = 0; i < 8; i++) {
-                for(int j = 0; j < 8; j++) {
-                    if(squares[i][j].getBackground().equals(highlighted)&&squares[i][j] != null) {
+            move = trekk[denne.getXen()] + denne.getYen();
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (squares[i][j].getBackground().equals(highlighted) && squares[i][j] != null) {
                         int x = j;
-                        int y = i;                      
+                        int y = i;
                         lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
-                        for(int u = 0; u < lovligeTrekk.size(); u++) {
+                        for (int u = 0; u < lovligeTrekk.size(); u++) {
                             int lX = lovligeTrekk.get(u).getX();
                             int lY = lovligeTrekk.get(u).getY();
                             squares[lY][lX].setBackground(highlightedTrekk);
@@ -186,40 +196,56 @@ class Gui extends JFrame {
         public void mouseExited(MouseEvent e) {
         }
     }
+
     private class MuseLytter2 implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) { 
-            GuiRute denne = (GuiRute)e.getSource();
-            Rute r = new Rute(0,0);
-            JLabel l = new JLabel();
-            GuiRute f = null;
-            for(int i = 0; i < 8; i++){
-                for(int u = 0; u < 8; u++){
-                    if(squares[i][u].getBackground().equals(highlighted)){
-                        f = squares[i][u];
-                        r = new Rute(i,u);
-                        l = squares[i][u].getBilde();
+        public void mouseClicked(MouseEvent e) {
+            GuiRute denne = (GuiRute) e.getSource();
+            Rute startRute = new Rute(0, 0);
+            JLabel oldPic = new JLabel();
+            GuiRute startGuiRute = null;
+            int x = denne.getXen();
+            int y = denne.getYen();
+            for (int i = 0; i < 8; i++) {
+                for (int u = 0; u < 8; u++) {
+                    if (squares[i][u].getBackground().equals(highlighted)) {
+                        startGuiRute = squares[i][u];
+                        startRute = new Rute(i, u);
+                        oldPic = squares[i][u].getBilde();
                     }
                 }
             }
-            if(denne.getBackground().equals(highlightedTrekk)){
-                brett.flyttBrikke(new Rute(denne.getXen(),denne.getYen()),lovligeTrekk,r);
-                denne.setBilde(l);
-                f.removeBilde(f.getXen(), f.getYen());
-                for(int i = 0; i < 8; i++){
-                    for(int u = 0; u < 8; u++){
-                        if(squares[i][u].getBackground().equals(highlighted)||squares[i][u].getBackground().equals(highlightedTrekk)){
-                            if((i+u)%2==0){
+            if (denne.getBackground().equals(highlightedTrekk)) {
+                System.out.println("Works");
+                if(brett.getRute(y,x).isOccupied()){
+                    if(whiteTurn){
+                        if(brett.getRute(y, x).getBrikke().isHvit()){
+                            denne.removeBilde();
+                        }
+                    }else{
+                        if(!brett.getRute(y, x).getBrikke().isHvit()){
+                            denne.removeBilde();
+                        }
+                    }
+                }
+                brett.flyttBrikke(new Rute(x, y), startRute);
+                move2 = trekk[x] + y;
+                //brett.registrateMove(move,move2);
+                startGuiRute.removeBilde();
+                denne.setBilde(oldPic);
+                for (int i = 0; i < 8; i++) {
+                    for (int u = 0; u < 8; u++) {
+                        if (squares[i][u].getBackground().equals(highlighted) || squares[i][u].getBackground().equals(highlightedTrekk)) {
+                            if ((i + u) % 2 == 0) {
                                 squares[i][u].setBackground(brown);
-                            }
-                            else{
+                            } else {
                                 squares[i][u].setBackground(lightBrown);
                             }
                         }
                     }
                     isHighlighted = false;
-                }   
+                }
             }
         }
 

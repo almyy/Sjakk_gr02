@@ -30,23 +30,22 @@ public class Taarn extends Brikke {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
         int x = r.getX();
         int y = r.getY();
-        if(x<7){
-            for(int i = x+1; i < 7; i++) {
+        if(x<Brikke.OVRE_GRENSE){
+            for(int i = x+1; i <= 7; i++) {
                 lovligeTrekk.add(new Rute(i, y));
-                System.out.println("i " + i + " y " + y);
             }
         }
-        if(x>0){
+        if(x>Brikke.NEDRE_GRENSE){
             for(int i = x-1; i >= 0; i--) {
                 lovligeTrekk.add(new Rute(i, y));
             }
         }
-        if(y<7){
-            for(int i = y+1; i < 7; i++) {
+        if(y<Brikke.OVRE_GRENSE){
+            for(int i = y+1; i <= 7; i++) {
                 lovligeTrekk.add(new Rute(x, i));
             }
         }
-        if(y>0){
+        if(y>Brikke.NEDRE_GRENSE){
             for(int i = y-1; i >= 0; i--) {
                 lovligeTrekk.add(new Rute(x, i));
             }
