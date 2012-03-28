@@ -41,9 +41,9 @@ public class SpringerTest {
     public void testSjekkLovligeTrekk() {
         System.out.println("sjekkLovligeTrekk");
         Brett instance = new Brett();
-        Rute r = null;
-        ArrayList expResult = null;
-        ArrayList result = instance.sjekkLovligeTrekk(r);
+        Rute r = new Rute(0,6);
+        int expResult = 2;
+        int result = instance.sjekkLovligeTrekk(r).size();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
     }
