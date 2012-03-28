@@ -51,4 +51,7 @@ public class Svart extends Spiller{
     public ArrayList<Brikke> getBrikker(){
         return brikker;
     }
+    public void setMoves(String s){
+         
+     }
 }

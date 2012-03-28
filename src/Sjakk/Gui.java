@@ -259,6 +259,7 @@ class Gui extends JFrame {
                         startGuiRute = squares[i][u];
                         startRute = new Rute(i, u);
                         oldPic = squares[i][u].getBilde();
+                        
                     }
                 }
             }
@@ -277,7 +278,7 @@ class Gui extends JFrame {
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute);
                 move2 = trekk[x] + y;
-                //brett.registrateMove(move,move2);
+                brett.registrateMove(move,move2,whiteTurn);
                 startGuiRute.removeBilde();
                 denne.setBilde(oldPic);
                 for (int i = 0; i < 8; i++) {

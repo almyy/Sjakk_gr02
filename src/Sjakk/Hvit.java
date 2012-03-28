@@ -45,4 +45,9 @@ public class Hvit extends Spiller {
     public ArrayList<Brikke> getBrikker(){
         return brikker;
     }
-}
+        
+     public void setMoves(String s){
+         
+     }
+    }
+
