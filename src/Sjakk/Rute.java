@@ -39,4 +39,7 @@ public class Rute {
         }
         return false;
     }
+    public String toString() {
+        return "X: " + x + ", y: " + y;
+    }
 }
