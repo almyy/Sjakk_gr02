@@ -426,4 +426,16 @@ public class Brett {
         this.ruter[fX][fY].setBrikke(ruter[sX][sY].getBrikke());
         this.ruter[sX][sY].setBrikke(null);
     }
+    
+    public void registrateMove(String move, String move2, boolean s){
+      String completeMove = (move + "-->" +move2);  
+      if(s) {
+          svart.setMoves(completeMove);
+      } else {
+          hvit.setMoves(completeMove);
+      }
+    
+    
+     
+}
 }
