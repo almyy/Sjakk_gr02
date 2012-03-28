@@ -1,13 +1,12 @@
 package Sjakk;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 class Gui extends JFrame {
 
@@ -27,15 +26,62 @@ class Gui extends JFrame {
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(650, 500));
+        setPreferredSize(new Dimension(1000, 700));
         setLayout(new BorderLayout());
         add(new Rutenett(), BorderLayout.CENTER);
         add(new GameInfo(), BorderLayout.EAST);
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
         add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
+        setJMenuBar(new MenyBar());
         pack();
     }
+    
+    private class MenyBar extends JMenuBar {
+        public MenyBar(){
+            JMenu filMeny = new JMenu("File");
+            JMenu optionMeny = new JMenu("Options");
+            add(filMeny);
+            add(optionMeny);
+            MenuItem newGame = new MenuItem("New game");
+            MenuItem saveGame = new MenuItem("Save game");
+            MenuItem loadGame = new MenuItem("Load game");
+            MenuItem exit = new MenuItem("Exit");
+            MenuItem preferences = new MenuItem("Preferences");
+            filMeny.add(newGame);
+            filMeny.add(saveGame);
+            filMeny.add(loadGame);
+            filMeny.add(exit);
+            optionMeny.add(preferences);
+            newGame.addActionListener(new MenyListener());
+            saveGame.addActionListener(new MenyListener());
+            loadGame.addActionListener(new MenyListener());
+            exit.addActionListener(new MenyListener());
+            preferences.addActionListener(new MenyListener());
+        }
+    }
+    private class MenuItem extends JMenuItem {
+        private String navn;
+        public MenuItem(String navn) {
+            this.navn = navn;
+        }
 
+        @Override
+        public String toString() {
+            return navn;
+        }
+        
+    }
+    private class MenyListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String valg = e.getSource().toString();
+            String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences" };
+            switch(valg) {
+                
+            }
+        }
+        
+    }
     private class SpillerNavn extends JPanel {
 
         public SpillerNavn(String navn) {
@@ -134,8 +180,8 @@ class Gui extends JFrame {
             hvitTrekk = brett.getHvitMoves();
             svartTrekk = brett.getSvartMoves();
             setPreferredSize(new Dimension(150, 500));
-            TextField tekstFelt = new TextField("Siste trekk:");
-            tekstFelt.setPreferredSize(new Dimension(150, 500));
+            TextArea tekstFelt = new TextArea("Siste trekk:");
+            tekstFelt.setPreferredSize(new Dimension(150, 700));
             add(tekstFelt);
         }
     }
