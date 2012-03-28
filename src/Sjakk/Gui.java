@@ -218,6 +218,7 @@ class Gui extends JFrame {
                 }
             }
             if (denne.getBackground().equals(highlightedTrekk)) {
+                System.out.println("Works");
                 if(brett.getRute(y,x).isOccupied()){
                     if(whiteTurn){
                         if(brett.getRute(y, x).getBrikke().isHvit()){
