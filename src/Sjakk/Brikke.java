@@ -9,10 +9,11 @@ package Sjakk;
  *
  * @author Rino
  */
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-abstract class Brikke {
+abstract class Brikke implements Serializable {
     protected final static int OVRE_GRENSE = 7;
     protected final static int OVRE_GRENSE_TO = 6;
     protected final static int NEDRE_GRENSE = 0;

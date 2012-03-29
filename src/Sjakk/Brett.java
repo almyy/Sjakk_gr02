@@ -8,10 +8,11 @@ package Sjakk;
  *
  * @author Rino
  */
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class Brett {
+public class Brett implements Serializable{
 
     private Rute[][] ruter;
     private Hvit hvit;

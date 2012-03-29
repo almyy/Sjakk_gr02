@@ -7,6 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 class Gui extends JFrame {
@@ -39,6 +41,49 @@ class Gui extends JFrame {
         add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
         setJMenuBar(new MenyBar());
         pack();
+    }
+
+    private class Homo implements Serializable {
+
+        ObjectOutputStream oos;
+        ObjectInputStream ois;
+
+        public Homo() throws IOException {
+            File file = new File("C:/Sjakk.dat");
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("File Created");
+                } else {
+                    System.out.println("File is not created");
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        public boolean lagre() throws IOException {
+            oos = new ObjectOutputStream(new FileOutputStream("C:/Sjakk.dat"));
+            for(int i = 0; i < 8; i++) {
+                for(int u = 0; u < 8; u++) {
+                    oos.writeObject(squares[i][u]);
+                }
+            }
+            oos.writeObject(brett);
+            return true;
+        }
+
+        public void laste() throws IOException, ClassNotFoundException {
+            ois = new ObjectInputStream(new FileInputStream("C:/Sjakk.dat"));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (ois.readObject() instanceof GuiRute) {
+                    GuiRute r = (GuiRute) ois.readObject();
+                    squares[r.getXen()][r.getYen()] = r;
+                }
+                //} else if (ois.readObject() instanceof Brett) {
+                  //  brett = (Brett) ois.readObject();
+                //}
+            }
+        }
     }
 
     private class MenyBar extends JMenuBar {
@@ -83,6 +128,16 @@ class Gui extends JFrame {
 
     private class MenyListener implements ActionListener {
 
+        private Homo jall;
+
+        public MenyListener() {
+            try {
+                jall = new Homo();
+            } catch (IOException ex) {
+                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
             String valg = e.getSource().toString();
@@ -116,9 +171,22 @@ class Gui extends JFrame {
                 }
                 repaint();
             } else if (valg.equals(navn[1])) {
-                throw new UnsupportedOperationException("Not implemented yet.");
+
+                try {
+                    jall.lagre();
+                } catch (IOException ex) {
+                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             } else if (valg.equals(navn[2])) {
-                throw new UnsupportedOperationException("Not implemented yet.");
+                try {
+                    jall.laste();
+                } catch (IOException ex) {
+                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                repaint();
             } else if (valg.equals(navn[3])) {
                 throw new UnsupportedOperationException("Not implemented yet.");
             } else {

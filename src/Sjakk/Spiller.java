@@ -1,7 +1,8 @@
 package Sjakk;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-abstract class Spiller {
+abstract class Spiller implements Serializable{
     private ArrayList<Brikke> brikker;
     
     public boolean removePiece(Brikke b){
