@@ -1,5 +1,7 @@
 package Sjakk;
 
+import java.io.Serializable;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -9,7 +11,7 @@ package Sjakk;
  *
  * @author Rino
  */
-public class Rute {
+public class Rute implements Serializable{
     private final int x;
     private final int y;
     private Brikke brikke;
