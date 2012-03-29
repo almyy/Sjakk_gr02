@@ -281,7 +281,7 @@ public class Brett implements Serializable{
                 return rutene;
             }
 
-        } else if (brikke instanceof Taarn) {
+        }else if (brikke instanceof Taarn) {
             Taarn taarn = (Taarn) brikke;
             ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk(rute);
             int currentY = rute.getY();
