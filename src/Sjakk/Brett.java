@@ -182,104 +182,604 @@ public class Brett implements Serializable{
         } else if (brikke instanceof Loper) {
             Loper loper = (Loper) brikke;
             ArrayList<Rute> rutene = loper.sjekkLovligeTrekk(rute);
+            //Deler opp rutene i arraylister, en arraylist for hver diagonal med lovlige trekk
+            ArrayList<Rute> venstreOpp = new ArrayList<>();
+            ArrayList<Rute> hoyreOpp = new ArrayList<>();
+            ArrayList<Rute> venstreNed = new ArrayList<>();
+            ArrayList<Rute> hoyreNed = new ArrayList<>();
+            ArrayList<Rute> lovligeTrekk = new ArrayList<>();
+            
             int teller = rutene.size();
-            int currentX = rute.getX();
-            int currentY = rute.getY();
-            for (int i = 0; i < teller; i++) {
-                int x = rutene.get(i).getX();
-                int y = rutene.get(i).getY();
-                if (loper.isHvit()) {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                        if (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() > y) {
-                            while (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() > y) {
-                                System.out.println("Venstre/opp");
-                                rutene.remove(i);
-                                teller--;
-                            }
-                        }
-                        if (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() < y) {
-                            while (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() < y) {
-                                System.out.println("venste/ned");
-                                rutene.remove(i);
-                                teller--;
-                            }
-                        }
-                        if (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() > y) {
-                            while (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() > y) {
-                                System.out.println("Høyre/opp");
-                                rutene.remove(i);
-                                teller--;
-                            }
-                        }
-                        if (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() < y) {
-                            while (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() < y) {
-                                System.out.println("Høyre/ned");
-                                rutene.remove(i);
-                                teller--;
-                            }
-                        }
-                    } else if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
-                        rutene.remove(i);
-                        teller--;
-                        if (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() > y) {
-                            while (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() > y) {
-                                System.out.println("Venstre/opp");
-                                rutene.remove(i);
-                                teller--;
-                            }
-                        }
-                        if (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() < y) {
-                            while (teller > 0 && rutene.get(i).getX() < x && rutene.get(i).getY() < y) {
-                                System.out.println("venste/ned");
-                                rutene.remove(i);
-                                teller--;
-                            }
-                        }
-                        if (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() > y) {
-                            while (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() > y) {
-                                System.out.println("Høyre/opp");
-                                rutene.remove(i);
-                                teller--;
-                            }
-                        }
-                        if (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() < y) {
-                            while (teller > 0 && rutene.get(i).getX() > x && rutene.get(i).getY() < y) {
-                                System.out.println("Høyre/ned");
-                                rutene.remove(i);
-                                teller--;
-                            }
-                        }
-                        i--;
-                    }
-                    System.out.println("I: " + i);
-                } else {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                    }
-                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
-                    }
+            int x = rute.getX();
+            int y = rute.getY();
+            
+            for(int i = 0; i < teller; i++){
+                if(rutene.get(i).getX()<x && rutene.get(i).getY() > y){
+                    venstreOpp.add(rutene.get(i));
+                }else if(rutene.get(i).getX()>x && rutene.get(i).getY() > y){
+                    hoyreOpp.add(rutene.get(i));
+                }else if(rutene.get(i).getX()< x && rutene.get(i).getY() < y){
+                    venstreNed.add(rutene.get(i));
+                }else {
+                    hoyreNed.add(rutene.get(i));
                 }
             }
-            return rutene;
+            int venstreOppT = venstreOpp.size();
+            int hoyreOppT = hoyreOpp.size();
+            int venstreNedT = venstreNed.size();
+            int hoyreNedT = hoyreNed.size();
+            //sjekker om det står brikker på noen av arraylistene og fjerner henholdsvis de rutene som skal fjernes separat på hver diagonal
+            for(int i = 0; i<venstreOppT; i++){
+                int currentX = venstreOpp.get(i).getX();
+                int currentY = venstreOpp.get(i).getY();
+                if(loper.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied()&&ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstreOpp.remove(i);
+                        venstreOppT--;
+                        for(int u = i; u<venstreOppT; u++){
+                            venstreOpp.remove(u);
+                            venstreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied()&&!ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreOppT; u++){
+                            venstreOpp.remove(u);
+                            venstreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstreOpp.remove(i);
+                        venstreOppT--;
+                        for(int u = i; u<venstreOppT; u++){
+                            venstreOpp.remove(u);
+                            venstreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreOppT; u++){
+                            venstreOpp.remove(u);
+                            venstreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }for(int i = 0; i<hoyreOppT; i++){
+                int currentX = hoyreOpp.get(i).getX();
+                int currentY = hoyreOpp.get(i).getY();
+                if(loper.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied()&&ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyreOpp.remove(i);
+                        hoyreOppT--;
+                        for(int u = i; u<hoyreOppT; u++){
+                            hoyreOpp.remove(u);
+                            hoyreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied()&&!ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreOppT; u++){
+                            hoyreOpp.remove(u);
+                            hoyreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyreOpp.remove(i);
+                        hoyreOppT--;
+                        for(int u = i; u<hoyreOppT; u++){
+                            hoyreOpp.remove(u);
+                            hoyreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreOppT; u++){
+                            hoyreOpp.remove(u);
+                            hoyreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }for(int i = 0; i<venstreNedT;i++){
+                int currentX = venstreNed.get(i).getX();
+                int currentY = venstreNed.get(i).getY();
+                if(loper.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied()&&ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstreNed.remove(i);
+                        venstreNedT--;
+                        for(int u = i; u<venstreNedT; u++){
+                            venstreNed.remove(u);
+                            venstreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied()&&!ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreNedT; u++){
+                            venstreNed.remove(u);
+                            venstreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstreNed.remove(i);
+                        venstreNedT--;
+                        for(int u = i; u<venstreNedT; u++){
+                            venstreNed.remove(u);
+                            venstreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreNedT; u++){
+                            venstreNed.remove(u);
+                            venstreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }for(int i = 0; i<hoyreNedT; i++){
+                int currentX = hoyreNed.get(i).getX();
+                int currentY = hoyreNed.get(i).getY();
+                if(loper.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied()&&ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyreNed.remove(i);
+                        hoyreNedT--;
+                        for(int u = i; u<hoyreNedT; u++){
+                            hoyreNed.remove(u);
+                            hoyreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied()&&!ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < hoyreNedT; u++){
+                            hoyreNed.remove(u);
+                            hoyreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyreNed.remove(i);
+                        hoyreNedT--;
+                        for(int u = i; u<venstreOppT; u++){
+                            hoyreNed.remove(u);
+                            hoyreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < hoyreNedT; u++){
+                            hoyreNed.remove(u);
+                            hoyreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }        
+            //Legger sammen arraylistene til en arrayList som returneres
+            for(int i = 0; i < venstreOppT; i++){
+                lovligeTrekk.add(venstreOpp.get(i));
+            }for(int i = 0; i < hoyreOppT; i++ ){
+                lovligeTrekk.add(hoyreOpp.get(i));
+            }for(int i = 0; i < venstreNedT; i++){
+                lovligeTrekk.add(venstreNed.get(i));
+            }for(int i = 0; i< hoyreNedT; i++) {
+                lovligeTrekk.add(hoyreNed.get(i));
+            }
+            return lovligeTrekk;
         } else if (brikke instanceof Dronning) {
             Dronning dronning = (Dronning) brikke;
-            ArrayList<Rute> rutene = dronning.sjekkLovligeTrekk(rute);
-            int teller = rutene.size();
-            for (int i = 0; i < teller; i++) {
-                int x = rutene.get(i).getX();
-                int y = rutene.get(i).getY();
-                if (dronning.isHvit()) {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+            
+            Loper lo = new Loper(dronning.isHvit());
+            Taarn taa = new Taarn(dronning.isHvit());
+            
+            ArrayList<Rute> rutene = lo.sjekkLovligeTrekk(rute);
+            ArrayList<Rute> ruteneTaarn = taa.sjekkLovligeTrekk(rute);
+            
+            ArrayList<Rute> venstreOpp = new ArrayList<>();
+            ArrayList<Rute> hoyreOpp = new ArrayList<>();
+            ArrayList<Rute> venstreNed = new ArrayList<>();
+            ArrayList<Rute> hoyreNed = new ArrayList<>();
+            
+            ArrayList<Rute> hoyre = new ArrayList<>();
+            ArrayList<Rute> venstre = new ArrayList<>();
+            ArrayList<Rute> opp = new ArrayList<>();
+            ArrayList<Rute> ned = new ArrayList<>();
+            
+            ArrayList<Rute> lovligeTrekk = new ArrayList<>();
+            
+            int tellerL = rutene.size();
+            int tellerT = ruteneTaarn.size();
+            int x = rute.getX();
+            int y = rute.getY();
+            
+            for(int i = 0; i < tellerL; i++){
+                if(rutene.get(i).getX()<x && rutene.get(i).getY() > y){
+                    venstreOpp.add(rutene.get(i));
+                }else if(rutene.get(i).getX()>x && rutene.get(i).getY() > y){
+                    hoyreOpp.add(rutene.get(i));
+                }else if(rutene.get(i).getX()< x && rutene.get(i).getY() < y){
+                    venstreNed.add(rutene.get(i));
+                }else {
+                    hoyreNed.add(rutene.get(i));
+                }
+            }
+            for (int i = 0; i < tellerT; i++) {
+                if(ruteneTaarn.get(i).getX()>x){
+                    hoyre.add(ruteneTaarn.get(i));
+                }else if(ruteneTaarn.get(i).getX() < x){
+                    venstre.add(ruteneTaarn.get(i));
+                }else if(ruteneTaarn.get(i).getY()> y){
+                    opp.add(ruteneTaarn.get(i));
+                }else {
+                    ned.add(ruteneTaarn.get(i));
+                }
+            }
+            int venstreOppT = venstreOpp.size();
+            int hoyreOppT = hoyreOpp.size();
+            int venstreNedT = venstreNed.size();
+            int hoyreNedT = hoyreNed.size();
+            //sjekker om det står brikker på noen av arraylistene og fjerner henholdsvis de rutene som skal fjernes separat på hver diagonal
+            for(int i = 0; i<venstreOppT; i++){
+                int currentX = venstreOpp.get(i).getX();
+                int currentY = venstreOpp.get(i).getY();
+                if(dronning.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied()&&ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstreOpp.remove(i);
+                        venstreOppT--;
+                        for(int u = i; u<venstreOppT; u++){
+                            venstreOpp.remove(u);
+                            venstreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied()&&!ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreOppT; u++){
+                            venstreOpp.remove(u);
+                            venstreOppT--;
+                            u--;
+                            i++;
+                        }
                     }
-                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
-                    }
-                } else {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                    }
-                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstreOpp.remove(i);
+                        venstreOppT--;
+                        for(int u = i; u<venstreOppT; u++){
+                            venstreOpp.remove(u);
+                            venstreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreOppT; u++){
+                            venstreOpp.remove(u);
+                            venstreOppT--;
+                            u--;
+                            i++;
+                        }
                     }
                 }
-                return rutene;
+            }for(int i = 0; i<hoyreOppT; i++){
+                int currentX = hoyreOpp.get(i).getX();
+                int currentY = hoyreOpp.get(i).getY();
+                if(dronning.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied()&&ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyreOpp.remove(i);
+                        hoyreOppT--;
+                        for(int u = i; u<hoyreOppT; u++){
+                            hoyreOpp.remove(u);
+                            hoyreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied()&&!ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreOppT; u++){
+                            hoyreOpp.remove(u);
+                            hoyreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyreOpp.remove(i);
+                        hoyreOppT--;
+                        for(int u = i; u<hoyreOppT; u++){
+                            hoyreOpp.remove(u);
+                            hoyreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreOppT; u++){
+                            hoyreOpp.remove(u);
+                            hoyreOppT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }for(int i = 0; i<venstreNedT;i++){
+                int currentX = venstreNed.get(i).getX();
+                int currentY = venstreNed.get(i).getY();
+                if(dronning.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied()&&ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstreNed.remove(i);
+                        venstreNedT--;
+                        for(int u = i; u<venstreNedT; u++){
+                            venstreNed.remove(u);
+                            venstreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied()&&!ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreNedT; u++){
+                            venstreNed.remove(u);
+                            venstreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstreNed.remove(i);
+                        venstreNedT--;
+                        for(int u = i; u<venstreNedT; u++){
+                            venstreNed.remove(u);
+                            venstreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreNedT; u++){
+                            venstreNed.remove(u);
+                            venstreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }for(int i = 0; i<hoyreNedT; i++){
+                int currentX = hoyreNed.get(i).getX();
+                int currentY = hoyreNed.get(i).getY();
+                if(dronning.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied()&&ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyreNed.remove(i);
+                        hoyreNedT--;
+                        for(int u = i; u<hoyreNedT; u++){
+                            hoyreNed.remove(u);
+                            hoyreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied()&&!ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < hoyreNedT; u++){
+                            hoyreNed.remove(u);
+                            hoyreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyreNed.remove(i);
+                        hoyreNedT--;
+                        for(int u = i; u<venstreOppT; u++){
+                            hoyreNed.remove(u);
+                            hoyreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < hoyreNedT; u++){
+                            hoyreNed.remove(u);
+                            hoyreNedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
             }
+            int hoyreT = hoyre.size();
+            int venstreT = venstre.size();
+            int oppT = opp.size();
+            int nedT = ned.size();
+            for(int i = 0; i < hoyreT; i++){
+                int currentX = hoyre.get(i).getX();
+                int currentY = hoyre.get(i).getY();
+                if(dronning.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyre.remove(i);
+                        hoyreT--;
+                        for(int u = i; u<hoyreT; u++){
+                            hoyre.remove(u);
+                            hoyreT--;
+                            u--;
+                            i++;
+                        }
+                    }else if (ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < hoyreT; u++){
+                            hoyre.remove(u);
+                            hoyreT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        hoyre.remove(i);
+                        hoyreT--;
+                        for(int u = i; u<hoyreT; u++){
+                            hoyre.remove(u);
+                            hoyreT--;
+                            u--;
+                            i++;
+                        }
+                    }else if (ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < hoyreT; u++){
+                            hoyre.remove(u);
+                            hoyreT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }for(int i = 0; i < venstreT; i++){
+                int currentX = venstre.get(i).getX();
+                int currentY = venstre.get(i).getY();
+                if(dronning.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstre.remove(i);
+                        venstreT--;
+                        for(int u = i; u<venstreT; u++){
+                            venstre.remove(u);
+                            venstreT--;
+                            u--;
+                            i++;
+                        }
+                    }else if (ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreT; u++){
+                            venstre.remove(u);
+                            venstreT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        venstre.remove(i);
+                        venstreT--;
+                        for(int u = i; u<venstreT; u++){
+                            venstre.remove(u);
+                            venstreT--;
+                            u--;
+                            i++;
+                        }
+                    }else if (ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < venstreT; u++){
+                            venstre.remove(u);
+                            venstreT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }for(int i = 0; i < oppT; i++){
+                int currentX = opp.get(i).getX();
+                int currentY = opp.get(i).getY();
+                if(dronning.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        opp.remove(i);
+                        oppT--;
+                        for(int u = i; u<oppT; u++){
+                            opp.remove(u);
+                            oppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if (ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < oppT; u++){
+                            opp.remove(u);
+                            oppT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        opp.remove(i);
+                        oppT--;
+                        for(int u = i; u<oppT; u++){
+                            opp.remove(u);
+                            oppT--;
+                            u--;
+                            i++;
+                        }
+                    }else if (ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < oppT; u++){
+                            opp.remove(u);
+                            oppT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }for(int i = 0; i < nedT; i++){
+                int currentX = ned.get(i).getX();
+                int currentY = ned.get(i).getY();
+                if(dronning.isHvit()){
+                    if(ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        ned.remove(i);
+                        nedT--;
+                        for(int u = i; u<nedT; u++){
+                            ned.remove(u);
+                            nedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                    else if (ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < nedT; u++){
+                            ned.remove(u);
+                            nedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }else{
+                    if(ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()){
+                        ned.remove(i);
+                        nedT--;
+                        for(int u = i; u<nedT; u++){
+                            ned.remove(u);
+                            nedT--;
+                            u--;
+                            i++;
+                        }
+                    }else if (ruter[currentX][currentY].isOccupied() && ruter[currentX][currentY].getBrikke().isHvit()){
+                        for(int u = i+1; u < nedT; u++){
+                            ned.remove(u);
+                            nedT--;
+                            u--;
+                            i++;
+                        }
+                    }
+                }
+            }
+            for(int i = 0; i< venstreOppT; i++){
+                lovligeTrekk.add(venstreOpp.get(i));
+            }for(int i = 0; i < hoyreOppT; i++){
+                lovligeTrekk.add(hoyreOpp.get(i));
+            }for(int i = 0; i<venstreNedT; i++){
+                lovligeTrekk.add(venstreNed.get(i));
+            }for(int i = 0; i< hoyreNedT; i++){
+                lovligeTrekk.add(hoyreNed.get(i));
+            }for(int i = 0; i < hoyre.size();i++){
+                lovligeTrekk.add(hoyre.get(i));
+            }
+            for(int i = 0; i < venstre.size();i++){
+                lovligeTrekk.add(venstre.get(i));
+            }for(int i = 0; i < opp.size();i++ ){
+                lovligeTrekk.add(opp.get(i));
+            }for(int i = 0; i < ned.size(); i++){
+                lovligeTrekk.add(ned.get(i));
+            }
+            return lovligeTrekk;
 
         }else if (brikke instanceof Taarn) {
             Taarn taarn = (Taarn) brikke;

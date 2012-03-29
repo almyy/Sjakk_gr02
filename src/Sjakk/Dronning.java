@@ -66,6 +66,25 @@ public class Dronning extends Brikke {
                     }
                 }
             }
+        }if(x<Brikke.OVRE_GRENSE){
+            for(int i = x+1; i <= 7; i++) {
+                lovligeRuter.add(new Rute(i, y));
+            }
+        }
+        if(x>Brikke.NEDRE_GRENSE){
+            for(int i = x-1; i >= 0; i--) {
+                lovligeRuter.add(new Rute(i, y));
+            }
+        }
+        if(y<Brikke.OVRE_GRENSE){
+            for(int i = y+1; i <= 7; i++) {
+                lovligeRuter.add(new Rute(x, i));
+            }
+        }
+        if(y>Brikke.NEDRE_GRENSE){
+            for(int i = y-1; i >= 0; i--) {
+                lovligeRuter.add(new Rute(x, i));
+            }
         }
         return lovligeRuter;
     }
