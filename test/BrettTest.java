@@ -7,8 +7,9 @@ import Sjakk.Brett;
 import Sjakk.Rute;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.*;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -74,7 +75,7 @@ public class BrettTest {
         ArrayList<Rute> lovligeTrekk = null;
         Rute flyttRute = null;
         Brett instance = new Brett();
-        instance.flyttBrikke(startRute, lovligeTrekk, flyttRute);
+        instance.flyttBrikke(startRute, flyttRute);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
