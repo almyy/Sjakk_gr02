@@ -235,8 +235,8 @@ class Gui extends JFrame {
                     }
                 }
             }
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
+            for (int i = 0; i <= 7; i++) {
+                for (int j = 0; j <= 7; j++) {
                     if (squares[i][j].getBackground().equals(highlighted) && squares[i][j] != null) {
                         int x = j;
                         int y = i;
