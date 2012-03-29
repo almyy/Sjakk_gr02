@@ -40,4 +40,8 @@ abstract class Brikke {
     public boolean isHvit() {
         return isHvit;
     }
+    @Override
+    public boolean equals(Object obj){
+        return false;
+    }
 }

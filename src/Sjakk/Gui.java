@@ -191,6 +191,9 @@ class Gui extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
+            /*if(brett.isSjakk(whiteTurn)){
+                System.out.println("Det var en muffins der!");
+            }*/
             if (!isHighlighted && denne.hasLabel()) {
                 if (whiteTurn) {
                     Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());

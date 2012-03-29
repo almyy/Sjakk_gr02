@@ -291,111 +291,187 @@ public class Brett {
         } else if (brikke instanceof Taarn) {
             Taarn taarn = (Taarn) brikke;
             ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk(rute);
+            int currentY = rute.getY();
+            int currentX = rute.getX();
             int teller = rutene.size();
             for (int i = 0; i < teller; i++) {
                 int x = rutene.get(i).getX();
                 int y = rutene.get(i).getY();
                 if (taarn.isHvit()) {
                     i++;
-                    if (i < (teller - 1) && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() >y) {
+                    if (i < teller && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
                             System.out.println("X: " + x + " NyX: " + rutene.get(i).getX() + " Y " + y + " Ny Y: " + rutene.get(i).getY());
                             System.out.println("Oppover");
                             rutene.remove(i);
                             teller--;
                         }
                     }
-                    if (i < (teller - 1) && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && y-rutene.get(i).getY() == 1) {
+                    if (i < teller && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+                        int help = y;
+                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && y - rutene.get(i).getY() == 1) {
                             System.out.println("X: " + x + " NyX: " + rutene.get(i).getX() + " Y " + y + " Ny Y: " + rutene.get(i).getY());
                             System.out.println("nedover");
                             rutene.remove(i);
                             teller--;
                             y--;
                         }
+                        y = help;
                     }
-                    if (i < (teller - 1) && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                        while (teller > 0 && i < teller && rutene.get(i).getX() -x == 1 && rutene.get(i).getY() == y) {
+                    if (i < teller && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+                        int help = x;
+                        while (teller > 0 && i < teller && rutene.get(i).getX() - x == 1 && rutene.get(i).getY() == y) {
                             System.out.println("X: " + x + " NyX: " + rutene.get(i).getX() + " Y " + y + " Ny Y: " + rutene.get(i).getY());
                             System.out.println("Høyre");
                             rutene.remove(i);
                             teller--;
-                            x--;
+                            x++;
                         }
+                        x = help;
                     }
-                    if (i < (teller - 1) && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
-                        while (teller > 0 && i < teller && x-rutene.get(i).getX()==1 && rutene.get(i).getY() == y) {
+                    if (i < teller && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+                        int help = x;
+                        while (teller > 0 && i < teller && x - rutene.get(i).getX() == 1 && rutene.get(i).getY() == y) {
                             System.out.println("X: " + x + " NyX: " + rutene.get(i).getX() + " Y " + y + " Ny Y: " + rutene.get(i).getY());
                             System.out.println("venstre");
                             rutene.remove(i);
                             teller--;
                             x--;
                         }
-                    }i--;
-                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
-                        rutene.remove(i);
-                        teller--;
-                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        i--;
+                        x = help;
                     }
-
-                } else {
-                    if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+                    i--;
+                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
+                        int helpX = rutene.get(i).getX();
                         rutene.remove(i);
                         teller--;
-                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
-                            rutene.remove(i);
-                            teller--;
+                        if (helpX < Brikke.OVRE_GRENSE) {
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
+                                //nedover
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
+                                //oppover
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
+                                //venstre
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
+                                //høyre
+                                rutene.remove(i);
+                                teller--;
+                            }
+                        } else if (currentX == Brikke.OVRE_GRENSE) {
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
+                                //nedover
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
+                                //oppover
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
+                                //venstre
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
+                                //høyre
+                                rutene.remove(i);
+                                teller--;
+                            }
                         }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
-                            rutene.remove(i);
-                            teller--;
+                    }
+                } else {
+                    if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
+                        i++;
+                        if (i < teller && ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
+                                rutene.remove(i);
+                                teller--;
+                            }
                         }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
-                            rutene.remove(i);
-                            teller--;
+                        if (i < teller && ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
+                            int help = y;
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && y - rutene.get(i).getY() == 1) {
+                                rutene.remove(i);
+                                teller--;
+                                y--;
+                            }
+                            y = help;
                         }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
-                            rutene.remove(i);
-                            teller--;
+                        if (i < teller && ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
+                            int help = x;
+                            while (teller > 0 && i < teller && rutene.get(i).getX() - x == 1 && rutene.get(i).getY() == y) {
+                                rutene.remove(i);
+                                teller--;
+                                x++;
+                            }
+                            x = help;
+                        }
+                        if (i < teller && ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
+                            int help = x;
+                            while (teller > 0 && i < teller && x - rutene.get(i).getX() == 1 && rutene.get(i).getY() == y) {
+                                rutene.remove(i);
+                                teller--;
+                                x--;
+                            }
+                            x = help;
                         }
                         i--;
-                    } else if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
-                        i++;
-                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
-                            System.out.println("nedoverH");
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
-                            System.out.println("OppoverH");
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
-                            System.out.println("venstreH");
-                            rutene.remove(i);
-                            teller--;
-                        }
-                        while (teller > 0 && i < teller && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
-                            System.out.println("HøyreH");
-                            rutene.remove(i);
-                            teller--;
+                    } else if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
+                        int helpX = rutene.get(i).getX();
+                        rutene.remove(i);
+                        teller--;
+                        if (helpX < Brikke.OVRE_GRENSE) {
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
+                                //nedover
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
+                                //oppover
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
+                                //venstre
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
+                                //høyre
+                                rutene.remove(i);
+                                teller--;
+                            }
+                        } else if (currentX == Brikke.OVRE_GRENSE) {
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() < y) {
+                                //nedover
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() == x && rutene.get(i).getY() > y) {
+                                //oppover
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() < x && rutene.get(i).getY() == y) {
+                                //venstre
+                                rutene.remove(i);
+                                teller--;
+                            }
+                            while (teller > 0 && i < teller && rutene.get(i).getX() > x && rutene.get(i).getY() == y) {
+                                //høyre
+                                rutene.remove(i);
+                                teller--;
+                            }
                         }
                     }
                 }
@@ -424,18 +500,46 @@ public class Brett {
         this.ruter[fX][fY].setBrikke(ruter[sX][sY].getBrikke());
         this.ruter[sX][sY].setBrikke(null);
     }
-    
-    public void registrateMove(String move, String move2, boolean s){
-        
-      if(s) {
-          String completeMoveS = ("Svart spiller: " + move + " til " +move2);
-          svart.setMoves(completeMoveS);
-      } else {
-          String completeMoveH = ("Hvit spiller: " + move + " til " +move2);
-          hvit.setMoves(completeMoveH);
-      }
-    
-    
-     
-}
+
+    public void registrateMove(String move, String move2, boolean s) {
+
+        if (s) {
+            String completeMoveS = ("Svart spiller: " + move + " til " + move2);
+            svart.setMoves(completeMoveS);
+        } else {
+            String completeMoveH = ("Hvit spiller: " + move + " til " + move2);
+            hvit.setMoves(completeMoveH);
+        }
+    }
+
+    public boolean isSjakk(Boolean isWhite) {
+        ArrayList<Rute> trekk = new ArrayList<>();
+        Rute current = null;
+        Rute konge = null;
+        if (isWhite) {
+            for (int i = 0; i < bonderS.size(); i++) {
+                Brikke b = bonderS.get(i);
+                for (int u = 0; u < 8; u++) {
+                    for (int v = 0; v < 8; v++) {
+                        if (ruter[u][v].getBrikke() != null && ruter[u][v].getBrikke().equals(b)) {
+                            current = new Rute(u, v);
+                            System.out.println("X: " + u + " Y: " + v);
+                        }
+                        if (ruter[u][v].getBrikke() != null && ruter[u][v].getBrikke().isHvit() && ruter[u][v].getBrikke() instanceof Konge) {
+                            konge = new Rute(u, v);
+                            System.out.println("fant Kongen X: " + u + " Y: " + v);
+                        }
+                    }
+                }
+                trekk = bonderS.get(i).sjekkLovligeTrekk(current);
+                for (int t = 0; t < trekk.size(); t++) {
+                    if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY()) {
+                        System.out.println("Sjakk!");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
