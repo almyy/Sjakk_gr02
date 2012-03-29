@@ -8,7 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
-class Gui extends JFrame{
+class Gui extends JFrame {
 
     private Brett brett = new Brett();
     private GuiRute squares[][] = new GuiRute[8][8];
@@ -23,6 +23,7 @@ class Gui extends JFrame{
     private boolean whiteTurn = true;
     private boolean isHighlighted = false;
     private Rutenett rutenett;
+    private GameInfo gameInfo;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -31,11 +32,12 @@ class Gui extends JFrame{
         setLayout(new BorderLayout());
         rutenett = new Rutenett();
         add(rutenett, BorderLayout.CENTER);
-        add(new GameInfo(), BorderLayout.EAST);
+        gameInfo = new GameInfo();
+        add(gameInfo, BorderLayout.EAST);
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
         add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
         setJMenuBar(new MenyBar());
-        pack();        
+        pack();
     }
 
     private class MenyBar extends JMenuBar {
@@ -78,9 +80,8 @@ class Gui extends JFrame{
         }
     }
 
-    private class MenyListener implements ActionListener  {
-        
-        
+    private class MenyListener implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             String valg = e.getSource().toString();
@@ -118,6 +119,7 @@ class Gui extends JFrame{
 
                     if (i == 0 || i == 1 || i == 6 || i == 7) {
                         JLabel bilde = new JLabel(brett.getIcon(j, i));
+
                         squares[i][j] = new GuiRute(bilde, i, j);
                         add(squares[i][j]);
                     } else {
@@ -130,7 +132,7 @@ class Gui extends JFrame{
                         squares[i][j].setBackground(lightBrown);
                     }
                     squares[i][j].addMouseListener(new MuseLytter());
-                }   
+                }
             }
         }
     }
@@ -189,17 +191,23 @@ class Gui extends JFrame{
 
     private class GameInfo extends JPanel {
 
-        ArrayList<String> hvitTrekk;
-        ArrayList<String> svartTrekk;
+        private ArrayList<String> trekk = new ArrayList<>();
+        private TextArea tekstFelt;
 
         public GameInfo() {
-            setLayout(new FlowLayout());
-            hvitTrekk = brett.getHvitMoves();
-            svartTrekk = brett.getSvartMoves();
+
             setPreferredSize(new Dimension(150, 500));
-            TextArea tekstFelt = new TextArea("Siste trekk:");
+            tekstFelt = new TextArea();
             tekstFelt.setPreferredSize(new Dimension(150, 700));
             add(tekstFelt);
+        }
+
+        private void updateInfo(String move, String move2, boolean whiteTurn) {
+            if (!whiteTurn) {
+                tekstFelt.append("Hvitt trekk: " + move + " til " + move2 + "\n");
+            } else {
+                tekstFelt.append("Svartt trekk: " + move + " til " + move2 + "\n");
+            }
         }
     }
 
@@ -209,6 +217,8 @@ class Gui extends JFrame{
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
             if (!isHighlighted && denne.hasLabel()) {
+
+                move = trekk[denne.getYen()] + (denne.getXen()+1);
                 if (whiteTurn) {
                     Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
                     if (sjekk.getBrikke().isHvit()) {
@@ -225,7 +235,6 @@ class Gui extends JFrame{
                     }
                 }
             }
-            move = trekk[denne.getXen()] + denne.getYen();
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (squares[i][j].getBackground().equals(highlighted) && squares[i][j] != null) {
@@ -276,7 +285,6 @@ class Gui extends JFrame{
                         startGuiRute = squares[i][u];
                         startRute = new Rute(i, u);
                         oldPic = squares[i][u].getBilde();
-                        
                     }
                 }
             }
@@ -294,8 +302,8 @@ class Gui extends JFrame{
                     }
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute);
-                move2 = trekk[x] + y;
-                brett.registrateMove(move,move2,whiteTurn);
+                move2 = trekk[y] + (x+1);
+                gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
                 denne.setBilde(oldPic);
                 for (int i = 0; i < 8; i++) {
@@ -329,7 +337,7 @@ class Gui extends JFrame{
         public void mouseExited(MouseEvent e) {
         }
     }
-    
+
     public static void main(String[] args) {
         Gui b = new Gui("Sjakk");
         b.setVisible(true);

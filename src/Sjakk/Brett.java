@@ -84,14 +84,6 @@ public class Brett {
         return ruter[x][y];
     }
 
-    public ArrayList<String> getSvartMoves() {
-        return svart.getMoves();
-    }
-
-    public ArrayList<String> getHvitMoves() {
-        return hvit.getMoves();
-    }
-
     public ImageIcon getIcon(int i, int j) {
         if (ruter[i][j].getBrikke().getIcon() != null) {
             return ruter[i][j].getBrikke().getIcon();
@@ -424,16 +416,5 @@ public class Brett {
         }
         this.ruter[fX][fY].setBrikke(ruter[sX][sY].getBrikke());
         this.ruter[sX][sY].setBrikke(null);
-    }
-
-    public void registrateMove(String move, String move2, boolean s) {
-
-        if (s) {
-            String completeMoveS = ("Svart spiller: " + move + " til " + move2);
-            svart.setMoves(completeMoveS);
-        } else {
-            String completeMoveH = ("Hvit spiller: " + move + " til " + move2);
-            hvit.setMoves(completeMoveH);
-        }
     }
 }
