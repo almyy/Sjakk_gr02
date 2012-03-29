@@ -455,6 +455,9 @@ class Gui extends JFrame {
                 gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
                 denne.setBilde(oldPic);
+                if(brett.isSjakk(whiteTurn)){
+                    System.out.println("jeg skjoonte det var en muffins der");
+                }
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
                         if (squares[i][u].getBackground().equals(highlighted) || squares[i][u].getBackground().equals(highlightedTrekk)) {
