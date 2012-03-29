@@ -88,6 +88,32 @@ class Gui extends JFrame {
             String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences"};
             if (valg.equals(navn[0])) {
                 brett = new Brett();
+                for (int i = 0; i < 8; i++) {
+                    for (int u = 0; u < 8; u++) {
+                        remove(squares[i][u]);
+
+                    }
+                }
+                for (int i = 7; i >= 0; i--) {
+                    for (int j = 0; j < 8; j++) {
+                        if (i == 0 || i == 1 || i == 6 || i == 7) {
+                            JLabel bilde = new JLabel(brett.getIcon(j, i));
+
+                            squares[i][j] = new GuiRute(bilde, i, j);
+                            add(squares[i][j]);
+                        } else {
+                            squares[i][j] = new GuiRute(i, j);
+                            add(squares[i][j]);
+                        }
+                        if ((i + j) % 2 == 0) {
+                            squares[i][j].setBackground(brown);
+                        } else {
+                            squares[i][j].setBackground(lightBrown);
+                        }
+                        squares[i][j].addMouseListener(new MuseLytter());
+                    }
+                }
+                repaint();
             } else if (valg.equals(navn[1])) {
                 throw new UnsupportedOperationException("Not implemented yet.");
             } else if (valg.equals(navn[2])) {
@@ -188,25 +214,23 @@ class Gui extends JFrame {
             return y;
         }
     }
-
+    
     private class GameInfo extends JPanel {
-
-        private ArrayList<String> trekk = new ArrayList<>();
         private TextArea tekstFelt;
 
         public GameInfo() {
-
-            setPreferredSize(new Dimension(150, 500));
             tekstFelt = new TextArea();
-            tekstFelt.setPreferredSize(new Dimension(150, 700));
-            add(tekstFelt);
+            tekstFelt.setPreferredSize(new Dimension(150, 350));
+            tekstFelt.setEditable(false);
+            JScrollPane jsp = new JScrollPane(tekstFelt);
+            add(jsp);
         }
 
         private void updateInfo(String move, String move2, boolean whiteTurn) {
             if (!whiteTurn) {
                 tekstFelt.append("Hvitt trekk: " + move + " til " + move2 + "\n");
             } else {
-                tekstFelt.append("Svartt trekk: " + move + " til " + move2 + "\n");
+                tekstFelt.append("Svart trekk: " + move + " til " + move2 + "\n");
             }
         }
     }
@@ -218,7 +242,7 @@ class Gui extends JFrame {
             GuiRute denne = (GuiRute) e.getSource();
             if (!isHighlighted && denne.hasLabel()) {
 
-                move = trekk[denne.getYen()] + (denne.getXen()+1);
+                move = trekk[denne.getYen()] + (denne.getXen() + 1);
                 if (whiteTurn) {
                     Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
                     if (sjekk.getBrikke().isHvit()) {
@@ -302,7 +326,7 @@ class Gui extends JFrame {
                     }
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute);
-                move2 = trekk[y] + (x+1);
+                move2 = trekk[y] + (x + 1);
                 gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
                 denne.setBilde(oldPic);
