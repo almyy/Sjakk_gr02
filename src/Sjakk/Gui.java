@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -214,8 +215,9 @@ class Gui extends JFrame {
             return y;
         }
     }
-    
+
     private class GameInfo extends JPanel {
+
         private TextArea tekstFelt;
 
         public GameInfo() {
@@ -233,6 +235,86 @@ class Gui extends JFrame {
                 tekstFelt.append("Svart trekk: " + move + " til " + move2 + "\n");
             }
         }
+    }
+
+    private class IO{
+
+        private File f;
+        ObjectInputStream mick;
+
+        public IO() throws IOException {
+
+            f = new File("C:/Sjakk.dat");
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+          
+
+        
+
+        public IOread() {
+
+                boolean hjelp = false;
+       
+
+            try {
+                mick = new ObjectInputStream(new FileInputStream(f));
+            
+            Object obj = null;
+                while ((obj = mick.readObject()) != null) {
+
+                    if (obj instanceof Brett) {
+                    }
+
+                }
+
+
+            } catch (EOFException ex) {
+                System.out.println("Slutt på fil.");
+            } catch (ClassNotFoundException ex) {
+            } catch (FileNotFoundException ex) {
+            } catch (IOException ex) {
+            } finally {
+
+                try {
+                    if (mick != null) {
+                        mick.close();
+                        hjelp = true;
+                        
+                    }
+                } catch (IOException ex) {
+                }
+            } return hjelp;
+        }
+        
+        public void IOwrite() {
+            
+       
+        ObjectOutputStream lol = null;
+
+        try {
+
+            lol = new ObjectOutputStream(new FileOutputStream("C:/Sjakk.dat"));
+
+            for (int i = 0; i < brett.length; i++) {
+                lol.writeObject(whatttt[i]);
+            }         
+
+
+
+        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) {
+        } finally {            
+            try {
+                if (lol != null) {
+                    lol.flush();
+                    lol.close();
+                }
+            } catch (IOException ex) {
+            }
+
+        }
+    }
     }
 
     private class MuseLytter implements MouseListener {
