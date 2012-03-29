@@ -28,7 +28,7 @@ class Gui extends JFrame {
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(1000, 700));
+        setPreferredSize(new Dimension(600, 500));
         setLayout(new BorderLayout());
         rutenett = new Rutenett();
         add(rutenett, BorderLayout.CENTER);
