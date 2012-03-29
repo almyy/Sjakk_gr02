@@ -284,14 +284,12 @@ public class Brett implements Serializable{
         } else if (brikke instanceof Taarn) {
             Taarn taarn = (Taarn) brikke;
             ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk(rute);
-            int x = 0;
-            int y = 0;
             int currentY = rute.getY();
             int currentX = rute.getX();
             int teller = rutene.size();
             for (int i = 0; i < teller; i++) {
-                x = rutene.get(i).getX();
-                y = rutene.get(i).getY();
+                int x = rutene.get(i).getX();
+                int y = rutene.get(i).getY();
                 if (taarn.isHvit()) {
                     i++;
                     if (i < teller && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
