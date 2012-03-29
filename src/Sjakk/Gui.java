@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 class Gui extends JFrame {
@@ -13,7 +16,7 @@ class Gui extends JFrame {
     private Brett brett = new Brett();
     private GuiRute squares[][] = new GuiRute[8][8];
     private ArrayList<Rute> lovligeTrekk;
-    private String[] trekk = {"A","B","C","D","E","F","G","H"};
+    private String[] trekk = {"A", "B", "C", "D", "E", "F", "G", "H"};
     private String move;
     private String move2;
     private final Color brown = new Color(160, 82, 45);
@@ -22,22 +25,70 @@ class Gui extends JFrame {
     private final Color highlightedTrekk = new Color(191, 239, 255);
     private boolean whiteTurn = true;
     private boolean isHighlighted = false;
+    private Rutenett rutenett;
+    private GameInfo gameInfo;
 
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(1000, 700));
+        setPreferredSize(new Dimension(600, 500));
         setLayout(new BorderLayout());
-        add(new Rutenett(), BorderLayout.CENTER);
-        add(new GameInfo(), BorderLayout.EAST);
+        rutenett = new Rutenett();
+        add(rutenett, BorderLayout.CENTER);
+        gameInfo = new GameInfo();
+        add(gameInfo, BorderLayout.EAST);
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
         add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
         setJMenuBar(new MenyBar());
         pack();
     }
-    
+
+    private class Homo implements Serializable {
+
+        ObjectOutputStream oos;
+        ObjectInputStream ois;
+
+        public Homo() throws IOException {
+            File file = new File("C:/Sjakk.dat");
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("File Created");
+                } else {
+                    System.out.println("File is not created");
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        public boolean lagre() throws IOException {
+            oos = new ObjectOutputStream(new FileOutputStream("C:/Sjakk.dat"));
+            for(int i = 0; i < 8; i++) {
+                for(int u = 0; u < 8; u++) {
+                    oos.writeObject(squares[i][u]);
+                }
+            }
+            oos.writeObject(brett);
+            return true;
+        }
+
+        public void laste() throws IOException, ClassNotFoundException {
+            ois = new ObjectInputStream(new FileInputStream("C:/Sjakk.dat"));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (ois.readObject() instanceof GuiRute) {
+                    GuiRute r = (GuiRute) ois.readObject();
+                    squares[r.getXen()][r.getYen()] = r;
+                }
+                //} else if (ois.readObject() instanceof Brett) {
+                  //  brett = (Brett) ois.readObject();
+                //}
+            }
+        }
+    }
+
     private class MenyBar extends JMenuBar {
-        public MenyBar(){
+
+        public MenyBar() {
             JMenu filMeny = new JMenu("File");
             JMenu optionMeny = new JMenu("Options");
             add(filMeny);
@@ -59,29 +110,91 @@ class Gui extends JFrame {
             preferences.addActionListener(new MenyListener());
         }
     }
+
     private class MenuItem extends JMenuItem {
+
         private String navn;
+
         public MenuItem(String navn) {
             this.navn = navn;
+            this.setText(navn);
         }
 
         @Override
         public String toString() {
             return navn;
         }
-        
     }
+
     private class MenyListener implements ActionListener {
+
+        private Homo jall;
+
+        public MenyListener() {
+            try {
+                jall = new Homo();
+            } catch (IOException ex) {
+                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
             String valg = e.getSource().toString();
-            String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences" };
-            switch(valg) {
-                
+            String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences"};
+            if (valg.equals(navn[0])) {
+                brett = new Brett();
+                for (int i = 0; i < 8; i++) {
+                    for (int u = 0; u < 8; u++) {
+                        remove(squares[i][u]);
+
+                    }
+                }
+                for (int i = 7; i >= 0; i--) {
+                    for (int j = 0; j < 8; j++) {
+                        if (i == 0 || i == 1 || i == 6 || i == 7) {
+                            JLabel bilde = new JLabel(brett.getIcon(j, i));
+
+                            squares[i][j] = new GuiRute(bilde, i, j);
+                            add(squares[i][j]);
+                        } else {
+                            squares[i][j] = new GuiRute(i, j);
+                            add(squares[i][j]);
+                        }
+                        if ((i + j) % 2 == 0) {
+                            squares[i][j].setBackground(brown);
+                        } else {
+                            squares[i][j].setBackground(lightBrown);
+                        }
+                        squares[i][j].addMouseListener(new MuseLytter());
+                    }
+                }
+                repaint();
+            } else if (valg.equals(navn[1])) {
+
+                try {
+                    jall.lagre();
+                } catch (IOException ex) {
+                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else if (valg.equals(navn[2])) {
+                try {
+                    jall.laste();
+                } catch (IOException ex) {
+                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                repaint();
+            } else if (valg.equals(navn[3])) {
+                throw new UnsupportedOperationException("Not implemented yet.");
+            } else {
+                throw new UnsupportedOperationException("Not implemented yet.");
             }
         }
-        
     }
+
     private class SpillerNavn extends JPanel {
 
         public SpillerNavn(String navn) {
@@ -101,6 +214,7 @@ class Gui extends JFrame {
 
                     if (i == 0 || i == 1 || i == 6 || i == 7) {
                         JLabel bilde = new JLabel(brett.getIcon(j, i));
+
                         squares[i][j] = new GuiRute(bilde, i, j);
                         add(squares[i][j]);
                     } else {
@@ -151,9 +265,9 @@ class Gui extends JFrame {
         }
 
         public void removeBilde() {
-            if(bilde!=null){
+            if (bilde != null) {
                 this.remove(bilde);
-            } 
+            }
             this.setBilde(null);
         }
 
@@ -172,17 +286,22 @@ class Gui extends JFrame {
 
     private class GameInfo extends JPanel {
 
-        ArrayList<String> hvitTrekk;
-        ArrayList<String> svartTrekk;
+        private TextArea tekstFelt;
 
         public GameInfo() {
-            setLayout(new FlowLayout());
-            hvitTrekk = brett.getHvitMoves();
-            svartTrekk = brett.getSvartMoves();
-            setPreferredSize(new Dimension(150, 500));
-            TextArea tekstFelt = new TextArea("Siste trekk:");
-            tekstFelt.setPreferredSize(new Dimension(150, 700));
-            add(tekstFelt);
+            tekstFelt = new TextArea();
+            tekstFelt.setPreferredSize(new Dimension(150, 350));
+            tekstFelt.setEditable(false);
+            JScrollPane jsp = new JScrollPane(tekstFelt);
+            add(jsp);
+        }
+
+        private void updateInfo(String move, String move2, boolean whiteTurn) {
+            if (!whiteTurn) {
+                tekstFelt.append("Hvitt trekk: " + move + " til " + move2 + "\n");
+            } else {
+                tekstFelt.append("Svart trekk: " + move + " til " + move2 + "\n");
+            }
         }
     }
 
@@ -195,6 +314,8 @@ class Gui extends JFrame {
                 System.out.println("Det var en muffins der!");
             }*/
             if (!isHighlighted && denne.hasLabel()) {
+
+                move = trekk[denne.getYen()] + (denne.getXen() + 1);
                 if (whiteTurn) {
                     Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
                     if (sjekk.getBrikke().isHvit()) {
@@ -211,7 +332,6 @@ class Gui extends JFrame {
                     }
                 }
             }
-            move = trekk[denne.getXen()] + denne.getYen();
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (squares[i][j].getBackground().equals(highlighted) && squares[i][j] != null) {
@@ -262,26 +382,25 @@ class Gui extends JFrame {
                         startGuiRute = squares[i][u];
                         startRute = new Rute(i, u);
                         oldPic = squares[i][u].getBilde();
-                        
                     }
                 }
             }
             if (denne.getBackground().equals(highlightedTrekk)) {
                 System.out.println("Works");
-                if(brett.getRute(y,x).isOccupied()){
-                    if(whiteTurn){
-                        if(brett.getRute(y, x).getBrikke().isHvit()){
+                if (brett.getRute(y, x).isOccupied()) {
+                    if (whiteTurn) {
+                        if (brett.getRute(y, x).getBrikke().isHvit()) {
                             denne.removeBilde();
                         }
-                    }else{
-                        if(!brett.getRute(y, x).getBrikke().isHvit()){
+                    } else {
+                        if (!brett.getRute(y, x).getBrikke().isHvit()) {
                             denne.removeBilde();
                         }
                     }
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute);
-                move2 = trekk[x] + y;
-                brett.registrateMove(move,move2,whiteTurn);
+                move2 = trekk[y] + (x + 1);
+                gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
                 denne.setBilde(oldPic);
                 for (int i = 0; i < 8; i++) {

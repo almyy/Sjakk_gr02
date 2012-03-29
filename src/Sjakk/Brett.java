@@ -8,10 +8,11 @@ package Sjakk;
  *
  * @author Rino
  */
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class Brett {
+public class Brett implements Serializable{
 
     private Rute[][] ruter;
     private Hvit hvit;
@@ -82,14 +83,6 @@ public class Brett {
 
     public Rute getRute(int x, int y) {
         return ruter[x][y];
-    }
-
-    public ArrayList<String> getSvartMoves() {
-        return svart.getMoves();
-    }
-
-    public ArrayList<String> getHvitMoves() {
-        return hvit.getMoves();
     }
 
     public ImageIcon getIcon(int i, int j) {
@@ -291,12 +284,14 @@ public class Brett {
         } else if (brikke instanceof Taarn) {
             Taarn taarn = (Taarn) brikke;
             ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk(rute);
+            int x = 0;
+            int y = 0;
             int currentY = rute.getY();
             int currentX = rute.getX();
             int teller = rutene.size();
             for (int i = 0; i < teller; i++) {
-                int x = rutene.get(i).getX();
-                int y = rutene.get(i).getY();
+                x = rutene.get(i).getX();
+                y = rutene.get(i).getY();
                 if (taarn.isHvit()) {
                     i++;
                     if (i < teller && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
@@ -508,7 +503,7 @@ public class Brett {
             svart.setMoves(completeMoveS);
         } else {
             String completeMoveH = ("Hvit spiller: " + move + " til " + move2);
-            hvit.setMoves(completeMoveH);
+            //hvit.setMoves(completeMoveH);
         }
     }
 
