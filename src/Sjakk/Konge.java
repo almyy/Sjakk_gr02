@@ -47,5 +47,11 @@ public class Konge extends Brikke{
         return lovligeTrekk;
         
     }
+    public boolean hasMoves(Rute r){
+        if(sjekkLovligeTrekk(r).size()==0){
+            return false;
+        }
+        return true;
+    }
     
 }
