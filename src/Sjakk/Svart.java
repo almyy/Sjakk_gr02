@@ -14,6 +14,7 @@ import java.util.ArrayList;
  */
 public class Svart extends Spiller{
     private ArrayList<Brikke> brikker;
+    private ArrayList<String> moves;
     
     public Svart(){
         this.brikker = new ArrayList<>();
@@ -54,4 +55,7 @@ public class Svart extends Spiller{
     public void setMoves(String s){
          
      }
+    public ArrayList<String> getMoves(){        
+        return moves;
+    }
 }
