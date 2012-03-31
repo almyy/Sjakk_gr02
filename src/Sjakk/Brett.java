@@ -1040,8 +1040,6 @@ public class Brett implements Serializable {
 
     public boolean isSjakk(Boolean isWhite) {
         ArrayList<Rute> trekk = new ArrayList<>();
-        Brikke b = null;
-        Rute current = null;
         Rute konge = null;
 
         if (isWhite) {
@@ -1056,12 +1054,9 @@ public class Brett implements Serializable {
                 for (int u = 0; u < 8; u++) {
                     for (int v = 0; v < 8; v++) {
                         if (ruter[u][v].isOccupied() && !ruter[u][v].getBrikke().isHvit()) {
-                            b = ruter[u][v].getBrikke();
-                            current = new Rute(u, v);
-                            trekk = b.sjekkLovligeTrekk(current);
+                            trekk = sjekkLovligeTrekk(ruter[u][v]);
                             for (int t = 0; t < trekk.size(); t++) {
                                 if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY()) {
-                                    System.out.println("Sjakk!");
                                     return true;
                                 }
                             }
@@ -1081,9 +1076,7 @@ public class Brett implements Serializable {
                 for (int u = 0; u < 8; u++) {
                     for (int v = 0; v < 8; v++) {
                         if (ruter[u][v].isOccupied() && ruter[u][v].getBrikke().isHvit()) {
-                            b = ruter[u][v].getBrikke();
-                            current = new Rute(u, v);
-                            trekk = b.sjekkLovligeTrekk(current);
+                            trekk = sjekkLovligeTrekk(ruter[u][v]);
                             for (int t = 0; t < trekk.size(); t++) {
                                 if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY()) {
                                     System.out.println("Sjakk!");
