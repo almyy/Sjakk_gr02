@@ -41,4 +41,11 @@ abstract class Brikke implements Serializable {
     public boolean isHvit() {
         return isHvit;
     }
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj){
+            return true;
+        }
+        return false;
+    }
 }

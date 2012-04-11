@@ -25,22 +25,77 @@ class Gui extends JFrame {
     private final Color highlightedTrekk = new Color(191, 239, 255);
     private boolean whiteTurn = true;
     private boolean isHighlighted = false;
+    private boolean isSjakk = false;
     private Rutenett rutenett;
     private GameInfo gameInfo;
 
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(600, 500));
+        setPreferredSize(new Dimension(700, 600));
         setLayout(new BorderLayout());
         rutenett = new Rutenett();
         add(rutenett, BorderLayout.CENTER);
         gameInfo = new GameInfo();
         add(gameInfo, BorderLayout.EAST);
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
+        add(new TidTaker(true), BorderLayout.NORTH);
         add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
+        add(new TidTaker(false), BorderLayout.SOUTH);
         setJMenuBar(new MenyBar());
         pack();
+    }
+
+    private class TidTaker extends JPanel {
+
+        private Tid tid;
+        private JLabel tidLabel;
+
+        public TidTaker(boolean isHvit) {
+            tid = new Tid(isHvit);
+            tidLabel = new JLabel();
+            add(tidLabel);
+            tid.start();
+        }
+
+        private class Tid extends Thread {
+
+            private double tellerS = 300.0;
+            private double tellerH = 300.0;
+            private String timerS = "";
+            private String timerH = "";
+            private boolean isHvit;
+
+            public Tid(boolean isHvit) {
+                this.isHvit = isHvit;
+            }
+
+            @Override
+            public void run() {
+                while (true) {
+                    while (whiteTurn && isHvit) {
+                        timerH = "Hvit: " + (int) tellerH / 60 + " min, " + (int) tellerH % 60;
+                        tidLabel.setText(timerH);
+                        try {
+                            tid.sleep(100);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        tellerH = tellerH - 0.1;
+                    }
+                    while (!whiteTurn && !isHvit) {
+                        timerS = "Svart: " + (int) tellerS / 60 + " min, " + (int) tellerS % 60;
+                        tidLabel.setText(timerS);
+                        try {
+                            tid.sleep(100);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        tellerS = tellerS - 0.1;
+                    }
+                }
+            }
+        }
     }
 
     private class Homo implements Serializable {
@@ -54,7 +109,6 @@ class Gui extends JFrame {
                 if (file.createNewFile()) {
                     System.out.println("File Created");
                 } else {
-                    System.out.println("File is not created");
                 }
             } catch (Exception e) {
             }
@@ -298,7 +352,7 @@ class Gui extends JFrame {
 
         public GameInfo() {
             tekstFelt = new TextArea();
-            tekstFelt.setPreferredSize(new Dimension(150, 350));
+            tekstFelt.setPreferredSize(new Dimension(150, 490));
             tekstFelt.setEditable(false);
             JScrollPane jsp = new JScrollPane(tekstFelt);
             add(jsp);
@@ -402,22 +456,45 @@ class Gui extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
-            if (!isHighlighted && denne.hasLabel()) {
+            if (brett.isSjakk(whiteTurn)) {
+                System.out.println("Gjør et flytt som fjerner sjakken");
+                if (!isHighlighted && denne.hasLabel()) {
 
-                move = trekk[denne.getYen()] + (denne.getXen() + 1);
-                if (whiteTurn) {
-                    Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
-                    if (sjekk.getBrikke().isHvit()) {
-                        denne.setBackground(highlighted);
-                        isHighlighted = true;
-                        whiteTurn = false;
+                    move = trekk[denne.getYen()] + (denne.getXen() + 1);
+                    if (whiteTurn) {
+                        Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
+                        if (sjekk.getBrikke().isHvit()) {
+                            denne.setBackground(highlighted);
+                            isHighlighted = true;
+                            whiteTurn = false;
+                        }
+                    } else {
+                        Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
+                        if (!sjekk.getBrikke().isHvit()) {
+                            denne.setBackground(highlighted);
+                            isHighlighted = true;
+                            whiteTurn = true;
+                        }
                     }
-                } else {
-                    Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
-                    if (!sjekk.getBrikke().isHvit()) {
-                        denne.setBackground(highlighted);
-                        isHighlighted = true;
-                        whiteTurn = true;
+                }
+            }else{
+                if (!isHighlighted && denne.hasLabel()) {
+
+                    move = trekk[denne.getYen()] + (denne.getXen() + 1);
+                    if (whiteTurn) {
+                        Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
+                        if (sjekk.getBrikke().isHvit()) {
+                            denne.setBackground(highlighted);
+                            isHighlighted = true;
+                            whiteTurn = false;
+                        }
+                    } else {
+                        Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
+                        if (!sjekk.getBrikke().isHvit()) {
+                            denne.setBackground(highlighted);
+                            isHighlighted = true;
+                            whiteTurn = true;
+                        }
                     }
                 }
             }
@@ -475,7 +552,6 @@ class Gui extends JFrame {
                 }
             }
             if (denne.getBackground().equals(highlightedTrekk)) {
-                System.out.println("Works");
                 if (brett.getRute(y, x).isOccupied()) {
                     if (whiteTurn) {
                         if (brett.getRute(y, x).getBrikke().isHvit()) {
@@ -492,6 +568,9 @@ class Gui extends JFrame {
                 gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
                 denne.setBilde(oldPic);
+                if (brett.isSjakk(whiteTurn)) {
+                    System.out.println("jeg skjoonte det var en muffins der");
+                }
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
                         if (squares[i][u].getBackground().equals(highlighted) || squares[i][u].getBackground().equals(highlightedTrekk)) {
