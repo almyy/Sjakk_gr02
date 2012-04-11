@@ -478,6 +478,7 @@ class Gui extends JFrame {
                 denne.setBilde(oldPic);
                 if (brett.isSjakk(whiteTurn)) {
                     System.out.println("jeg skjoonte det var en muffins der");
+                    brett.sjakkTrekk(whiteTurn);
                 }
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {

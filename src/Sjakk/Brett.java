@@ -1037,6 +1037,39 @@ public class Brett implements Serializable {
             //hvit.setMoves(completeMoveH);
         }
     }
+    public ArrayList<Rute> sjakkTrekk(boolean isWhite){
+        ArrayList<Rute> trekk = new ArrayList<>();
+        ArrayList<Rute> lovligeStartPosisjoner = new ArrayList<>();
+        Rute konge = null;
+        Rute startRute = null;
+        if(isWhite){
+            for(int kI = 0; kI < 8; kI++){
+                for(int kU = 0; kU < 8; kU++){
+                    if(ruter[kI][kU].isOccupied() && ruter[kI][kU].getBrikke().isHvit() && ruter[kI][kU].getBrikke() instanceof Konge){
+                        konge = new Rute(kI,kU);
+                    }
+                }
+            }
+            for(int i = 0; i < bonderH.size(); i++){
+                for(int u = 0; u < 8; u++){
+                    for(int t = 0; t < 8; t++){
+                        if(ruter[u][t].isOccupied()){
+                            trekk = sjekkLovligeTrekk(ruter[u][t]);
+                            startRute = ruter[u][t];
+                            for(int v = 0; v < trekk.size(); i++){
+                                flyttBrikke(trekk.get(v),startRute);
+                                if(!isSjakk(isWhite)){
+                                    lovligeStartPosisjoner.add(startRute);
+                                    System.out.println("Made It!");
+                                }
+                                flyttBrikke(startRute,trekk.get(v));
+                            }
+                        }
+                    }
+                }
+            }                                   
+        }return lovligeStartPosisjoner;
+    }
 
     public boolean isSjakk(Boolean isWhite) {
         ArrayList<Rute> trekk = new ArrayList<>();
