@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
  * @author Rino
  */
 public class Bonde extends Brikke {
-    
+    private int unPasant;
     public Bonde(boolean isHvit){
         super(1, isHvit,null);
         if(isHvit){
@@ -23,6 +23,7 @@ public class Bonde extends Brikke {
         }else{
             super.setIcon("src/images/blackpawn.gif");
         }
+        unPasant = 0;
     }
 
     @Override
@@ -49,5 +50,11 @@ public class Bonde extends Brikke {
             return lovligeTrekk;
         }
         else return null;
+    }
+    public void incUnPasant() {
+        this.unPasant++;
+    }
+    public boolean isUnPasant() {
+        return unPasant == 1;
     }
 }

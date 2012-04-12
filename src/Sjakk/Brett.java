@@ -1103,7 +1103,7 @@ public class Brett implements Serializable {
         rokadeHH = false;
         rokadeHV = false;
         rokadeSV = false;
-        rokadeSH = false;        
+        rokadeSH = false;
         int fY = flyttRute.getX();
         int fX = flyttRute.getY();
         int sY = startRute.getX();
@@ -1116,7 +1116,7 @@ public class Brett implements Serializable {
                 this.ruter[(sX + 3)][sY].setBrikke(null);
                 this.removePiece(new Rute((sX + 3), sY));
                 rokadeHH = true;
-                
+
             } else if ((sX - fX) == 2) {
 
                 this.ruter[(sX - 1)][sY].setBrikke(ruter[(sX - 4)][sY].getBrikke());
@@ -1145,6 +1145,7 @@ public class Brett implements Serializable {
             }
             rokadeKTS = true;
         }
+        Brikke brikken = ruter[sX][sY].getBrikke();
         if (this.ruter[fX][fY].isOccupied()) {
             removePiece(this.ruter[fY][fX]);
         }
@@ -1163,7 +1164,7 @@ public class Brett implements Serializable {
         }
         this.ruter[fX][fY].setBrikke(brikken);
         this.ruter[sX][sY].setBrikke(null);
-        
+
 
     }
 
@@ -1256,31 +1257,32 @@ public class Brett implements Serializable {
                         }
                     }
                 }
-            } else {
-                for (int kI = 0; kI < 8; kI++) {
-                    for (int kU = 0; kU < 8; kU++) {
-                        if (ruter[kI][kU].isOccupied() && !ruter[kI][kU].getBrikke().isHvit() && ruter[kI][kU].getBrikke() instanceof Konge) {
-                            trekkKonge = sjekkLovligeTrekk(ruter[kI][kU]);
-                        }
+            }
+        } else {
+            for (int kI = 0; kI < 8; kI++) {
+                for (int kU = 0; kU < 8; kU++) {
+                    if (ruter[kI][kU].isOccupied() && !ruter[kI][kU].getBrikke().isHvit() && ruter[kI][kU].getBrikke() instanceof Konge) {
+                        trekkKonge = sjekkLovligeTrekk(ruter[kI][kU]);
                     }
                 }
             }
-            for (int i = 0; i < 8; i++) {
-                for (int u = 0; u < 8; u++) {
-                    if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
-                        trekk = sjekkLovligeTrekk(ruter[i][u]);
-                        for (int y = 0; y < trekkKonge.size(); y++) {
-                            for (int w = 0; w < trekk.size(); w++) {
-                                if (trekk.get(w).getX() == trekkKonge.get(y).getX() && trekk.get(w).getY() == trekkKonge.get(y).getY()) {
-                                    trekkKonge.remove(y);
-                                    y--;
-                                }
+        }
+        for (int i = 0; i < 8; i++) {
+            for (int u = 0; u < 8; u++) {
+                if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
+                    trekk = sjekkLovligeTrekk(ruter[i][u]);
+                    for (int y = 0; y < trekkKonge.size(); y++) {
+                        for (int w = 0; w < trekk.size(); w++) {
+                            if (trekk.get(w).getX() == trekkKonge.get(y).getX() && trekk.get(w).getY() == trekkKonge.get(y).getY()) {
+                                trekkKonge.remove(y);
+                                y--;
                             }
                         }
                     }
                 }
             }
         }
+
         if (b instanceof Konge) {
             for (int i = 0; i < trekkKonge.size(); i++) {
                 lovligeTrekk.add(trekkKonge.get(i));
@@ -1296,11 +1298,16 @@ public class Brett implements Serializable {
         boolean nedVenstre = false;
         boolean nedHoyre = false;
         ArrayList<Rute> linjeAnalyse = new ArrayList<>();
+
         linjeAnalyse.add(kongePos);
-        for (int i = 0; i < discardedKonge.size(); i++) {
+        for (int i = 0;
+                i < discardedKonge.size();
+                i++) {
             linjeAnalyse.add(discardedKonge.get(i));
         }
-        for (int i = 0; i < linjeAnalyse.size(); i++) {
+        for (int i = 0;
+                i < linjeAnalyse.size();
+                i++) {
             if (linjeAnalyse.get(i).getX() < kongePos.getX() && linjeAnalyse.get(i).getY() == kongePos.getY()) {
                 venstre = true;
             } else if (linjeAnalyse.get(i).getX() > kongePos.getX() && linjeAnalyse.get(i).getY() == kongePos.getY()) {

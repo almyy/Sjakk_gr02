@@ -6,16 +6,12 @@ package Sjakk;
 
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author deb
+ * @author Martin
  */
 public class BrettTest {
     
@@ -69,34 +65,6 @@ public class BrettTest {
     }
 
     /**
-     * Test of getSvartMoves method, of class Brett.
-     */
-    @Test
-    public void testGetSvartMoves() {
-        System.out.println("getSvartMoves");
-        Brett instance = new Brett();
-        ArrayList expResult = null;
-        ArrayList result = instance.getSvartMoves();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getHvitMoves method, of class Brett.
-     */
-    @Test
-    public void testGetHvitMoves() {
-        System.out.println("getHvitMoves");
-        Brett instance = new Brett();
-        ArrayList expResult = null;
-        ArrayList result = instance.getHvitMoves();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getIcon method, of class Brett.
      */
     @Test
@@ -123,8 +91,6 @@ public class BrettTest {
         ArrayList expResult = null;
         ArrayList result = instance.sjekkLovligeTrekk(rute);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -133,11 +99,48 @@ public class BrettTest {
     @Test
     public void testFlyttBrikke() {
         System.out.println("flyttBrikke");
-        Rute startRute = null;
-        ArrayList<Rute> lovligeTrekk = null;
-        Rute flyttRute = null;
+        Brett brett = new Brett();
+        Rute r1 = new Rute(3, 1);
+        Rute r2 = new Rute(3, 3);
+        brett.flyttBrikke(brett.getRute(r1.getX(), r1.getY()), brett.getRute(r2.getX(), r2.getY()));
+        assertTrue(brett.getRute(r2.getX(), r2.getY()).isOccupied() && brett.getRute(r2.getX(), r2.getY()).getBrikke() instanceof Bonde && brett.getRute(r2.getX(), r2.getY()).getBrikke().isHvit());
+        r1 = new Rute(6, 7);
+        r2 = new Rute(7, 5);
+        brett.flyttBrikke(r1, r2);
+        assertTrue(brett.getRute(r2.getX(), r2.getY()).isOccupied() && brett.getRute(r2.getX(), r2.getY()).getBrikke() instanceof Springer && !brett.getRute(r2.getX(), r2.getY()).getBrikke().isHvit());
+        r1 = new Rute(2, 0);
+        r2 = new Rute(7, 5);
+        brett.flyttBrikke(r1, r2);
+        assertTrue(brett.getRute(r2.getX(), r2.getY()).isOccupied() && brett.getRute(r2.getX(), r2.getY()).getBrikke() instanceof Loper && brett.getRute(r2.getX(), r2.getY()).getBrikke().isHvit());
+        
+    }
+
+    /**
+     * Test of registrateMove method, of class Brett.
+     */
+    @Test
+    public void testRegistrateMove() {
+        System.out.println("registrateMove");
+        String move = "";
+        String move2 = "";
+        boolean s = false;
         Brett instance = new Brett();
-        instance.flyttBrikke(startRute, lovligeTrekk, flyttRute);
+        instance.registrateMove(move, move2, s);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of isSjakk method, of class Brett.
+     */
+    @Test
+    public void testIsSjakk() {
+        System.out.println("isSjakk");
+        Boolean isWhite = null;
+        Brett instance = new Brett();
+        boolean expResult = false;
+        boolean result = instance.isSjakk(isWhite);
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
