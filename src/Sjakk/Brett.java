@@ -1162,7 +1162,6 @@ public class Brett implements Serializable {
 
         return false;
     }
-
     public ArrayList<Rute> whatPiecesBlockCheck(boolean isWhite) {
         ArrayList<Rute> res = new ArrayList<>();
         ArrayList<Rute> brikkene = new ArrayList<>();
@@ -1213,28 +1212,28 @@ public class Brett implements Serializable {
                         kongePos = ruter[kI][kU];
                     }
                 }
-                for (int i = 0; i < 8; i++) {
-                    for (int u = 0; u < 8; u++) {
-                        if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
-                            trekk = sjekkLovligeTrekk(ruter[i][u]);
-                            for (int y = 0; y < trekkKonge.size(); y++) {
-                                for (int w = 0; w < trekk.size(); w++) {
-                                    if (y >= 0 && trekk.get(w).getX() == trekkKonge.get(y).getX() && trekk.get(w).getY() == trekkKonge.get(y).getY()) {
-                                        trekkKonge.remove(y);
-                                        System.out.println("lol");
-                                        y--;
-                                    }
+            }
+            for (int i = 0; i < 8; i++) {
+                for (int u = 0; u < 8; u++) {
+                    if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
+                        trekk = sjekkLovligeTrekk(ruter[i][u]);
+                        for (int y = 0; y < trekkKonge.size(); y++) {
+                            for (int w = 0; w < trekk.size(); w++) {
+                                if (y >= 0 && trekk.get(w).getX() == trekkKonge.get(y).getX() && trekk.get(w).getY() == trekkKonge.get(y).getY()) {
+                                    discardedKonge.add(trekkKonge.get(y));
+                                    trekkKonge.remove(y);
+                                    y--;
                                 }
                             }
                         }
                     }
                 }
-            } else {
-                for (int kI = 0; kI < 8; kI++) {
-                    for (int kU = 0; kU < 8; kU++) {
-                        if (ruter[kI][kU].isOccupied() && !ruter[kI][kU].getBrikke().isHvit() && ruter[kI][kU].getBrikke() instanceof Konge) {
-                            trekkKonge = sjekkLovligeTrekk(ruter[kI][kU]);
-                        }
+            }
+        } else {
+            for (int kI = 0; kI < 8; kI++) {
+                for (int kU = 0; kU < 8; kU++) {
+                    if (ruter[kI][kU].isOccupied() && !ruter[kI][kU].getBrikke().isHvit() && ruter[kI][kU].getBrikke() instanceof Konge) {
+                        trekkKonge = sjekkLovligeTrekk(ruter[kI][kU]);
                     }
                 }
             }
@@ -1388,3 +1387,4 @@ public class Brett implements Serializable {
         return false;
     }
 }
+   
