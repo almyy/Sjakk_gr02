@@ -29,6 +29,7 @@ class Gui extends JFrame {
     private boolean isSjakk = false;
     private Rutenett rutenett;
     private GameInfo gameInfo;
+    private Gui b;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -145,13 +146,18 @@ class Gui extends JFrame {
 
         public MenyBar() {
             JMenu filMeny = new JMenu("File");
+            filMeny.setMnemonic('F');
             JMenu optionMeny = new JMenu("Options");
             add(filMeny);
             add(optionMeny);
             MenuItem newGame = new MenuItem("New game");
+            newGame.setMnemonic('N');
             MenuItem saveGame = new MenuItem("Save game");
+            saveGame.setMnemonic('S');
             MenuItem loadGame = new MenuItem("Load game");
+            loadGame.setMnemonic('L');
             MenuItem exit = new MenuItem("Exit");
+            exit.setMnemonic('E');
             MenuItem preferences = new MenuItem("Preferences");
             filMeny.add(newGame);
             filMeny.add(saveGame);
@@ -197,40 +203,17 @@ class Gui extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String valg = e.getSource().toString();
             String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences"};
-            IO b;
-            try {
-                b = new IO();
-            } catch (IOException ex) {
-                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+            /*
+             * try { b = new IO(); } catch (IOException ex) {
+             * Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null,
+             * ex); }
+             */
             if (valg.equals(navn[0])) {
-                brett = new Brett();
-                for (int i = 0; i < 8; i++) {
-                    for (int u = 0; u < 8; u++) {
-                        remove(squares[i][u]);
 
-                    }
-                }
-                for (int i = 7; i >= 0; i--) {
-                    for (int j = 0; j < 8; j++) {
-                        if (i == 0 || i == 1 || i == 6 || i == 7) {
-                            JLabel bilde = new JLabel(brett.getIcon(j, i));
-
-                            squares[i][j] = new GuiRute(bilde, i, j);
-                            add(squares[i][j]);
-                        } else {
-                            squares[i][j] = new GuiRute(i, j);
-                            add(squares[i][j]);
-                        }
-                        if ((i + j) % 2 == 0) {
-                            squares[i][j].setBackground(brown);
-                        } else {
-                            squares[i][j].setBackground(lightBrown);
-                        }
-                        squares[i][j].addMouseListener(new MuseLytter());
-                    }
-                }
-                repaint();
+                dispose();
+                Gui a = new Gui("Sjakk");
+                a.setVisible(true);
             } else if (valg.equals(navn[1])) {
 
                 try {
@@ -672,7 +655,11 @@ class Gui extends JFrame {
     }
 
     public static void main(String[] args) {
+
+
         Gui b = new Gui("Sjakk");
         b.setVisible(true);
+
+
     }
 }
