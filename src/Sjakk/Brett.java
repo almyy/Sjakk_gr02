@@ -23,6 +23,7 @@ public class Brett implements Serializable {
     private boolean rokadeHH;
     private boolean rokadeSV;
     private boolean rokadeSH;
+    private boolean rokadeKT = false;
 
     public Brett() {
         this.ruter = new Rute[8][8];
@@ -165,7 +166,8 @@ public class Brett implements Serializable {
             Konge konge = (Konge) brikke;
             int currenty = rute.getY();
             int currentx = rute.getX();
-           
+
+
 
             ArrayList<Rute> lovligeTrekk = konge.sjekkLovligeTrekk(rute);
             int teller = lovligeTrekk.size();
@@ -193,6 +195,9 @@ public class Brett implements Serializable {
                     }
 
                 }
+            }
+            if (rokadeKT) {
+                return lovligeTrekk;
             }
             int hjelp = 0;
             if (konge.isHvit()) {
@@ -254,8 +259,9 @@ public class Brett implements Serializable {
 
 
             }
-
+            rokadeKT = true;
             return lovligeTrekk;
+
 
 
         } else if (brikke instanceof Loper) {
@@ -878,6 +884,7 @@ public class Brett implements Serializable {
             return lovligeTrekk;
 
         } else if (brikke instanceof Taarn) {
+
             Taarn taarn = (Taarn) brikke;
             ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk(rute);
 
@@ -989,6 +996,7 @@ public class Brett implements Serializable {
                         }
                     }
                 }
+                rokadeKT = true;
                 return rutene;
             }
 
@@ -1017,23 +1025,21 @@ public class Brett implements Serializable {
     }
 
     public boolean update(String e) {
-        if(e.equalsIgnoreCase("HV")){
-        return rokadeHV;
+        if (e.equalsIgnoreCase("HV")) {
+            return rokadeHV;
         }
-        if(e.equalsIgnoreCase("HH")){
-        return rokadeHH;
+        if (e.equalsIgnoreCase("HH")) {
+            return rokadeHH;
         }
-        if(e.equalsIgnoreCase("SV")){
-        return rokadeSV;
+        if (e.equalsIgnoreCase("SV")) {
+            return rokadeSV;
         }
-        if(e.equalsIgnoreCase("SH")){
-        return rokadeSH;
+        if (e.equalsIgnoreCase("SH")) {
+            return rokadeSH;
         }
-       return false;
+        if (e.equalsIgnoreCase("KT")) {
+            return rokadeKT;
+        }
+        return false;
     }
-        
-        
-        
-        
-
-    }
+}

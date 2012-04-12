@@ -585,6 +585,9 @@ class Gui extends JFrame {
                 }
                 
             }
+            if(!brett.update("KT")) {
+                
+            
             if(brett.update("HV")) {
                 JLabel pic = null;
                 pic = squares[0][0].getBilde();
@@ -621,6 +624,7 @@ class Gui extends JFrame {
                 squares[7][3].setBilde(pic); 
                 repaint();
                 
+            }
             }
         }
 
