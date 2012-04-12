@@ -197,6 +197,12 @@ class Gui extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String valg = e.getSource().toString();
             String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences"};
+            IO b;
+            try {
+                b = new IO();
+            } catch (IOException ex) {
+                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (valg.equals(navn[0])) {
                 brett = new Brett();
                 for (int i = 0; i < 8; i++) {
@@ -228,20 +234,22 @@ class Gui extends JFrame {
             } else if (valg.equals(navn[1])) {
 
                 try {
-                    jall.lagre();
+                   IO a = new IO();
+                    a.IOwrite();                    
                 } catch (IOException ex) {
                     Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             } else if (valg.equals(navn[2])) {
                 try {
-                    jall.laste();
+                    IO c = new IO();
+                    ArrayList<Rutenett> help = c.IORead();
+                   rutenett = help.get(0);
                 } catch (IOException ex) {
                     Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                repaint();
+                }    
+               
+                
             } else if (valg.equals(navn[3])) {
                 throw new UnsupportedOperationException("Not implemented yet.");
             } else {
@@ -360,6 +368,90 @@ class Gui extends JFrame {
         }
     }
 
+    private class IO {
+
+        private File f;
+        ObjectInputStream mick;
+
+        public IO() throws IOException {
+
+            f = new File("C:/Jobb/Sjakk.dat");
+           
+                f.createNewFile();
+            
+        }
+
+        public ArrayList<Rutenett>  IORead() {
+
+            ArrayList<Rutenett> hjelp = new ArrayList();
+            
+
+            try {
+                mick = new ObjectInputStream(new FileInputStream(f));
+
+                Object obj = null;
+                while ((obj = mick.readObject()) != null) {
+
+                    if (obj instanceof Rutenett) {
+                        hjelp.add(((Rutenett)obj));
+                    }
+                    
+
+                }
+
+
+            } catch (EOFException ex) {
+                System.out.println("Slutt på fil.");
+            } catch (ClassNotFoundException ex) {
+            } catch (FileNotFoundException ex) {
+            } catch (IOException ex) {
+            } finally {
+
+                try {
+                    if (mick != null) {
+                        mick.close();
+
+
+                    }
+                } catch (IOException ex) {
+                }
+            } return hjelp;
+        }
+
+        public void IOwrite() {
+
+
+            ObjectOutputStream lol = null;
+            ArrayList<Rutenett> help = new ArrayList();
+            help.add(rutenett);
+           
+
+            try {
+
+                lol = new ObjectOutputStream(new FileOutputStream(f));
+
+               
+                    lol.writeObject(help);
+               
+            
+                
+
+
+            } catch (FileNotFoundException ex) {
+            } catch (IOException ex) {
+            } finally {
+                try {
+                    if (lol != null) {
+                        lol.flush();
+                        lol.close();
+                    }
+                } catch (IOException ex) {
+                }
+
+            }
+        }
+    }
+
     private class MuseLytter implements MouseListener {
 
         @Override
@@ -464,7 +556,7 @@ class Gui extends JFrame {
     private class MuseLytter2 implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mouseClicked(MouseEvent e) {            
             GuiRute denne = (GuiRute) e.getSource();
             Rute startRute = new Rute(0, 0);
             JLabel oldPic = new JLabel();
@@ -511,7 +603,47 @@ class Gui extends JFrame {
                     isHighlighted = false;
                 }
                 
-
+            }
+            if(!brett.update("KT")) {
+                
+            
+            if(brett.update("HV")) {
+                JLabel pic = null;
+                pic = squares[0][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][0];
+                oldTaarn.removeBilde();
+                squares[0][3].setBilde(pic);
+                repaint();
+            }
+            if(brett.update("HH")) {
+               JLabel pic = null;
+                pic = squares[0][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][7];
+                oldTaarn.removeBilde();
+                squares[0][5].setBilde(pic);
+                repaint();
+            }
+            if(brett.update("SH")){
+                JLabel pic = null;
+                pic = squares[7][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][7];
+                oldTaarn.removeBilde();
+                squares[7][5].setBilde(pic);
+                repaint();
+            }
+            if(brett.update("SV")) {
+                JLabel pic = null;
+                pic = squares[7][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][0];
+                oldTaarn.removeBilde();
+                squares[7][3].setBilde(pic); 
+                repaint();
+                
+            }
             }
         }
 
@@ -530,6 +662,7 @@ class Gui extends JFrame {
         @Override
         public void mouseExited(MouseEvent e) {
         }
+        
     }
 
     public static void main(String[] args) {
