@@ -512,7 +512,7 @@ class Gui extends JFrame {
                     } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
                         int x = j;
                         int y = i;
-                        lovligeTrekk = brett.sjakkTrekk(isSjakk, new Rute(x, y));
+                        lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
                         for (int u = 0; u < lovligeTrekk.size(); u++) {
                             int lX = lovligeTrekk.get(u).getX();
                             int lY = lovligeTrekk.get(u).getY();
@@ -592,9 +592,7 @@ class Gui extends JFrame {
                 }
 
             }
-
-
-            
+            if (!brett.update("KT")) {
 
 
                 if (brett.update("HV")) {
@@ -607,7 +605,7 @@ class Gui extends JFrame {
                     repaint();
                     validate();
                 }
-                else if (brett.update("HH")) {
+                if (brett.update("HH")) {
                     JLabel pic = null;
                     pic = squares[0][7].getBilde();
                     GuiRute oldTaarn = null;
@@ -617,7 +615,7 @@ class Gui extends JFrame {
                     repaint();
                     validate();
                 }
-                else if (brett.update("SH")) {
+                if (brett.update("SH")) {
                     JLabel pic = null;
                     pic = squares[7][7].getBilde();
                     GuiRute oldTaarn = null;
@@ -627,7 +625,7 @@ class Gui extends JFrame {
                     repaint();
                     validate();
                 }
-                else if (brett.update("SV")) {
+                if (brett.update("SV")) {
                     JLabel pic = null;
                     pic = squares[7][0].getBilde();
                     GuiRute oldTaarn = null;
@@ -638,7 +636,7 @@ class Gui extends JFrame {
                     validate();
 
                 }
-            
+            }
         }
 
         @Override
