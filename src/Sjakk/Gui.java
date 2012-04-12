@@ -23,6 +23,7 @@ class Gui extends JFrame {
     private final Color lightBrown = new Color(244, 164, 96);
     private final Color highlighted = new Color(195, 205, 205);
     private final Color highlightedTrekk = new Color(191, 239, 255);
+    private final Color highlightedSjakkSave = new Color(255, 255, 255);
     private boolean whiteTurn = true;
     private boolean isHighlighted = false;
     private boolean isSjakk = false;
@@ -364,28 +365,38 @@ class Gui extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
-            if (brett.isSjakk(whiteTurn)) {
+            isSjakk = brett.isSjakk(whiteTurn);
+            if (isSjakk) {
                 System.out.println("Gjør et flytt som fjerner sjakken");
                 if (!isHighlighted && denne.hasLabel()) {
-
                     move = trekk[denne.getYen()] + (denne.getXen() + 1);
                     if (whiteTurn) {
                         Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
                         if (sjekk.getBrikke().isHvit()) {
-                            denne.setBackground(highlighted);
-                            isHighlighted = true;
-                            whiteTurn = false;
+                            ArrayList<Rute> brikker = brett.whatPiecesBlockCheck(whiteTurn);
+                            if(brikker!=null)for (int i = 0; i < brikker.size(); i++) {
+                                if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
+                                    denne.setBackground(highlighted);
+                                    isHighlighted = true;
+                                    whiteTurn = false;
+                                }
+                            }
                         }
                     } else {
                         Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
                         if (!sjekk.getBrikke().isHvit()) {
-                            denne.setBackground(highlighted);
-                            isHighlighted = true;
-                            whiteTurn = true;
+                            ArrayList<Rute> brikker = brett.whatPiecesBlockCheck(whiteTurn);
+                            if(brikker!=null)for (int i = 0; i < brikker.size(); i++) {
+                                if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
+                                    denne.setBackground(highlighted);
+                                    isHighlighted = true;
+                                    whiteTurn = true;
+                                }
+                            }
                         }
                     }
                 }
-            }else{
+            } else {
                 if (!isHighlighted && denne.hasLabel()) {
 
                     move = trekk[denne.getYen()] + (denne.getXen() + 1);
@@ -408,11 +419,21 @@ class Gui extends JFrame {
             }
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    if (squares[i][j].getBackground().equals(highlighted) && squares[i][j] != null) {
+                    if (squares[i][j] != null&&squares[i][j].getBackground().equals(highlighted)&&!isSjakk) {
                         int x = j;
                         int y = i;
                         lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
                         for (int u = 0; u < lovligeTrekk.size(); u++) {
+                            int lX = lovligeTrekk.get(u).getX();
+                            int lY = lovligeTrekk.get(u).getY();
+                            squares[lY][lX].setBackground(highlightedTrekk);
+                            squares[lY][lX].addMouseListener(new MuseLytter2());
+                        }
+                    }else if(squares[i][j] != null&&squares[i][j].getBackground().equals(highlighted)&&isSjakk){
+                        int x = j;
+                        int y = i;
+                        lovligeTrekk = brett.sjakkTrekk(isSjakk,new Rute(x,y));
+                        for(int u = 0; u< lovligeTrekk.size();u++){
                             int lX = lovligeTrekk.get(u).getX();
                             int lY = lovligeTrekk.get(u).getY();
                             squares[lY][lX].setBackground(highlightedTrekk);
@@ -476,10 +497,7 @@ class Gui extends JFrame {
                 gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
                 denne.setBilde(oldPic);
-                if (brett.isSjakk(whiteTurn)) {
-                    System.out.println("jeg skjoonte det var en muffins der");
-                    brett.sjakkTrekk(whiteTurn);
-                }
+
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
                         if (squares[i][u].getBackground().equals(highlighted) || squares[i][u].getBackground().equals(highlightedTrekk)) {
@@ -492,6 +510,8 @@ class Gui extends JFrame {
                     }
                     isHighlighted = false;
                 }
+                
+
             }
         }
 
