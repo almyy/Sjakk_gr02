@@ -658,7 +658,7 @@ public class Brett implements Serializable {
                     if (ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()) {
                         hoyreNed.remove(i);
                         hoyreNedT--;
-                        for (int u = i; u < hoyreOppT; u++) {
+                        for (int u = i; u < hoyreNedT; u++) {
                             hoyreNed.remove(u);
                             hoyreNedT--;
                             u--;
@@ -1387,4 +1387,3 @@ public class Brett implements Serializable {
         return false;
     }
 }
-   
