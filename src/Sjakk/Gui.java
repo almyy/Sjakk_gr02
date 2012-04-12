@@ -605,6 +605,7 @@ class Gui extends JFrame {
                     oldTaarn.removeBilde();
                     squares[0][3].setBilde(pic);
                     repaint();
+                    validate();
                 }
                 else if (brett.update("HH")) {
                     JLabel pic = null;
@@ -614,6 +615,7 @@ class Gui extends JFrame {
                     oldTaarn.removeBilde();
                     squares[0][5].setBilde(pic);
                     repaint();
+                    validate();
                 }
                 else if (brett.update("SH")) {
                     JLabel pic = null;
@@ -623,6 +625,7 @@ class Gui extends JFrame {
                     oldTaarn.removeBilde();
                     squares[7][5].setBilde(pic);
                     repaint();
+                    validate();
                 }
                 else if (brett.update("SV")) {
                     JLabel pic = null;
@@ -632,6 +635,7 @@ class Gui extends JFrame {
                     oldTaarn.removeBilde();
                     squares[7][3].setBilde(pic);
                     repaint();
+                    validate();
 
                 }
             
