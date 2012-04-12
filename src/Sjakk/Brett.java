@@ -102,11 +102,13 @@ public class Brett implements Serializable {
         if (brikke instanceof Bonde) {
             Bonde bonde = (Bonde) brikke;
             int currentX = rute.getX();
+            int currentY = rute.getY();
             ArrayList<Rute> lovligeTrekk = bonde.sjekkLovligeTrekk(rute);
             int teller = lovligeTrekk.size();
             for (int i = 0; i < teller; i++) {
                 int x = lovligeTrekk.get(i).getX();
                 int y = lovligeTrekk.get(i).getY();
+                Bonde unPasantBonde = new Bonde(true);
                 if (bonde.isHvit()) {
                     if (currentX == x && ruter[x][y].isOccupied()) {
                         lovligeTrekk.remove(i);
@@ -122,6 +124,12 @@ public class Brett implements Serializable {
                         teller--;
                         i--;
                     }
+                    if (currentX - 1 >= 0 && currentX - 1 == x && ruter[currentX - 1][currentY].isOccupied() && !ruter[currentX - 1][currentY].getBrikke().isHvit() && ((Bonde) ruter[currentX - 1][currentY].getBrikke()).isUnPasant()) {
+                        lovligeTrekk.add(new Rute(x, y));
+                    }
+                    if (currentX - 1 <= 7 && currentX + 1 == x && ruter[currentX + 1][currentY].isOccupied() && !ruter[currentX + 1][currentY].getBrikke().isHvit() && ((Bonde) ruter[currentX + 1][currentY].getBrikke()).isUnPasant()) {
+                        lovligeTrekk.add(new Rute(x, y));
+                    }
                 } else if (!bonde.isHvit()) {
                     if (currentX == x && ruter[x][y].isOccupied()) {
                         lovligeTrekk.remove(i);
@@ -136,6 +144,12 @@ public class Brett implements Serializable {
                         lovligeTrekk.remove(i);
                         teller--;
                         i--;
+                    }
+                    if (currentX - 1 >= 0 && currentX - 1 == x && ruter[currentX - 1][currentY].isOccupied() && ruter[currentX - 1][currentY].getBrikke().isHvit() && ((Bonde) ruter[currentX - 1][currentY].getBrikke()).isUnPasant()) {
+                        lovligeTrekk.add(new Rute(x, y));
+                    }
+                    if (currentX - 1 <= 7 && currentX + 1 == x && ruter[currentX + 1][currentY].isOccupied() && ruter[currentX + 1][currentY].getBrikke().isHvit() && ((Bonde) ruter[currentX + 1][currentY].getBrikke()).isUnPasant()) {
+                        lovligeTrekk.add(new Rute(x, y));
                     }
                 }
             }
@@ -442,7 +456,7 @@ public class Brett implements Serializable {
                     if (ruter[currentX][currentY].isOccupied() && !ruter[currentX][currentY].getBrikke().isHvit()) {
                         hoyreNed.remove(i);
                         hoyreNedT--;
-                        for (int u = i; u < venstreOppT; u++) {
+                        for (int u = i; u < hoyreNedT; u++) {
                             hoyreNed.remove(u);
                             hoyreNedT--;
                             u--;
@@ -883,8 +897,7 @@ public class Brett implements Serializable {
             }
             return lovligeTrekk;
 
-        }
-        else if (brikke instanceof Taarn) {
+        } else if (brikke instanceof Taarn) {
             Taarn taarn = (Taarn) brikke;
             ArrayList<Rute> rutene = taarn.sjekkLovligeTrekk(rute);
             ArrayList<Rute> hoyre = new ArrayList<>();
@@ -1106,17 +1119,32 @@ public class Brett implements Serializable {
         int fX = flyttRute.getY();
         int sY = startRute.getX();
         int sX = startRute.getY();
+        Brikke brikken = ruter[sX][sY].getBrikke();
         if (this.ruter[fX][fY].isOccupied()) {
             removePiece(this.ruter[fY][fX]);
         }
-        this.ruter[fX][fY].setBrikke(ruter[sX][sY].getBrikke());
+        if (brikken instanceof Bonde) {
+            Bonde bonden = (Bonde) brikken;
+            if (brikken.isHvit() && sY == 1 && fY == 3) {
+                bonden.incUnPasant();
+                brikken = (Brikke) bonden;
+            } else if (!brikken.isHvit() && sY == 6 && fY == 4) {
+                bonden.incUnPasant();
+                brikken = (Brikke) bonden;
+            } else {
+                bonden.incUnPasant();
+                brikken = (Brikke) bonden;
+            }
+        }
+        this.ruter[fX][fY].setBrikke(brikken);
         this.ruter[sX][sY].setBrikke(null);
     }
 
     public boolean update(String e) {
         if (e.equalsIgnoreCase("HV")) {
             return rokadeHV;
-        }        if (e.equalsIgnoreCase("HH")) {
+        }
+        if (e.equalsIgnoreCase("HH")) {
             return rokadeHH;
         }
         if (e.equalsIgnoreCase("SV")) {
@@ -1148,7 +1176,7 @@ public class Brett implements Serializable {
                     res.add(brikkene.get(i));
                 }
             }
-        }else{
+        } else {
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
@@ -1185,7 +1213,7 @@ public class Brett implements Serializable {
                             trekk = sjekkLovligeTrekk(ruter[i][u]);
                             for (int y = 0; y < trekkKonge.size(); y++) {
                                 for (int w = 0; w < trekk.size(); w++) {
-                                    if (y>=0 && trekk.get(w).getX() == trekkKonge.get(y).getX() && trekk.get(w).getY() == trekkKonge.get(y).getY()) {
+                                    if (y >= 0 && trekk.get(w).getX() == trekkKonge.get(y).getX() && trekk.get(w).getY() == trekkKonge.get(y).getY()) {
                                         trekkKonge.remove(y);
                                         System.out.println("lol");
                                         y--;
@@ -1195,7 +1223,7 @@ public class Brett implements Serializable {
                         }
                     }
                 }
-            }else{
+            } else {
                 for (int kI = 0; kI < 8; kI++) {
                     for (int kU = 0; kU < 8; kU++) {
                         if (ruter[kI][kU].isOccupied() && !ruter[kI][kU].getBrikke().isHvit() && ruter[kI][kU].getBrikke() instanceof Konge) {
@@ -1273,6 +1301,7 @@ public class Brett implements Serializable {
                     }
                 }
             }
-        }return false;
+        }
+        return false;
     }
 }
