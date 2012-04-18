@@ -592,47 +592,44 @@ class Gui extends JFrame {
                 }
 
             }
-            if (!brett.update("KT")) {
-
-
-                if (brett.update("HV")) {
-                    JLabel pic = null;
-                    pic = squares[0][0].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[0][0];
-                    oldTaarn.removeBilde();
-                    squares[0][3].setBilde(pic);
-                    repaint();
-                }
-                if (brett.update("HH")) {
-                    JLabel pic = null;
-                    pic = squares[0][7].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[0][7];
-                    oldTaarn.removeBilde();
-                    squares[0][5].setBilde(pic);
-                    repaint();
-                }
-                if (brett.update("SH")) {
-                    JLabel pic = null;
-                    pic = squares[7][7].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[7][7];
-                    oldTaarn.removeBilde();
-                    squares[7][5].setBilde(pic);
-                    repaint();
-                }
-                if (brett.update("SV")) {
-                    JLabel pic = null;
-                    pic = squares[7][0].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[7][0];
-                    oldTaarn.removeBilde();
-                    squares[7][3].setBilde(pic);
-                    repaint();
-
-                }
+            if (brett.update("HV")) {
+                JLabel pic = null;
+                pic = squares[0][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][0];
+                oldTaarn.removeBilde();
+                squares[0][3].setBilde(pic);
+                repaint();
             }
+            else if (brett.update("HH")) {
+                JLabel pic = null;
+                pic = squares[0][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][7];
+                oldTaarn.removeBilde();
+                squares[0][5].setBilde(pic);
+                repaint();
+            }
+            else if (brett.update("SH")) {
+                JLabel pic = null;
+                pic = squares[7][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][7];
+                oldTaarn.removeBilde();
+                squares[7][5].setBilde(pic);
+                repaint();
+            }
+            else if (brett.update("SV")) {
+                JLabel pic = null;
+                pic = squares[7][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][0];
+                oldTaarn.removeBilde();
+                squares[7][3].setBilde(pic);
+                repaint();
+
+            }
+
         }
 
         @Override
