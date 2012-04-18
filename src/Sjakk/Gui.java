@@ -234,7 +234,7 @@ class Gui extends JFrame {
 
 
             } else if (valg.equals(navn[3])) {
-                throw new UnsupportedOperationException("Not implemented yet.");
+                System.exit(0);
             } else {
                 throw new UnsupportedOperationException("Not implemented yet.");
             }
@@ -324,7 +324,7 @@ class Gui extends JFrame {
         public int getXen() {
             return x;
         }
-
+        
         public int getYen() {
             return y;
         }
