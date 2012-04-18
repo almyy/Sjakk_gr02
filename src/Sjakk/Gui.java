@@ -324,7 +324,7 @@ class Gui extends JFrame {
         public int getXen() {
             return x;
         }
-        
+
         public int getYen() {
             return y;
         }
@@ -557,6 +557,7 @@ class Gui extends JFrame {
                         startGuiRute = squares[i][u];
                         startRute = new Rute(i, u);
                         oldPic = squares[i][u].getBilde();
+
                     }
                 }
             }
@@ -571,6 +572,10 @@ class Gui extends JFrame {
                             denne.removeBilde();
                         }
                     }
+                } else if (x-1 >= 0 && brett.getRute(y, x-1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
+                    squares[x-1][y].removeBilde();
+                } else if (x+1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
+                    squares[x+1][y].removeBilde();
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute);
                 move2 = trekk[y] + (x + 1);
@@ -592,54 +597,54 @@ class Gui extends JFrame {
                 }
 
             }
-           
 
 
-                if (brett.update("HV")) {
-                    JLabel pic = null;
-                    pic = squares[0][0].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[0][0];
-                    oldTaarn.removeBilde();
-                    squares[0][3].setBilde(pic);
-                    repaint();
-                    
-                }
-                 if (brett.update("HH")) {
-                    JLabel pic = null;
-                    pic = squares[0][7].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[0][7];
-                    oldTaarn.removeBilde();
-                    squares[0][5].setBilde(pic);
-                    repaint();
-                    
-                }
-                if (brett.update("SH")) {
-                    JLabel pic = null;
-                    pic = squares[7][7].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[7][7];
-                    oldTaarn.removeBilde();
-                    squares[7][5].setBilde(pic);
-                    repaint();
-                    
-                    
-                }
-                if (brett.update("SV")) {
-                    JLabel pic = null;
-                    pic = squares[7][0].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[7][0];
-                    oldTaarn.removeBilde();
-                    squares[7][3].setBilde(pic);
-                    repaint();
-                    
-                    
 
-                }
-                validate();                
-            
+            if (brett.update("HV")) {
+                JLabel pic = null;
+                pic = squares[0][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][0];
+                oldTaarn.removeBilde();
+                squares[0][3].setBilde(pic);
+                repaint();
+
+            }
+            if (brett.update("HH")) {
+                JLabel pic = null;
+                pic = squares[0][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][7];
+                oldTaarn.removeBilde();
+                squares[0][5].setBilde(pic);
+                repaint();
+
+            }
+            if (brett.update("SH")) {
+                JLabel pic = null;
+                pic = squares[7][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][7];
+                oldTaarn.removeBilde();
+                squares[7][5].setBilde(pic);
+                repaint();
+
+
+            }
+            if (brett.update("SV")) {
+                JLabel pic = null;
+                pic = squares[7][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][0];
+                oldTaarn.removeBilde();
+                squares[7][3].setBilde(pic);
+                repaint();
+
+
+
+            }
+            validate();
+
         }
 
         @Override
