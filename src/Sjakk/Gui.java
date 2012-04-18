@@ -603,9 +603,9 @@ class Gui extends JFrame {
                     oldTaarn.removeBilde();
                     squares[0][3].setBilde(pic);
                     repaint();
-                    validate();
+                    
                 }
-                else if (brett.update("HH")) {
+                 if (brett.update("HH")) {
                     JLabel pic = null;
                     pic = squares[0][7].getBilde();
                     GuiRute oldTaarn = null;
@@ -613,9 +613,9 @@ class Gui extends JFrame {
                     oldTaarn.removeBilde();
                     squares[0][5].setBilde(pic);
                     repaint();
-                    validate();
+                    
                 }
-                else if (brett.update("SH")) {
+                if (brett.update("SH")) {
                     JLabel pic = null;
                     pic = squares[7][7].getBilde();
                     GuiRute oldTaarn = null;
@@ -623,9 +623,10 @@ class Gui extends JFrame {
                     oldTaarn.removeBilde();
                     squares[7][5].setBilde(pic);
                     repaint();
-                    validate();
+                    
+                    
                 }
-                else if (brett.update("SV")) {
+                if (brett.update("SV")) {
                     JLabel pic = null;
                     pic = squares[7][0].getBilde();
                     GuiRute oldTaarn = null;
@@ -633,9 +634,11 @@ class Gui extends JFrame {
                     oldTaarn.removeBilde();
                     squares[7][3].setBilde(pic);
                     repaint();
-                    validate();
+                    
+                    
 
                 }
+                validate();                
             
         }
 
