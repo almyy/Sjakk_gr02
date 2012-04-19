@@ -30,6 +30,8 @@ class Gui extends JFrame {
     private Rutenett rutenett;
     private GameInfo gameInfo;
     private Gui b;
+    private GuiRute denne;
+    private int teller = 0;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -283,6 +285,8 @@ class Gui extends JFrame {
         private JLabel bilde;
         private int x;
         private int y;
+        private GuiRute lager;
+        
 
         public GuiRute(JLabel bilde, int x, int y) {
             setPreferredSize(new Dimension(50, 50));
@@ -306,8 +310,32 @@ class Gui extends JFrame {
             this.repaint();
         }
 
+        public void setLager(GuiRute e) {
+            lager = e;
+            teller++;
+        }
+
         public JLabel getBilde() {
             return bilde;
+        }
+
+        public boolean ruteSjekk(GuiRute e) {
+            boolean sjekk = false;
+            if (teller > 0) {
+                if (e.hasLabel() && lager.hasLabel()) {
+                    Rute hjelp2 = brett.getRute(e.getXen(), e.getYen());
+                    Rute hjelp = brett.getRute(lager.getYen(), lager.getXen());
+                    if (hjelp.isOccupied() && hjelp2.isOccupied()) {
+                        boolean bhjelp = hjelp.getBrikke().isHvit();
+                        boolean bhjelp2 = hjelp2.getBrikke().isHvit();
+                        if ((bhjelp && bhjelp2) || (!bhjelp && !bhjelp2)) {
+                            sjekk = true;
+                            return sjekk;
+                        }
+                    }
+                }
+            }
+            return sjekk;
         }
 
         public void removeBilde() {
@@ -438,27 +466,30 @@ class Gui extends JFrame {
 
     private class MuseLytter implements MouseListener {
 
-        private GuiRute denne;
-        private int mousex;
-        private int mousey;
-        private boolean bhjelp;
-        private boolean bhjelp2;
         private ArrayList<Rute> egne = new ArrayList<>();
-        private Rute sjekk2;
-        private Rute sjekk3;
-        private ArrayList<Rute> lovligeTrekk;
-        protected MouseEvent e;
+        private ArrayList<Rute> lovligeTrekk;      
 
-        public MouseEvent getNyDenne() {
-            return e;
-        }
+        
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            this.e = e;
-            denne = (GuiRute) this.e.getSource();
 
-
+            denne = (GuiRute) e.getSource();
+            
+            if (denne.ruteSjekk(denne) && denne.hasLabel()) {
+                for (int i = 0; i < 8; i++) {
+                    for (int c = 0; c < 8; c++) {
+                        if (squares[i][c].getBackground().equals(highlighted) || squares[i][c].getBackground().equals(highlightedTrekk)) {
+                            if ((i + c) % 2 == 0) {
+                                squares[i][c].setBackground(brown);
+                            } else {
+                                squares[i][c].setBackground(lightBrown);
+                            }
+                        }
+                    }
+                    isHighlighted = false;
+                }
+            }
             isSjakk = brett.isSjakk(whiteTurn);
 
             if (isSjakk) {
@@ -541,69 +572,14 @@ class Gui extends JFrame {
                     }
                 }
             }
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    int x = j;
-                    int y = i;
-                    sjekk2 = brett.getRute(y, x);
-                    sjekk3 = brett.getRute(mousex, mousey);
-                    if (sjekk2.isOccupied()) {
-                        if (sjekk2.getBrikke().isHvit()) {
-                            if (sjekk3.isOccupied()) {
-                                if (!sjekk3.getBrikke().isHvit()) {
-                                    egne.add(sjekk2);
-                                }
-                            }
-
-
-                        }
-                    }
-                    if (sjekk2.isOccupied()) {
-                        if (!sjekk2.getBrikke().isHvit()) {
-                            if (sjekk3.isOccupied()) {
-                                if (sjekk3.getBrikke().isHvit()) {
-                                    egne.add(sjekk2);
-                                }
-                            }
-
-
-                        }
-                    }
-                }
-
-            }
-            for (int u = 0; u < egne.size(); u++) {
-                int lX = egne.get(u).getX();
-                int lY = egne.get(u).getY();
-                squares[lY][lX].addMouseListener(new MuseLytter2());
-
-
-            }
-            mousey = denne.getYen();
-            mousex = denne.getXen();
 
 
 
-        }
-
-        public boolean ruteSjekk(GuiRute e) {
-            boolean sjekk = false;
-            Rute hjelp2 = brett.getRute(mousey, mousex);
-            bhjelp2 = hjelp2.getBrikke().isHvit();
-            Rute hjelp = brett.getRute(e.getYen(), e.getXen());
-
-            if (hjelp.isOccupied() && !(hjelp2.equals(hjelp))) {
+            denne.setLager(denne);
 
 
-                bhjelp = hjelp.getBrikke().isHvit();
 
 
-                if ((bhjelp && bhjelp2) || (!bhjelp && !bhjelp2)) {
-                    sjekk = true;
-                    return sjekk;
-                }
-            }
-            return sjekk;
         }
 
         public ArrayList<Rute> highLightedNow() {
@@ -633,7 +609,6 @@ class Gui extends JFrame {
 
     private class MuseLytter2 implements MouseListener {
 
-        private MuseLytter hjelp2 = new MuseLytter();
         private boolean hjelpH = false;
         private ArrayList<Rute> egne;
 
@@ -641,118 +616,103 @@ class Gui extends JFrame {
         public void mouseClicked(MouseEvent e) {
 
             GuiRute denne = (GuiRute) e.getSource();
+
             int x = denne.getXen();
             int y = denne.getYen();
-            Rute hjelp = brett.getRute(x, y);
-            if (hjelp.isOccupied()) {
-                hjelpH = hjelp2.ruteSjekk(denne);
-                if (hjelpH) {
-                    egne = hjelp2.getEgne();
-                    for (int u = 0; u < egne.size(); u++) {
-                        int lX = egne.get(u).getX();
-                        int lY = egne.get(u).getY();
-                        squares[lY][lX].addMouseListener(new MuseLytter());
-                        hjelp2.mouseClicked(this.e);
-
+            Rute startRute = new Rute(0, 0);
+            JLabel oldPic = new JLabel();
+            GuiRute startGuiRute = null;
+            for (int i = 0; i < 8; i++) {
+                for (int u = 0; u < 8; u++) {
+                    if (squares[i][u].getBackground().equals(highlighted)) {
+                        startGuiRute = squares[i][u];
+                        startRute = new Rute(i, u);
+                        oldPic = squares[i][u].getBilde();
                     }
-                } else {
-
-
-
-                    Rute startRute = new Rute(0, 0);
-                    JLabel oldPic = new JLabel();
-                    GuiRute startGuiRute = null;
-                    for (int i = 0; i < 8; i++) {
-                        for (int u = 0; u < 8; u++) {
-                            if (squares[i][u].getBackground().equals(highlighted)) {
-                                startGuiRute = squares[i][u];
-                                startRute = new Rute(i, u);
-                                oldPic = squares[i][u].getBilde();
-                            }
-                        }
-                    }
-                    if (denne.getBackground().equals(highlightedTrekk)) {
-                        if (brett.getRute(y, x).isOccupied()) {
-                            if (whiteTurn) {
-                                if (brett.getRute(y, x).getBrikke().isHvit()) {
-                                    denne.removeBilde();
-                                }
-                            } else {
-                                if (!brett.getRute(y, x).getBrikke().isHvit()) {
-                                    denne.removeBilde();
-                                }
-                            }
-                        }
-                        brett.flyttBrikke(new Rute(x, y), startRute);
-                        move2 = trekk[y] + (x + 1);
-                        gameInfo.updateInfo(move, move2, whiteTurn);
-                        startGuiRute.removeBilde();
-                        denne.setBilde(oldPic);
-
-                        for (int i = 0; i < 8; i++) {
-                            for (int u = 0; u < 8; u++) {
-                                if (squares[i][u].getBackground().equals(highlighted) || squares[i][u].getBackground().equals(highlightedTrekk)) {
-                                    if ((i + u) % 2 == 0) {
-                                        squares[i][u].setBackground(brown);
-                                    } else {
-                                        squares[i][u].setBackground(lightBrown);
-                                    }
-                                }
-                            }
-                            isHighlighted = false;
-                        }
-
-                    }
-
-
-
-                    if (brett.update("HV")) {
-                        JLabel pic = null;
-                        pic = squares[0][0].getBilde();
-                        GuiRute oldTaarn = null;
-                        oldTaarn = squares[0][0];
-                        oldTaarn.removeBilde();
-                        squares[0][3].setBilde(pic);
-                        repaint();
-
-                    }
-                    if (brett.update("HH")) {
-                        JLabel pic = null;
-                        pic = squares[0][7].getBilde();
-                        GuiRute oldTaarn = null;
-                        oldTaarn = squares[0][7];
-                        oldTaarn.removeBilde();
-                        squares[0][5].setBilde(pic);
-                        repaint();
-
-                    }
-                    if (brett.update("SH")) {
-                        JLabel pic = null;
-                        pic = squares[7][7].getBilde();
-                        GuiRute oldTaarn = null;
-                        oldTaarn = squares[7][7];
-                        oldTaarn.removeBilde();
-                        squares[7][5].setBilde(pic);
-                        repaint();
-
-
-                    }
-                    if (brett.update("SV")) {
-                        JLabel pic = null;
-                        pic = squares[7][0].getBilde();
-                        GuiRute oldTaarn = null;
-                        oldTaarn = squares[7][0];
-                        oldTaarn.removeBilde();
-                        squares[7][3].setBilde(pic);
-                        repaint();
-
-
-
-                    }
-                    validate();
-
                 }
             }
+            if (denne.getBackground().equals(highlightedTrekk)) {
+                if (brett.getRute(y, x).isOccupied()) {
+                    if (whiteTurn) {
+                        if (brett.getRute(y, x).getBrikke().isHvit()) {
+                            denne.removeBilde();
+                        }
+                    } else {
+                        if (!brett.getRute(y, x).getBrikke().isHvit()) {
+                            denne.removeBilde();
+                        }
+                    }
+                }
+                brett.flyttBrikke(new Rute(x, y), startRute);
+                move2 = trekk[y] + (x + 1);
+                gameInfo.updateInfo(move, move2, whiteTurn);
+                startGuiRute.removeBilde();
+                denne.setBilde(oldPic);
+
+                for (int i = 0; i < 8; i++) {
+                    for (int u = 0; u < 8; u++) {
+                        if (squares[i][u].getBackground().equals(highlighted) || squares[i][u].getBackground().equals(highlightedTrekk)) {
+                            if ((i + u) % 2 == 0) {
+                                squares[i][u].setBackground(brown);
+                            } else {
+                                squares[i][u].setBackground(lightBrown);
+                            }
+                        }
+                    }
+                    isHighlighted = false;
+                }
+
+            }
+
+
+
+            if (brett.update("HV")) {
+                JLabel pic = null;
+                pic = squares[0][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][0];
+                oldTaarn.removeBilde();
+                squares[0][3].setBilde(pic);
+                repaint();
+
+            }
+            if (brett.update("HH")) {
+                JLabel pic = null;
+                pic = squares[0][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][7];
+                oldTaarn.removeBilde();
+                squares[0][5].setBilde(pic);
+                repaint();
+
+            }
+            if (brett.update("SH")) {
+                JLabel pic = null;
+                pic = squares[7][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][7];
+                oldTaarn.removeBilde();
+                squares[7][5].setBilde(pic);
+                repaint();
+
+
+            }
+            if (brett.update("SV")) {
+                JLabel pic = null;
+                pic = squares[7][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][0];
+                oldTaarn.removeBilde();
+                squares[7][3].setBilde(pic);
+                repaint();
+
+
+
+            }
+            validate();
+
+
+
         }
 
         @Override
