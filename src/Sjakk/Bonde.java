@@ -2,8 +2,6 @@ package Sjakk;
 
 
 import java.util.ArrayList;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 /*
  * To change this template, choose Tools | Templates
@@ -16,6 +14,7 @@ import javax.swing.ImageIcon;
  */
 public class Bonde extends Brikke {
     private boolean unPasant;
+    private int antRunderSpilt;
     public Bonde(boolean isHvit){
         super(1, isHvit,null);
         if(isHvit){
@@ -24,6 +23,7 @@ public class Bonde extends Brikke {
             super.setIcon("src/images/blackpawn.gif");
         }
         unPasant = false;
+        antRunderSpilt = 0;
     }
 
     @Override
@@ -52,9 +52,15 @@ public class Bonde extends Brikke {
         else return null;
     }
     public void incUnPasant(boolean b) {
-        this.unPasant = b;
+        unPasant = b;
     }
     public boolean isUnPasant() {
         return unPasant;
+    }
+    public void setAntRunderSpilt(int i) {
+        antRunderSpilt = i;
+    }
+    public int getAntRunderSpilt() {
+        return antRunderSpilt;
     }
 }
