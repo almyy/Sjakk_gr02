@@ -1136,6 +1136,7 @@ public class Brett implements Serializable {
                 this.removePiece(new Rute((sX + 3), sY));
                 rokadeHH = true;
                 rokadeKTH = true;
+                
 
             } else if ((sX - fX) == 2) {
 
