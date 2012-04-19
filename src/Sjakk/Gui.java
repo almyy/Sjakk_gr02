@@ -584,6 +584,7 @@ class Gui extends JFrame {
                         startGuiRute = squares[i][u];
                         startRute = new Rute(i, u);
                         oldPic = squares[i][u].getBilde();
+
                     }
                 }
             }
@@ -598,6 +599,10 @@ class Gui extends JFrame {
                             denne.removeBilde();
                         }
                     }
+                } else if (y != startRute.getY() && x-1 >= 0 && brett.getRute(y, x-1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
+                    squares[x-1][y].removeBilde();
+                } else if (y != startRute.getY() && x+1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
+                    squares[x+1][y].removeBilde();
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute, whiteTurn);
                 move2 = trekk[y] + (x + 1);
@@ -685,6 +690,7 @@ class Gui extends JFrame {
         public void mouseExited(MouseEvent e) {
         }
     }
+    
 
     public static void main(String[] args) {
 
