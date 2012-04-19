@@ -27,6 +27,7 @@ class Gui extends JFrame {
     private boolean whiteTurn = true;
     private boolean isHighlighted = false;
     private boolean isSjakk = false;
+    private boolean blockingCheck = false;
     private Rutenett rutenett;
     private GameInfo gameInfo;
     private Gui b;
@@ -324,7 +325,7 @@ class Gui extends JFrame {
         public int getXen() {
             return x;
         }
-        
+
         public int getYen() {
             return y;
         }
@@ -442,6 +443,7 @@ class Gui extends JFrame {
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
             isSjakk = brett.isSjakk(whiteTurn);
+            boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
                 System.out.println("Gjør et flytt som fjerner sjakken");
                 if (!isHighlighted && denne.hasLabel()) {
@@ -456,6 +458,7 @@ class Gui extends JFrame {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
                                         whiteTurn = false;
+                                        brett.setBlockingCheck(true);
                                     }
                                 }
                             }
@@ -499,25 +502,49 @@ class Gui extends JFrame {
             }
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && !isSjakk) {
-                        int x = j;
-                        int y = i;
-                        lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
-                        for (int u = 0; u < lovligeTrekk.size(); u++) {
-                            int lX = lovligeTrekk.get(u).getX();
-                            int lY = lovligeTrekk.get(u).getY();
-                            squares[lY][lX].setBackground(highlightedTrekk);
-                            squares[lY][lX].addMouseListener(new MuseLytter2());
+                    if (!whiteTurn) {
+                        if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && !isSjakk && !isBlock) {
+                            int x = j;
+                            int y = i;
+                            lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
+                        } else if ((squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isBlock) || (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk)) {
+                            int x = j;
+                            int y = i;
+                            lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
                         }
-                    } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
-                        int x = j;
-                        int y = i;
-                        lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
-                        for (int u = 0; u < lovligeTrekk.size(); u++) {
-                            int lX = lovligeTrekk.get(u).getX();
-                            int lY = lovligeTrekk.get(u).getY();
-                            squares[lY][lX].setBackground(highlightedTrekk);
-                            squares[lY][lX].addMouseListener(new MuseLytter2());
+                    }else{
+                        if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && !isSjakk) {
+                            int x = j;
+                            int y = i;
+                            lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
+                        } else if ((squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isBlock) || (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk)) {
+                            int x = j;
+                            int y = i;
+                            lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
                         }
                     }
                 }
@@ -572,7 +599,7 @@ class Gui extends JFrame {
                         }
                     }
                 }
-                brett.flyttBrikke(new Rute(x, y), startRute);
+                brett.flyttBrikke(new Rute(x, y), startRute, whiteTurn);
                 move2 = trekk[y] + (x + 1);
                 gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
@@ -592,54 +619,54 @@ class Gui extends JFrame {
                 }
 
             }
-           
 
 
-                if (brett.update("HV")) {
-                    JLabel pic = null;
-                    pic = squares[0][0].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[0][0];
-                    oldTaarn.removeBilde();
-                    squares[0][3].setBilde(pic);
-                    repaint();
-                    
-                }
-                 if (brett.update("HH")) {
-                    JLabel pic = null;
-                    pic = squares[0][7].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[0][7];
-                    oldTaarn.removeBilde();
-                    squares[0][5].setBilde(pic);
-                    repaint();
-                    
-                }
-                if (brett.update("SH")) {
-                    JLabel pic = null;
-                    pic = squares[7][7].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[7][7];
-                    oldTaarn.removeBilde();
-                    squares[7][5].setBilde(pic);
-                    repaint();
-                    
-                    
-                }
-                if (brett.update("SV")) {
-                    JLabel pic = null;
-                    pic = squares[7][0].getBilde();
-                    GuiRute oldTaarn = null;
-                    oldTaarn = squares[7][0];
-                    oldTaarn.removeBilde();
-                    squares[7][3].setBilde(pic);
-                    repaint();
-                    
-                    
 
-                }
-                validate();                
-            
+            if (brett.update("HV")) {
+                JLabel pic = null;
+                pic = squares[0][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][0];
+                oldTaarn.removeBilde();
+                squares[0][3].setBilde(pic);
+                repaint();
+
+            }
+            if (brett.update("HH")) {
+                JLabel pic = null;
+                pic = squares[0][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[0][7];
+                oldTaarn.removeBilde();
+                squares[0][5].setBilde(pic);
+                repaint();
+
+            }
+            if (brett.update("SH")) {
+                JLabel pic = null;
+                pic = squares[7][7].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][7];
+                oldTaarn.removeBilde();
+                squares[7][5].setBilde(pic);
+                repaint();
+
+
+            }
+            if (brett.update("SV")) {
+                JLabel pic = null;
+                pic = squares[7][0].getBilde();
+                GuiRute oldTaarn = null;
+                oldTaarn = squares[7][0];
+                oldTaarn.removeBilde();
+                squares[7][3].setBilde(pic);
+                repaint();
+
+
+
+            }
+            validate();
+
         }
 
         @Override
