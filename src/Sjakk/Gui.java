@@ -572,9 +572,9 @@ class Gui extends JFrame {
                             denne.removeBilde();
                         }
                     }
-                } else if (x-1 >= 0 && brett.getRute(y, x-1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
+                } else if (y != startRute.getY() && x-1 >= 0 && brett.getRute(y, x-1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
                     squares[x-1][y].removeBilde();
-                } else if (x+1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
+                } else if (y != startRute.getY() && x+1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
                     squares[x+1][y].removeBilde();
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute);
@@ -663,6 +663,7 @@ class Gui extends JFrame {
         public void mouseExited(MouseEvent e) {
         }
     }
+    
 
     public static void main(String[] args) {
 
