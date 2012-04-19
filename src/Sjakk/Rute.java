@@ -36,12 +36,13 @@ public class Rute implements Serializable{
         return y;
     }
     public boolean isOccupied(){
-        if(getBrikke()!=null){
+        if(brikke !=null){
             return true;
         }
         return false;
     }
     public String toString() {
-        return "X: " + x + ", y: " + y;
+        return "x: " + x + ", y: " + y;
     }
 }
+ 
