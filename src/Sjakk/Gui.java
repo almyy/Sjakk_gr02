@@ -9,8 +9,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
 import static javax.swing.JOptionPane.*;
+import javax.swing.*;
 
 class Gui extends JFrame {
 
@@ -34,8 +34,7 @@ class Gui extends JFrame {
     private static Gui b;
     private boolean blackTurn = false;
     private boolean isStarted = false;
-    private TidTaker hvitTid;
-    private TidTaker svartTid;
+    private double tid;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -46,11 +45,20 @@ class Gui extends JFrame {
         add(rutenett, BorderLayout.CENTER);
         gameInfo = new GameInfo();
         add(gameInfo, BorderLayout.EAST);
-        add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
-        hvitTid = new TidTaker(true);
-        add(hvitTid, BorderLayout.SOUTH);
-        svartTid = new TidTaker(false);
-        add(svartTid, BorderLayout.NORTH);
+        boolean input = true;
+        while (input) {
+            try {
+                tid = Double.parseDouble(showInputDialog(null, "Hvor lang tid vil dere ha på dere? (Oppgis i sekunder, 0 = evig)"));
+                input = false;
+            } catch (NumberFormatException NFE) {
+                showMessageDialog(null, "Input må være tall!");
+            }
+        }
+
+        if (tid > 0) {
+            add(new TidTaker(true), BorderLayout.SOUTH);
+            add(new TidTaker(false), BorderLayout.NORTH);
+        }
         setJMenuBar(new MenyBar());
         pack();
     }
@@ -59,7 +67,7 @@ class Gui extends JFrame {
 
         private JLabel tidLabel;
         private String tidString = "";
-        private double teller = 300.0;
+        private double teller = tid;
 
         public TidTaker(final boolean isHvit) {
             int delay = 1000;
@@ -74,9 +82,9 @@ class Gui extends JFrame {
                         if (isHvit && !blackTurn) {
                             teller--;
                             if (teller < 0) {
-                                input = showOptionDialog(null, "Hvit har ikke mer tid, svart vinner!", "Svart vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
+                                input = showOptionDialog(b, "Hvit har ikke mer tid, svart vinner!", "Svart vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
                                 switch (input) {
-                                    case 0: 
+                                    case 0:
                                         dispose();
                                         b = new Gui("Sjakk");
                                         b.setVisible(true);
@@ -90,7 +98,7 @@ class Gui extends JFrame {
                         } else if (!isHvit && blackTurn) {
                             teller--;
                             if (teller < 0) {
-                                input = showOptionDialog(null, "Svart har ikke mer tid, hvit vinner!", "Hvit vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
+                                input = showOptionDialog(b, "Svart har ikke mer tid, hvit vinner!", "Hvit vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
                                 switch (input) {
                                     case 0:
                                         dispose();
@@ -166,7 +174,7 @@ class Gui extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             String valg = e.getSource().toString();
-            String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences"};
+            String[] navn = {"New game", "Save game", "Load game", "Exit"};
 
             if (valg.equals(navn[0])) {
                 dispose();
@@ -191,21 +199,9 @@ class Gui extends JFrame {
                 }
 
 
-            } else if (valg.equals(navn[3])) {
-                System.exit(0);
             } else {
-                throw new UnsupportedOperationException("Not implemented yet.");
+                System.exit(0);
             }
-        }
-    }
-
-    private class SpillerNavn extends JPanel {
-
-        public SpillerNavn(String navn) {
-            setLayout(new FlowLayout());
-            JLabel spiller = new JLabel(navn);
-            spiller.setFont(new Font("Serif", Font.BOLD, 20));
-            add(spiller);
         }
     }
 
@@ -224,14 +220,14 @@ class Gui extends JFrame {
                     } else {
                         squares[i][j] = new GuiRute(i, j);
                         add(squares[i][j]);
-                        
+
                     }
                     if ((i + j) % 2 == 0) {
                         squares[i][j].setBackground(brown);
                     } else {
                         squares[i][j].setBackground(lightBrown);
                     }
-                    
+
                     squares[i][j].addMouseListener(new MuseLytter());
                 }
             }
@@ -312,49 +308,31 @@ class Gui extends JFrame {
     }
 
     private class IO {
-
         private File f;
-        ObjectInputStream mick;
-
+        private ObjectInputStream mick;
         public IO() throws IOException {
-
             f = new File("C:/Jobb/Sjakk.dat");
-
             f.createNewFile();
-
         }
-
         public ArrayList<Rutenett> IORead() {
-
             ArrayList<Rutenett> hjelp = new ArrayList();
-
-
             try {
                 mick = new ObjectInputStream(new FileInputStream(f));
-
                 Object obj = null;
                 while ((obj = mick.readObject()) != null) {
-
-                    if (obj instanceof Rutenett) {
+                    if (obj instanceof Rutenett) {                        
                         hjelp.add(((Rutenett) obj));
                     }
-
-
                 }
-
-
             } catch (EOFException ex) {
                 System.out.println("Slutt på fil.");
             } catch (ClassNotFoundException ex) {
             } catch (FileNotFoundException ex) {
             } catch (IOException ex) {
             } finally {
-
                 try {
                     if (mick != null) {
                         mick.close();
-
-
                     }
                 } catch (IOException ex) {
                 }
@@ -363,24 +341,12 @@ class Gui extends JFrame {
         }
 
         public void IOwrite() {
-
-
             ObjectOutputStream lol = null;
             ArrayList<Rutenett> help = new ArrayList();
             help.add(rutenett);
-
-
             try {
-
                 lol = new ObjectOutputStream(new FileOutputStream(f));
-
-
                 lol.writeObject(help);
-
-
-
-
-
             } catch (FileNotFoundException ex) {
             } catch (IOException ex) {
             } finally {
@@ -391,7 +357,6 @@ class Gui extends JFrame {
                     }
                 } catch (IOException ex) {
                 }
-
             }
         }
     }
@@ -475,9 +440,9 @@ class Gui extends JFrame {
                         } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
                             int x = j;
                             int y = i;
-                            if(brett.getRute(x,y).getBrikke() instanceof Konge){
-                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x,y));
-                            }else{
+                            if (brett.getRute(x, y).getBrikke() instanceof Konge) {
+                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
+                            } else {
                                 lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
@@ -515,9 +480,9 @@ class Gui extends JFrame {
                         } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
                             int x = j;
                             int y = i;
-                            if(brett.getRute(x,y).getBrikke() instanceof Konge){
-                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x,y));
-                            }else{
+                            if (brett.getRute(x, y).getBrikke() instanceof Konge) {
+                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
+                            } else {
                                 lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
@@ -529,9 +494,9 @@ class Gui extends JFrame {
                         } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isBlock) {
                             int x = j;
                             int y = i;
-                            if(brett.getRute(x,y).getBrikke() instanceof Konge){
-                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x,y));
-                            }else{
+                            if (brett.getRute(x, y).getBrikke() instanceof Konge) {
+                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
+                            } else {
                                 lovligeTrekk = brett.blockingCheckMoves(!whiteTurn, new Rute(x, y));
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
@@ -593,9 +558,9 @@ class Gui extends JFrame {
                             denne.removeBilde();
                         }
                     }
-                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x-1).getBrikke() instanceof Bonde && y != startRute.getY() && x - 1 >= 0 && brett.getRute(y, x - 1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
+                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && y != startRute.getY() && x - 1 >= 0 && brett.getRute(y, x - 1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
                     squares[x - 1][y].removeBilde();
-                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x+1).getBrikke() instanceof Bonde && y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
+                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
                     squares[x + 1][y].removeBilde();
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute, whiteTurn);
