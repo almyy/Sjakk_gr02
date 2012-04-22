@@ -25,6 +25,7 @@ public class Brett implements Serializable {
     private boolean rokadeHH = false;
     private boolean rokadeSV = false;
     private boolean rokadeSH = false;
+    private boolean blockingCheck = false;
     private int antRunderSpilt;
 
     public Brett() {

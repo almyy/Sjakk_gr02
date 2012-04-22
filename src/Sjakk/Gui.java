@@ -450,6 +450,7 @@ class Gui extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
+            isStarted = true;
             isSjakk = brett.isSjakk(whiteTurn);
             boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
@@ -721,6 +722,9 @@ class Gui extends JFrame {
             } else {
                 blackTurn = true;
             }
+            boolean isBlock = false;
+            isBlock = brett.checkIfBlockingCheck(whiteTurn);
+            brett.setBlockingCheck(isBlock);
         }
 
         @Override
