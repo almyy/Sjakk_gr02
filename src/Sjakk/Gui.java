@@ -14,10 +14,10 @@ import static javax.swing.JOptionPane.*;
 
 class Gui extends JFrame {
 
-    private Brett brett = new Brett();
+    private final Brett brett = new Brett();
     private GuiRute squares[][] = new GuiRute[8][8];
     private ArrayList<Rute> lovligeTrekk;
-    private String[] trekk = {"A", "B", "C", "D", "E", "F", "G", "H"};
+    private final String[] trekk = {"A", "B", "C", "D", "E", "F", "G", "H"};
     private String move;
     private String move2;
     private final Color brown = new Color(160, 82, 45);
@@ -30,9 +30,11 @@ class Gui extends JFrame {
     private boolean isSjakk = false;
     private Rutenett rutenett;
     private GameInfo gameInfo;
-    private Gui b;
+    private static Gui b;
     private boolean blackTurn = false;
     private boolean isStarted = false;
+    private TidTaker hvitTid;
+    private TidTaker svartTid;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -44,109 +46,69 @@ class Gui extends JFrame {
         gameInfo = new GameInfo();
         add(gameInfo, BorderLayout.EAST);
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
-        add(new TidTaker(true), BorderLayout.SOUTH);
-        add(new TidTaker(false), BorderLayout.NORTH);
+        hvitTid = new TidTaker(true);
+        add(hvitTid, BorderLayout.SOUTH);
+        svartTid = new TidTaker(false);
+        add(svartTid, BorderLayout.NORTH);
         setJMenuBar(new MenyBar());
         pack();
     }
 
     private class TidTaker extends JPanel {
 
-        private Tid tid;
         private JLabel tidLabel;
+        private String tidString = "";
+        private double teller = 300.0;
 
-        public TidTaker(boolean isHvit) {
-            tid = new Tid(isHvit);
-            tidLabel = new JLabel();
+        public TidTaker(final boolean isHvit) {
+            int delay = 1000;
+            tidLabel = new JLabel(tidString);
+            ActionListener taskPerformer = new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    if (isStarted) {
+                        int input = 0;
+                        String[] valg = {"New game", "Exit"};
+                        if (isHvit && !blackTurn) {
+                            teller--;
+                            if (teller < 0) {
+                                input = showOptionDialog(null, "Hvit har ikke mer tid, svart vinner!", "Svart vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
+                                switch (input) {
+                                    case 0: 
+                                        dispose();
+                                        b = new Gui("Sjakk");
+                                        b.setVisible(true);
+                                        isStarted = false;
+                                        break;
+                                    case 1:
+                                        System.exit(0);
+                                }
+                            }
+                            tidString = "Hvit " + (int) teller / 60 + ":" + (int) teller % 60;
+                        } else if (!isHvit && blackTurn) {
+                            teller--;
+                            if (teller < 0) {
+                                input = showOptionDialog(null, "Svart har ikke mer tid, hvit vinner!", "Hvit vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
+                                switch (input) {
+                                    case 0:
+                                        dispose();
+                                        b = new Gui("Sjakk");
+                                        b.setVisible(true);
+                                        isStarted = false;
+                                        break;
+                                    case 1:
+                                        System.exit(0);
+                                }
+                            }
+                            tidString = "Svart " + (int) teller / 60 + ":" + (int) teller % 60;
+                        }
+                        tidLabel.setText(tidString);
+                    }
+                }
+            };
+            new Timer(delay, taskPerformer).start();
             add(tidLabel);
-            tid.start();
-        }
-
-        private class Tid extends Thread {
-
-            private double tellerS = 300.0;
-            private double tellerH = 300.0;
-            private String timerS = "";
-            private String timerH = "";
-            private boolean isHvit;
-
-            public Tid(boolean isHvit) {
-                this.isHvit = isHvit;
-            }
-
-            @Override
-            public void run() {
-                while (true) {
-                        while (isStarted && !blackTurn && isHvit) {
-                        timerH = "Hvit " + (int) tellerH / 60 + ":" + (int) tellerH % 60;
-                        tidLabel.setText(timerH);
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                        }
-                        tellerH = tellerH - 0.1;
-                        if (tellerH < 0) {
-                            showMessageDialog(null, "Hvit har gått tom for tid, svart vinner!");
-                            System.exit(0);
-                        }
-                    }
-                    while (isStarted && blackTurn && !isHvit) {
-                        timerS = "Svart " + (int) tellerS / 60 + ":" + (int) tellerS % 60;
-                        tidLabel.setText(timerS);
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                        }
-                        tellerS = tellerS - 0.1;
-                        if (tellerH < 0) {
-                            showMessageDialog(null, "Svart har gått tom for tid, hvit vinner!");
-                            System.exit(0);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private class Homo implements Serializable {
-
-        ObjectOutputStream oos;
-        ObjectInputStream ois;
-
-        public Homo() throws IOException {
-            File file = new File("C:/Sjakk.dat");
-            try {
-                if (file.createNewFile()) {
-                    System.out.println("File Created");
-                } else {
-                }
-            } catch (Exception e) {
-            }
-        }
-
-        public boolean lagre() throws IOException {
-            oos = new ObjectOutputStream(new FileOutputStream("C:/Sjakk.dat"));
-            for (int i = 0; i < 8; i++) {
-                for (int u = 0; u < 8; u++) {
-                    oos.writeObject(squares[i][u]);
-                }
-            }
-            oos.writeObject(brett);
-            return true;
-        }
-
-        public void laste() throws IOException, ClassNotFoundException {
-            ois = new ObjectInputStream(new FileInputStream("C:/Sjakk.dat"));
-            Object obj = null;
-            while ((obj = ois.readObject()) != null) {
-                if (ois.readObject() instanceof GuiRute) {
-                    GuiRute r = (GuiRute) ois.readObject();
-                    squares[r.getXen()][r.getYen()] = r;
-                }
-                //} else if (ois.readObject() instanceof Brett) {
-                //  brett = (Brett) ois.readObject();
-                //}
-            }
         }
     }
 
@@ -197,14 +159,7 @@ class Gui extends JFrame {
 
     private class MenyListener implements ActionListener {
 
-        private Homo jall;
-
         public MenyListener() {
-            try {
-                jall = new Homo();
-            } catch (IOException ex) {
-                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
 
         @Override
@@ -212,16 +167,10 @@ class Gui extends JFrame {
             String valg = e.getSource().toString();
             String[] navn = {"New game", "Save game", "Load game", "Exit", "Preferences"};
 
-            /*
-             * try { b = new IO(); } catch (IOException ex) {
-             * Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null,
-             * ex); }
-             */
             if (valg.equals(navn[0])) {
-
                 dispose();
-                Gui a = new Gui("Sjakk");
-                a.setVisible(true);
+                b = new Gui("Sjakk");
+                b.setVisible(true);
             } else if (valg.equals(navn[1])) {
 
                 try {
@@ -271,6 +220,7 @@ class Gui extends JFrame {
 
                         squares[i][j] = new GuiRute(bilde, i, j);
                         add(squares[i][j]);
+                        squares[i][j].addMouseListener(new MuseLytter());
                     } else {
                         squares[i][j] = new GuiRute(i, j);
                         add(squares[i][j]);
@@ -280,7 +230,6 @@ class Gui extends JFrame {
                     } else {
                         squares[i][j].setBackground(lightBrown);
                     }
-                    squares[i][j].addMouseListener(new MuseLytter());
                 }
             }
         }
@@ -767,7 +716,7 @@ class Gui extends JFrame {
     public static void main(String[] args) {
 
 
-        Gui b = new Gui("Sjakk");
+        b = new Gui("Sjakk");
         b.setVisible(true);
 
 
