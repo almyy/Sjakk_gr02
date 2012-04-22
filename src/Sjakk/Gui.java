@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import static javax.swing.JOptionPane.*;
 
 class Gui extends JFrame {
 
@@ -33,6 +32,11 @@ class Gui extends JFrame {
     private Gui b;
     private boolean blackTurn = false;
     private boolean isStarted = false;
+    private int teller1 = 0;
+    private int teller2 = 0;
+    private int teller3 = 0;
+    private int teller4 = 0;
+    
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -43,70 +47,12 @@ class Gui extends JFrame {
         add(rutenett, BorderLayout.CENTER);
         gameInfo = new GameInfo();
         add(gameInfo, BorderLayout.EAST);
-        add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
-        add(new TidTaker(true), BorderLayout.SOUTH);
-        add(new TidTaker(false), BorderLayout.NORTH);
+        add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);        
         setJMenuBar(new MenyBar());
         pack();
-    }
+    }   
 
-    private class TidTaker extends JPanel {
-
-        private Tid tid;
-        private JLabel tidLabel;
-
-        public TidTaker(boolean isHvit) {
-            tid = new Tid(isHvit);
-            tidLabel = new JLabel();
-            add(tidLabel);
-            tid.start();
-        }
-
-        private class Tid extends Thread {
-
-            private double tellerS = 300.0;
-            private double tellerH = 300.0;
-            private String timerS = "";
-            private String timerH = "";
-            private boolean isHvit;
-
-            public Tid(boolean isHvit) {
-                this.isHvit = isHvit;
-            }
-
-            @Override
-            public void run() {
-                while (true) {
-                        while (isStarted && !blackTurn && isHvit) {
-                        timerH = "Hvit " + (int) tellerH / 60 + ":" + (int) tellerH % 60;
-                        tidLabel.setText(timerH);
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                        }
-                        tellerH = tellerH - 0.1;
-                        if (tellerH < 0) {
-                            showMessageDialog(null, "Hvit har gått tom for tid, svart vinner!");
-                            System.exit(0);
-                        }
-                    }
-                    while (isStarted && blackTurn && !isHvit) {
-                        timerS = "Svart " + (int) tellerS / 60 + ":" + (int) tellerS % 60;
-                        tidLabel.setText(timerS);
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                        }
-                        tellerS = tellerS - 0.1;
-                        if (tellerH < 0) {
-                            showMessageDialog(null, "Svart har gått tom for tid, hvit vinner!");
-                            System.exit(0);
-                        }
-                    }
-                }
-            }
-        }
-    }
+        
 
     private class Homo implements Serializable {
 
@@ -309,7 +255,10 @@ class Gui extends JFrame {
         public void setBilde(JLabel nyBilde) {
             bilde = nyBilde;
             if (bilde != null) {
-                add(bilde);
+                synchronized (this){
+                   this.add(bilde); 
+                } 
+                
             }
             this.repaint();
         }
@@ -445,10 +394,15 @@ class Gui extends JFrame {
     }
 
     private class MuseLytter implements MouseListener {
+        private int teller = 0;
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public synchronized void mouseClicked(MouseEvent e) {
+            
             GuiRute denne = (GuiRute) e.getSource();
+            teller++;
+            Rute R = brett.getRute(denne.getYen(), denne.getXen());
+            Brikke b = R.getBrikke();
             isStarted = true;
             isSjakk = false;
             if (isSjakk) {
@@ -486,7 +440,8 @@ class Gui extends JFrame {
                     }
                 }
             } else {
-                if (!isHighlighted && denne.hasLabel()) {
+               JLabel lol = denne.getBilde();
+                if (!isHighlighted && R.isOccupied() && denne.hasLabel()) {
 
                     move = trekk[denne.getYen()] + (denne.getXen() + 1);
                     if (whiteTurn) {
@@ -532,6 +487,13 @@ class Gui extends JFrame {
                 }
             }
             
+
+          
+                
+                
+          
+            
+            
         }
 
         @Override
@@ -554,7 +516,8 @@ class Gui extends JFrame {
     private class MuseLytter2 implements MouseListener {
 
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public synchronized void mouseClicked(MouseEvent e) {
+            
 
             GuiRute denne = (GuiRute) e.getSource();
             int x = denne.getXen();
@@ -605,54 +568,56 @@ class Gui extends JFrame {
             }
 
 
-
-            if (brett.update("HV")) {
-                JLabel pic = null;
-                pic = squares[0][0].getBilde();
-                GuiRute oldTaarn = null;
-                oldTaarn = squares[0][0];
+                
+            if (brett.update("HV") && teller1 == 0) {
+                
+                JLabel pic = squares[0][0].getBilde();                
+                GuiRute oldTaarn = squares[0][0];
                 oldTaarn.removeBilde();
                 squares[0][3].setBilde(pic);
                 repaint();
-                validate();
+                teller1++;
+                
 
             }
-            if (brett.update("HH")) {
-                JLabel pic = null;
-                pic = squares[0][7].getBilde();
-                GuiRute oldTaarn = null;
-                oldTaarn = squares[0][7];
+            if (brett.update("HH") && teller2 == 0) {
+                
+                JLabel pic = squares[0][7].getBilde();
+                
+                GuiRute oldTaarn = squares[0][7];
                 oldTaarn.removeBilde();
                 squares[0][5].setBilde(pic);
                 repaint();
+                teller2++;
 
             }
-            if (brett.update("SH")) {
-                JLabel pic = null;
-                pic = squares[7][7].getBilde();
-                GuiRute oldTaarn = null;
-                oldTaarn = squares[7][7];
+            if (brett.update("SH") && teller3 == 0) {
+                
+                JLabel pic = squares[7][7].getBilde();
+                
+                GuiRute oldTaarn = squares[7][7];
                 oldTaarn.removeBilde();
                 squares[7][5].setBilde(pic);
                 repaint();
-                validate();
+                teller3++;
+                
 
 
             }
-            if (brett.update("SV")) {
-                JLabel pic = null;
-                pic = squares[7][0].getBilde();
-                GuiRute oldTaarn = null;
-                oldTaarn = squares[7][0];
+            if (brett.update("SV") && teller4 == 0) {
+                
+                JLabel pic = squares[7][0].getBilde();
+               
+                GuiRute oldTaarn = squares[7][0];
                 oldTaarn.removeBilde();
                 squares[7][3].setBilde(pic);
                 repaint();
-                validate();
-
+                teller4++;
+                
 
 
             }
-            validate();
+            pack();
 
             if (brett.getRute(denne.getYen(), denne.getXen()).getBrikke() instanceof Bonde && denne.getXen() == 7) {
                 PromotePieceFrame ppf = new PromotePieceFrame(!whiteTurn, brett.getRute(denne.getYen(), denne.getXen()));
@@ -666,6 +631,7 @@ class Gui extends JFrame {
             } else {
                 blackTurn = true;
             }
+            
         }
 
         @Override
