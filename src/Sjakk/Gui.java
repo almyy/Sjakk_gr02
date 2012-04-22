@@ -28,6 +28,7 @@ class Gui extends JFrame {
     private boolean whiteTurn = true;
     private boolean isHighlighted = false;
     private boolean isSjakk = false;
+    private boolean blockingCheck = false;
     private Rutenett rutenett;
     private GameInfo gameInfo;
     private static Gui b;
@@ -399,7 +400,8 @@ class Gui extends JFrame {
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
             isStarted = true;
-            isSjakk = false;
+            isSjakk = brett.isSjakk(whiteTurn);
+            boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
                 System.out.println("Gjør et flytt som fjerner sjakken");
                 if (!isHighlighted && denne.hasLabel()) {
@@ -457,25 +459,85 @@ class Gui extends JFrame {
             }
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && !isSjakk) {
-                        int x = j;
-                        int y = i;
-                        lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
-                        for (int u = 0; u < lovligeTrekk.size(); u++) {
-                            int lX = lovligeTrekk.get(u).getX();
-                            int lY = lovligeTrekk.get(u).getY();
-                            squares[lY][lX].setBackground(highlightedTrekk);
-                            squares[lY][lX].addMouseListener(new MuseLytter2());
+                    if (!whiteTurn) {
+                        if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && !isSjakk && !isBlock) {
+                            int x = j;
+                            int y = i;
+                            lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
+                        } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
+                            int x = j;
+                            int y = i;
+                            if(brett.getRute(x,y).getBrikke() instanceof Konge){
+                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x,y));
+                            }else{
+                                lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
+                            }
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
+                        } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isBlock) {
+                            int x = j;
+                            int y = i;
+                            if (brett.getRute(x, y).getBrikke() instanceof Konge) {
+                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
+                            } else {
+                                lovligeTrekk = brett.blockingCheckMoves(!whiteTurn, new Rute(x, y));
+                            }
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
                         }
-                    } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
-                        int x = j;
-                        int y = i;
-                        lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
-                        for (int u = 0; u < lovligeTrekk.size(); u++) {
-                            int lX = lovligeTrekk.get(u).getX();
-                            int lY = lovligeTrekk.get(u).getY();
-                            squares[lY][lX].setBackground(highlightedTrekk);
-                            squares[lY][lX].addMouseListener(new MuseLytter2());
+                    } else {
+                        if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && !isSjakk && !isBlock) {
+                            int x = j;
+                            int y = i;
+                            lovligeTrekk = brett.sjekkLovligeTrekk((brett.getRute(x, y)));
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
+                        } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
+                            int x = j;
+                            int y = i;
+                            if(brett.getRute(x,y).getBrikke() instanceof Konge){
+                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x,y));
+                            }else{
+                                lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
+                            }
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
+                        } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isBlock) {
+                            int x = j;
+                            int y = i;
+                            if(brett.getRute(x,y).getBrikke() instanceof Konge){
+                                lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x,y));
+                            }else{
+                                lovligeTrekk = brett.blockingCheckMoves(!whiteTurn, new Rute(x, y));
+                            }
+                            for (int u = 0; u < lovligeTrekk.size(); u++) {
+                                int lX = lovligeTrekk.get(u).getX();
+                                int lY = lovligeTrekk.get(u).getY();
+                                squares[lY][lX].setBackground(highlightedTrekk);
+                                squares[lY][lX].addMouseListener(new MuseLytter2());
+                            }
                         }
                     }
                 }
@@ -534,7 +596,7 @@ class Gui extends JFrame {
                 } else if (y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
                     squares[x + 1][y].removeBilde();
                 }
-                brett.flyttBrikke(new Rute(x, y), startRute);
+                brett.flyttBrikke(new Rute(x, y), startRute, whiteTurn);
                 move2 = trekk[y] + (x + 1);
                 gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
@@ -542,7 +604,13 @@ class Gui extends JFrame {
 
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
-                        if (squares[i][u].getBackground().equals(highlighted) || squares[i][u].getBackground().equals(highlightedTrekk)) {
+                        if (squares[i][u].getBackground().equals(highlighted)) {
+                            if ((i + u) % 2 == 0) {
+                                squares[i][u].setBackground(brown);
+                            } else {
+                                squares[i][u].setBackground(lightBrown);
+                            }
+                        } else if (squares[i][u].getBackground().equals(highlightedTrekk)) {
                             if ((i + u) % 2 == 0) {
                                 squares[i][u].setBackground(brown);
                             } else {
@@ -604,6 +672,9 @@ class Gui extends JFrame {
             } else {
                 blackTurn = true;
             }
+            boolean isBlock = false;
+            isBlock = brett.checkIfBlockingCheck(whiteTurn);
+            brett.setBlockingCheck(isBlock);
         }
 
         @Override
@@ -715,11 +786,7 @@ class Gui extends JFrame {
     }
 
     public static void main(String[] args) {
-
-
-        b = new Gui("Sjakk");
+        Gui b = new Gui("Sjakk");
         b.setVisible(true);
-
-
     }
 }
