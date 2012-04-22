@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import java.lang.Object.*;
+import static javax.swing.JOptionPane.*;
 
 class Gui extends JFrame {
 
@@ -31,6 +31,8 @@ class Gui extends JFrame {
     private Rutenett rutenett;
     private GameInfo gameInfo;
     private Gui b;
+    private boolean blackTurn = false;
+    private boolean isStarted = false;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -42,9 +44,8 @@ class Gui extends JFrame {
         gameInfo = new GameInfo();
         add(gameInfo, BorderLayout.EAST);
         add(new SpillerNavn("Spiller2"), BorderLayout.NORTH);
-        add(new TidTaker(true), BorderLayout.NORTH);
-        add(new SpillerNavn("Spiller1"), BorderLayout.SOUTH);
-        add(new TidTaker(false), BorderLayout.SOUTH);
+        add(new TidTaker(true), BorderLayout.SOUTH);
+        add(new TidTaker(false), BorderLayout.NORTH);
         setJMenuBar(new MenyBar());
         pack();
     }
@@ -76,25 +77,31 @@ class Gui extends JFrame {
             @Override
             public void run() {
                 while (true) {
-                    while (whiteTurn && isHvit) {
-                        timerH = "Hvit: " + (int) tellerH / 60 + " min, " + (int) tellerH % 60;
+                        while (isStarted && !blackTurn && isHvit) {
+                        timerH = "Hvit " + (int) tellerH / 60 + ":" + (int) tellerH % 60;
                         tidLabel.setText(timerH);
                         try {
-                            tid.sleep(100);
+                            Thread.sleep(100);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         tellerH = tellerH - 0.1;
+                        if (tellerH < 0) {
+                            showMessageDialog(null, "Hvit har gått tom for tid, svart vinner!");
+                            System.exit(0);
+                        }
                     }
-                    while (!whiteTurn && !isHvit) {
-                        timerS = "Svart: " + (int) tellerS / 60 + " min, " + (int) tellerS % 60;
+                    while (isStarted && blackTurn && !isHvit) {
+                        timerS = "Svart " + (int) tellerS / 60 + ":" + (int) tellerS % 60;
                         tidLabel.setText(timerS);
                         try {
-                            tid.sleep(100);
+                            Thread.sleep(100);
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         tellerS = tellerS - 0.1;
+                        if (tellerH < 0) {
+                            showMessageDialog(null, "Svart har gått tom for tid, hvit vinner!");
+                            System.exit(0);
+                        }
                     }
                 }
             }
@@ -442,6 +449,7 @@ class Gui extends JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
+            isStarted = true;
             isSjakk = false;
             if (isSjakk) {
                 System.out.println("Gjør et flytt som fjerner sjakken");
@@ -526,7 +534,6 @@ class Gui extends JFrame {
             
         }
 
-        
         @Override
         public void mousePressed(MouseEvent e) {
         }
@@ -618,7 +625,6 @@ class Gui extends JFrame {
                 oldTaarn.removeBilde();
                 squares[0][5].setBilde(pic);
                 repaint();
-                validate();
 
             }
             if (brett.update("SH")) {
@@ -654,6 +660,11 @@ class Gui extends JFrame {
             } else if (brett.getRute(denne.getYen(), denne.getXen()).getBrikke() instanceof Bonde && denne.getXen() == 0) {
                 PromotePieceFrame ppf = new PromotePieceFrame(!whiteTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
+            }
+            if (blackTurn) {
+                blackTurn = false;
+            } else {
+                blackTurn = true;
             }
         }
 
