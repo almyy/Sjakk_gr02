@@ -591,6 +591,7 @@ class Gui extends JFrame {
                 squares[7][3].setBilde(pic);
                 repaint();
             }
+            validate();
             if (brett.getRute(denne.getYen(), denne.getXen()).getBrikke() instanceof Bonde && denne.getXen() == 7) {
                 PromotePieceFrame ppf = new PromotePieceFrame(!whiteTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
