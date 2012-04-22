@@ -221,7 +221,6 @@ class Gui extends JFrame {
 
                         squares[i][j] = new GuiRute(bilde, i, j);
                         add(squares[i][j]);
-                        squares[i][j].addMouseListener(new MuseLytter());
                     } else {
                         squares[i][j] = new GuiRute(i, j);
                         add(squares[i][j]);
@@ -231,6 +230,8 @@ class Gui extends JFrame {
                     } else {
                         squares[i][j].setBackground(lightBrown);
                     }
+                    
+                    squares[i][j].addMouseListener(new MuseLytter());
                 }
             }
         }
@@ -591,9 +592,9 @@ class Gui extends JFrame {
                             denne.removeBilde();
                         }
                     }
-                } else if (y != startRute.getY() && x - 1 >= 0 && brett.getRute(y, x - 1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
+                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x-1).getBrikke() instanceof Bonde && y != startRute.getY() && x - 1 >= 0 && brett.getRute(y, x - 1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
                     squares[x - 1][y].removeBilde();
-                } else if (y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
+                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x+1).getBrikke() instanceof Bonde && y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
                     squares[x + 1][y].removeBilde();
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute, whiteTurn);
