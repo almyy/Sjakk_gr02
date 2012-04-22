@@ -221,16 +221,17 @@ class Gui extends JFrame {
 
                         squares[i][j] = new GuiRute(bilde, i, j);
                         add(squares[i][j]);
-                        squares[i][j].addMouseListener(new MuseLytter());
+                        
                     } else {
                         squares[i][j] = new GuiRute(i, j);
                         add(squares[i][j]);
+                        
                     }
                     if ((i + j) % 2 == 0) {
                         squares[i][j].setBackground(brown);
                     } else {
                         squares[i][j].setBackground(lightBrown);
-                    }
+                    }squares[i][j].addMouseListener(new MuseLytter());
                 }
             }
         }
@@ -620,7 +621,6 @@ class Gui extends JFrame {
                     }
                     isHighlighted = false;
                 }
-
             }
             if (brett.update("HV")) {
                 JLabel pic = null;
