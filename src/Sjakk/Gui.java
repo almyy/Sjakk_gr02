@@ -221,7 +221,6 @@ class Gui extends JFrame {
 
                         squares[i][j] = new GuiRute(bilde, i, j);
                         add(squares[i][j]);
-                        
                     } else {
                         squares[i][j] = new GuiRute(i, j);
                         add(squares[i][j]);
@@ -231,7 +230,9 @@ class Gui extends JFrame {
                         squares[i][j].setBackground(brown);
                     } else {
                         squares[i][j].setBackground(lightBrown);
-                    }squares[i][j].addMouseListener(new MuseLytter());
+                    }
+                    
+                    squares[i][j].addMouseListener(new MuseLytter());
                 }
             }
         }
@@ -592,9 +593,9 @@ class Gui extends JFrame {
                             denne.removeBilde();
                         }
                     }
-                } else if (y != startRute.getY() && x - 1 >= 0 && brett.getRute(y, x - 1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
+                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x-1).getBrikke() instanceof Bonde && y != startRute.getY() && x - 1 >= 0 && brett.getRute(y, x - 1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
                     squares[x - 1][y].removeBilde();
-                } else if (y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
+                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x+1).getBrikke() instanceof Bonde && y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
                     squares[x + 1][y].removeBilde();
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute, whiteTurn);
@@ -659,6 +660,7 @@ class Gui extends JFrame {
                 squares[7][3].setBilde(pic);
                 repaint();
             }
+            validate();
             if (brett.getRute(denne.getYen(), denne.getXen()).getBrikke() instanceof Bonde && denne.getXen() == 7) {
                 PromotePieceFrame ppf = new PromotePieceFrame(!whiteTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
