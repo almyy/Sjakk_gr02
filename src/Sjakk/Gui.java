@@ -333,15 +333,15 @@ class Gui extends JFrame {
     private class MuseLytter implements MouseListener {
 
         private int teller = 0;
-        
 
         @Override
         public synchronized void mouseClicked(MouseEvent e) {
 
             GuiRute denne = (GuiRute) e.getSource();
             teller++;
-            Rute R = brett.getRute(denne.getYen(), denne.getXen());            
+            Rute R = brett.getRute(denne.getYen(), denne.getXen());
             isStarted = true;
+            isSjakk = brett.isSjakk(whiteTurn);
             boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
                 System.out.println("Gjør et flytt som fjerner sjakken");
@@ -574,9 +574,6 @@ class Gui extends JFrame {
                 squares[7][5].setBilde(pic);
                 repaint();
                 teller3++;
-
-
-
             }
             if (brett.update("SV") && teller4 == 0) {
 
@@ -637,7 +634,7 @@ class Gui extends JFrame {
                             b.setVisible(true);
                             isStarted = false;
                             break;
-                        case 1: 
+                        case 1:
                             System.exit(0);
                     }
                 }
