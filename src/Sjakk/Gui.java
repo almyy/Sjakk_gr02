@@ -678,6 +678,10 @@ class Gui extends JFrame {
             boolean isBlock = false;
             isBlock = brett.checkIfBlockingCheck(whiteTurn);
             brett.setBlockingCheck(isBlock);
+            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn);
+            if(isSjakkMatt){
+                System.out.println("SjakkMatt");
+            }
         }
 
         @Override
