@@ -1480,6 +1480,7 @@ public class Brett implements Serializable {
 
     public ArrayList<Rute> sjakkTrekk(boolean isWhite, Rute r) {
         Brikke b = ruter[r.getX()][r.getY()].getBrikke();
+        isWhite = b.isHvit();
         Rute kongePos = null;
         ArrayList<Rute> trekk = new ArrayList<>();
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
@@ -2018,10 +2019,6 @@ public class Brett implements Serializable {
                             trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                         }
                         for (int t = 0; t < trekk.size(); t++) {
-                            Rute sjekker = ruter[trekk.get(t).getX()][trekk.get(t).getY()];
-                            if (sjekker.isOccupied() && (trekk.get(t).getX() != konge.getX() || trekk.get(t).getY() != konge.getY())) {
-                                help = true;
-                            }
                             if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
                                 return true;
                             }
