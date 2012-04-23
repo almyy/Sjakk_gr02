@@ -38,9 +38,7 @@ class Gui extends JFrame {
     private int teller2 = 0;
     private int teller3 = 0;
     private int teller4 = 0;
-    private double tid;
-    private Brikke B;
-    private Brikke A;
+    private double tid;    
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -377,8 +375,7 @@ class Gui extends JFrame {
                         }
                     }
                 }
-            } else {
-                JLabel lol = denne.getBilde();
+            } else {                
                 if (!isHighlighted && R.isOccupied() && denne.hasLabel()) {
 
                     move = trekk[denne.getYen()] + (denne.getXen() + 1);
