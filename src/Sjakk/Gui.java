@@ -39,8 +39,6 @@ class Gui extends JFrame {
     private int teller3 = 0;
     private int teller4 = 0;
     private double tid;
-    private Brikke B;
-    private Brikke A;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -53,6 +51,7 @@ class Gui extends JFrame {
         add(gameInfo, BorderLayout.EAST);
         boolean input = true;
         while (input) {
+            String[] valg = { "Ok" };
             try {
                 tid = Double.parseDouble(showInputDialog(null, "Hvor lang tid vil dere ha på dere? (Oppgis i sekunder, 0 = evig)"));
                 input = false;
@@ -69,49 +68,6 @@ class Gui extends JFrame {
         setJMenuBar(new MenyBar());
         pack();
     }
-
-    private class Homo implements Serializable {
-
-        ObjectOutputStream oos;
-        ObjectInputStream ois;
-
-        public Homo() throws IOException {
-            File file = new File("C:/Sjakk.dat");
-            try {
-                if (file.createNewFile()) {
-                    System.out.println("File Created");
-                } else {
-                }
-            } catch (Exception e) {
-            }
-        }
-
-        public boolean lagre() throws IOException {
-            oos = new ObjectOutputStream(new FileOutputStream("C:/Sjakk.dat"));
-            for (int i = 0; i < 8; i++) {
-                for (int u = 0; u < 8; u++) {
-                    oos.writeObject(squares[i][u]);
-                }
-            }
-            oos.writeObject(brett);
-            return true;
-        }
-
-        public void laste() throws IOException, ClassNotFoundException {
-            ois = new ObjectInputStream(new FileInputStream("C:/Sjakk.dat"));
-            Object obj = null;
-            while ((obj = ois.readObject()) != null) {
-                if (ois.readObject() instanceof GuiRute) {
-                    GuiRute r = (GuiRute) ois.readObject();
-                    squares[r.getXen()][r.getYen()] = r;
-                }
-                //} else if (ois.readObject() instanceof Brett) {
-                //  brett = (Brett) ois.readObject();
-                //}
-            }
-        }
-    }
-
     private class TidTaker extends JPanel {
 
         private JLabel tidLabel;
@@ -128,7 +84,7 @@ class Gui extends JFrame {
                     if (isStarted) {
                         int input = 0;
                         String[] valg = {"New game", "Exit"};
-                        if (isHvit && !blackTurn) {
+                        if (isHvit && blackTurn) {
                             teller--;
                             if (teller < 0) {
                                 input = showOptionDialog(b, "Hvit har ikke mer tid, svart vinner!", "Svart vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
@@ -144,7 +100,7 @@ class Gui extends JFrame {
                                 }
                             }
                             tidString = "Hvit " + (int) teller / 60 + ":" + (int) teller % 60;
-                        } else if (!isHvit && blackTurn) {
+                        } else if (!isHvit && !blackTurn) {
                             teller--;
                             if (teller < 0) {
                                 input = showOptionDialog(b, "Svart har ikke mer tid, hvit vinner!", "Hvit vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
@@ -333,14 +289,13 @@ class Gui extends JFrame {
     private class MuseLytter implements MouseListener {
 
         private int teller = 0;
-        
 
         @Override
         public synchronized void mouseClicked(MouseEvent e) {
 
             GuiRute denne = (GuiRute) e.getSource();
             teller++;
-            Rute R = brett.getRute(denne.getYen(), denne.getXen());            
+            Rute R = brett.getRute(denne.getYen(), denne.getXen());
             isStarted = true;
             boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
@@ -516,6 +471,11 @@ class Gui extends JFrame {
 
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute, whiteTurn);
+                if (blackTurn) {
+                    blackTurn = false;
+                } else {
+                    blackTurn = true;
+                }
                 move2 = trekk[y] + (x + 1);
                 gameInfo.updateInfo(move, move2, whiteTurn);
                 startGuiRute.removeBilde();
@@ -540,63 +500,40 @@ class Gui extends JFrame {
                     isHighlighted = false;
                 }
             }
-
-
-
             if (brett.update("HV") && teller1 == 0) {
-
                 JLabel pic = squares[0][0].getBilde();
                 GuiRute oldTaarn = squares[0][0];
                 oldTaarn.removeBilde();
                 squares[0][3].setBilde(pic);
                 repaint();
                 teller1++;
-
-
             }
             if (brett.update("HH") && teller2 == 0) {
-
                 JLabel pic = squares[0][7].getBilde();
-
                 GuiRute oldTaarn = squares[0][7];
                 oldTaarn.removeBilde();
                 squares[0][5].setBilde(pic);
                 repaint();
                 teller2++;
-
             }
             if (brett.update("SH") && teller3 == 0) {
-
                 JLabel pic = squares[7][7].getBilde();
-
                 GuiRute oldTaarn = squares[7][7];
                 oldTaarn.removeBilde();
                 squares[7][5].setBilde(pic);
                 repaint();
                 teller3++;
-
-
-
             }
             if (brett.update("SV") && teller4 == 0) {
-
                 JLabel pic = squares[7][0].getBilde();
-
                 GuiRute oldTaarn = squares[7][0];
                 oldTaarn.removeBilde();
                 squares[7][3].setBilde(pic);
                 repaint();
                 teller4++;
-
-
-
             }
-
             pack();
-
-
             validate();
-
             if (brett.getRute(denne.getYen(), denne.getXen()).getBrikke() instanceof Bonde && denne.getXen() == 7) {
                 PromotePieceFrame ppf = new PromotePieceFrame(!whiteTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
@@ -604,18 +541,17 @@ class Gui extends JFrame {
                 PromotePieceFrame ppf = new PromotePieceFrame(!whiteTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
             }
+            isBlock = brett.checkIfBlockingCheck(whiteTurn);
+            brett.setBlockingCheck(isBlock);
+            isSjakk = brett.isSjakk(whiteTurn);
+            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn, isSjakk);
+            if (isSjakkMatt) {
+                System.out.println("SjakkMatt");
+            }
             if (blackTurn) {
                 blackTurn = false;
             } else {
                 blackTurn = true;
-            }
-            isBlock = false;
-            isBlock = brett.checkIfBlockingCheck(whiteTurn);
-            brett.setBlockingCheck(isBlock);
-            isSjakk = brett.isSjakk(whiteTurn);
-            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn,isSjakk);
-            if(isSjakkMatt){
-                System.out.println("SjakkMatt");
             }
         }
 
