@@ -283,7 +283,6 @@ class Gui extends JFrame {
         public void mouseClicked(MouseEvent e) {
             GuiRute denne = (GuiRute) e.getSource();
             isStarted = true;
-            isSjakk = brett.isSjakk(whiteTurn);
             boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
                 System.out.println("Gjør et flytt som fjerner sjakken");
@@ -533,7 +532,8 @@ class Gui extends JFrame {
             isBlock = false;
             isBlock = brett.checkIfBlockingCheck(whiteTurn);
             brett.setBlockingCheck(isBlock);
-            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn);
+            isSjakk = brett.isSjakk(whiteTurn);
+            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn,isSjakk);
             if(isSjakkMatt){
                 System.out.println("SjakkMatt");
             }

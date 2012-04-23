@@ -2041,10 +2041,10 @@ public class Brett implements Serializable {
         return false;
     }
 
-    public boolean isSjakkMatt(boolean whiteTurn) {
+    public boolean isSjakkMatt(boolean whiteTurn,boolean isSjakk) {
         ArrayList<Rute> muligeMoves = whatPiecesBlockCheck(whiteTurn);
         ArrayList<Rute> legal = new ArrayList<>();
-        if (muligeMoves.size()<=1) {
+        if (muligeMoves.size()<=1&&isSjakk) {
             if (whiteTurn) {
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
