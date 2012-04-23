@@ -1376,10 +1376,10 @@ public class Brett implements Serializable {
         Brikke brikken = this.ruter[sX][sY].getBrikke();
         if (this.ruter[fX][fY].isOccupied()) {
             this.removePiece(ruter[fX][fY]);
-        } else if (brikken instanceof Bonde && sY != fY && this.ruter[fX][fY - 1].isOccupied() && this.ruter[fX][fY - 1].getBrikke() instanceof Bonde && ((Bonde) this.ruter[fX][fY - 1].getBrikke()).isUnPasant()) {
+        } else if (brikken instanceof Bonde && sX != fX && this.ruter[fX][fY - 1].isOccupied() && this.ruter[fX][fY - 1].getBrikke() instanceof Bonde && ((Bonde) this.ruter[fX][fY - 1].getBrikke()).isUnPasant()) {
             this.removePiece(ruter[fX][fY - 1]);
             this.ruter[fX][fY - 1].setBrikke(null);
-        } else if (brikken instanceof Bonde && (sY != fY && this.ruter[fX][fY + 1].isOccupied() && this.ruter[fX][fY + 1].getBrikke() instanceof Bonde && ((Bonde) this.ruter[fX][fY + 1].getBrikke()).isUnPasant())) {
+        } else if (brikken instanceof Bonde && (sX != fX && this.ruter[fX][fY + 1].isOccupied() && this.ruter[fX][fY + 1].getBrikke() instanceof Bonde && ((Bonde) this.ruter[fX][fY + 1].getBrikke()).isUnPasant())) {
             this.removePiece(ruter[fX][fY + 1]);
             this.ruter[fX][fY - 1].setBrikke(null);
         }
