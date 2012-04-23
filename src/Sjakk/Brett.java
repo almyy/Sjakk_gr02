@@ -2059,10 +2059,6 @@ public class Brett implements Serializable {
                                 trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                             }
                             for (int t = 0; t < trekk.size(); t++) {
-                                Rute sjekker = ruter[trekk.get(t).getX()][trekk.get(t).getY()];
-                                if (sjekker.isOccupied() && trekk.get(t).getX() != konge.getX()) {
-                                    help = true;
-                                }
                                 if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
                                     return true;
                                 }
