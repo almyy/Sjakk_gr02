@@ -306,16 +306,7 @@ class Gui extends JFrame {
             teller++;
             Rute R = brett.getRute(denne.getYen(), denne.getXen());
             isStarted = true;
-            isSjakk = brett.isSjakk(!blackTurn);
-            if (denne.hasLabel()) {
-                Brikke B = R.getBrikke();
-                if (R.getBrikke().isHvit() && !blackTurn && !(B instanceof Konge)) {
-                    gameInfo.sjakk(true);
-                }
-                if (!R.getBrikke().isHvit() && blackTurn && !(B instanceof Konge)) {
-                    gameInfo.sjakk(false);
-                }
-            }
+            isSjakk = brett.isSjakk(!blackTurn);            
             boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
                 if (!isHighlighted && denne.hasLabel()) {
