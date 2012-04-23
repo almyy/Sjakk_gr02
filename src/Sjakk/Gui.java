@@ -34,7 +34,13 @@ class Gui extends JFrame {
     private static Gui b;
     private boolean blackTurn = false;
     private boolean isStarted = false;
+    private int teller1 = 0;
+    private int teller2 = 0;
+    private int teller3 = 0;
+    private int teller4 = 0;
     private double tid;
+    private Brikke B;
+    private Brikke A;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -59,8 +65,51 @@ class Gui extends JFrame {
             add(new TidTaker(true), BorderLayout.SOUTH);
             add(new TidTaker(false), BorderLayout.NORTH);
         }
+
         setJMenuBar(new MenyBar());
         pack();
+    }
+
+    private class Homo implements Serializable {
+
+        ObjectOutputStream oos;
+        ObjectInputStream ois;
+
+        public Homo() throws IOException {
+            File file = new File("C:/Sjakk.dat");
+            try {
+                if (file.createNewFile()) {
+                    System.out.println("File Created");
+                } else {
+                }
+            } catch (Exception e) {
+            }
+        }
+
+        public boolean lagre() throws IOException {
+            oos = new ObjectOutputStream(new FileOutputStream("C:/Sjakk.dat"));
+            for (int i = 0; i < 8; i++) {
+                for (int u = 0; u < 8; u++) {
+                    oos.writeObject(squares[i][u]);
+                }
+            }
+            oos.writeObject(brett);
+            return true;
+        }
+
+        public void laste() throws IOException, ClassNotFoundException {
+            ois = new ObjectInputStream(new FileInputStream("C:/Sjakk.dat"));
+            Object obj = null;
+            while ((obj = ois.readObject()) != null) {
+                if (ois.readObject() instanceof GuiRute) {
+                    GuiRute r = (GuiRute) ois.readObject();
+                    squares[r.getXen()][r.getYen()] = r;
+                }
+                //} else if (ois.readObject() instanceof Brett) {
+                //  brett = (Brett) ois.readObject();
+                //}
+            }
+        }
     }
 
     private class TidTaker extends JPanel {
@@ -118,6 +167,7 @@ class Gui extends JFrame {
             };
             new Timer(delay, taskPerformer).start();
             add(tidLabel);
+
         }
     }
 
@@ -226,7 +276,10 @@ class Gui extends JFrame {
         public void setBilde(JLabel nyBilde) {
             bilde = nyBilde;
             if (bilde != null) {
-                add(bilde);
+                synchronized (this) {
+                    this.add(bilde);
+                }
+
             }
             this.repaint();
         }
@@ -279,9 +332,15 @@ class Gui extends JFrame {
 
     private class MuseLytter implements MouseListener {
 
+        private int teller = 0;
+        
+
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public synchronized void mouseClicked(MouseEvent e) {
+
             GuiRute denne = (GuiRute) e.getSource();
+            teller++;
+            Rute R = brett.getRute(denne.getYen(), denne.getXen());            
             isStarted = true;
             boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
@@ -319,7 +378,8 @@ class Gui extends JFrame {
                     }
                 }
             } else {
-                if (!isHighlighted && denne.hasLabel()) {
+                JLabel lol = denne.getBilde();
+                if (!isHighlighted && R.isOccupied() && denne.hasLabel()) {
 
                     move = trekk[denne.getYen()] + (denne.getXen() + 1);
                     if (whiteTurn) {
@@ -453,6 +513,7 @@ class Gui extends JFrame {
                     squares[x - 1][y].removeBilde();
                 } else if (brett.getRute(startRute.getY(), startRute.getX()).getBrikke() instanceof Bonde && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
                     squares[x + 1][y].removeBilde();
+
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute, whiteTurn);
                 move2 = trekk[y] + (x + 1);
@@ -479,44 +540,63 @@ class Gui extends JFrame {
                     isHighlighted = false;
                 }
             }
-            if (brett.update("HV")) {
-                JLabel pic = null;
-                pic = squares[0][0].getBilde();
-                GuiRute oldTaarn = null;
-                oldTaarn = squares[0][0];
+
+
+
+            if (brett.update("HV") && teller1 == 0) {
+
+                JLabel pic = squares[0][0].getBilde();
+                GuiRute oldTaarn = squares[0][0];
                 oldTaarn.removeBilde();
                 squares[0][3].setBilde(pic);
                 repaint();
+                teller1++;
+
+
             }
-            if (brett.update("HH")) {
-                JLabel pic = null;
-                pic = squares[0][7].getBilde();
-                GuiRute oldTaarn = null;
-                oldTaarn = squares[0][7];
+            if (brett.update("HH") && teller2 == 0) {
+
+                JLabel pic = squares[0][7].getBilde();
+
+                GuiRute oldTaarn = squares[0][7];
                 oldTaarn.removeBilde();
                 squares[0][5].setBilde(pic);
                 repaint();
+                teller2++;
 
             }
-            if (brett.update("SH")) {
-                JLabel pic = null;
-                pic = squares[7][7].getBilde();
-                GuiRute oldTaarn = null;
-                oldTaarn = squares[7][7];
+            if (brett.update("SH") && teller3 == 0) {
+
+                JLabel pic = squares[7][7].getBilde();
+
+                GuiRute oldTaarn = squares[7][7];
                 oldTaarn.removeBilde();
                 squares[7][5].setBilde(pic);
                 repaint();
+                teller3++;
+
+
+
             }
-            if (brett.update("SV")) {
-                JLabel pic = null;
-                pic = squares[7][0].getBilde();
-                GuiRute oldTaarn = null;
-                oldTaarn = squares[7][0];
+            if (brett.update("SV") && teller4 == 0) {
+
+                JLabel pic = squares[7][0].getBilde();
+
+                GuiRute oldTaarn = squares[7][0];
                 oldTaarn.removeBilde();
                 squares[7][3].setBilde(pic);
                 repaint();
+                teller4++;
+
+
+
             }
+
+            pack();
+
+
             validate();
+
             if (brett.getRute(denne.getYen(), denne.getXen()).getBrikke() instanceof Bonde && denne.getXen() == 7) {
                 PromotePieceFrame ppf = new PromotePieceFrame(!whiteTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
