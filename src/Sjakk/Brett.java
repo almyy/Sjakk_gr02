@@ -27,6 +27,13 @@ public class Brett implements Serializable {
     private boolean rokadeSH = false;
     private boolean blockingCheck = false;
     private int antRunderSpilt;
+    private int KongeH = 0;
+    private int KongeS = 0;
+    private int TaarnHH = 0;
+    private int TaarnHV = 0;
+    private int TaarnSH = 0;
+    private int TaarnSV = 0;
+    
 
     public Brett() {
         this.ruter = new Rute[8][8];
@@ -390,14 +397,14 @@ public class Brett implements Serializable {
             }
             int hjelp = 0;
             if (konge.isHvit()) {
-                if (ruter[4][0].getBrikke() instanceof Konge && ruter[(currentx + 3)][currenty].getBrikke() instanceof Taarn && ruter[(currentx + 3)][currenty].getBrikke().isHvit() && !rokadeKTH) {
+                if (ruter[4][0].getBrikke() instanceof Konge && ruter[(currentx + 3)][currenty].getBrikke() instanceof Taarn && ruter[(currentx + 3)][currenty].getBrikke().isHvit() && !rokadeKTH && (TaarnHH == 0) && (KongeH == 0)) {
                     while (!ruter[(currentx + 1)][currenty].isOccupied() && !ruter[(currentx + 2)][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx + 2), currenty));
                         hjelp++;
                     }
                 }
                 hjelp = 0;
-                if (ruter[4][0].getBrikke() instanceof Konge && ruter[currentx - 4][currenty].getBrikke() instanceof Taarn && ruter[currentx - 4][currenty].getBrikke().isHvit() && !rokadeKTH) {
+                if (ruter[4][0].getBrikke() instanceof Konge && ruter[currentx - 4][currenty].getBrikke() instanceof Taarn && ruter[currentx - 4][currenty].getBrikke().isHvit() && !rokadeKTH && (TaarnHV == 0) && (KongeH == 0)) {
 
                     while (!ruter[(currentx - 1)][currenty].isOccupied() && !ruter[(currentx - 2)][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx - 2), currenty));
@@ -406,14 +413,14 @@ public class Brett implements Serializable {
                 }
                 hjelp = 0;
             } else if (!konge.isHvit()) {
-                if (ruter[4][7].getBrikke() instanceof Konge && ruter[currentx + 3][currenty].getBrikke() instanceof Taarn && !ruter[currentx + 3][currenty].getBrikke().isHvit() && !rokadeKTS) {
+                if (ruter[4][7].getBrikke() instanceof Konge && ruter[currentx + 3][currenty].getBrikke() instanceof Taarn && !ruter[currentx + 3][currenty].getBrikke().isHvit() && !rokadeKTS && (TaarnSH == 0) && (KongeS == 0)) {
                     while (!ruter[currentx + 1][currenty].isOccupied() && !ruter[currentx + 2][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx + 2, currenty));
                         hjelp++;
                     }
                 }
                 hjelp = 0;
-                if (ruter[4][7].getBrikke() instanceof Konge && ruter[currentx - 4][currenty].getBrikke() instanceof Taarn && !ruter[currentx - 4][currenty].getBrikke().isHvit() && !rokadeKTS) {
+                if (ruter[4][7].getBrikke() instanceof Konge && ruter[currentx - 4][currenty].getBrikke() instanceof Taarn && !ruter[currentx - 4][currenty].getBrikke().isHvit() && !rokadeKTS && (TaarnSV == 0) && (KongeS == 0)) {
                     if (!ruter[currentx - 1][currenty].isOccupied() && !ruter[currentx - 2][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx - 2, currenty));
                         hjelp++;
@@ -1269,7 +1276,7 @@ public class Brett implements Serializable {
         int sX = startRute.getY();
         synchronized (this) {
         if (this.ruter[sX][sY].getBrikke() instanceof Konge && this.ruter[sX][sY].getBrikke().isHvit() && (rokadeKTH == false)) {
-            if ((fX - sX) == 2) {
+            if (((fX - sX) == 2) && (TaarnHH == 0) && (KongeH == 0)) {
                 this.ruter[(sX + 1)][sY].setBrikke(ruter[(sX + 3)][sY].getBrikke());
                 this.ruter[(sX + 3)][sY].setBrikke(null);
                 this.removePiece(new Rute((sX + 3), sY));
@@ -1277,7 +1284,7 @@ public class Brett implements Serializable {
                 rokadeKTH = true;
 
 
-            } else if ((sX - fX) == 2) {
+            } else if (((sX - fX) == 2) && (TaarnHV == 0) && (KongeH == 0)) {
                 this.ruter[(sX - 1)][sY].setBrikke(ruter[(sX - 4)][sY].getBrikke());
                 this.ruter[(sX - 4)][sY].setBrikke(null);
                 this.removePiece(new Rute((sX - 4), sY));
@@ -1285,13 +1292,13 @@ public class Brett implements Serializable {
                 rokadeKTH = true;
             }
         } else if (this.ruter[sX][sY].getBrikke() instanceof Konge && !this.ruter[sX][sY].getBrikke().isHvit() && (rokadeKTS == false)) {
-            if ((fX - sX) == 2) {
+            if (((fX - sX) == 2) && (TaarnSH == 0) && (KongeS == 0)) {
                 this.ruter[(sX + 1)][sY].setBrikke(ruter[(sX + 3)][sY].getBrikke());
                 this.ruter[(sX + 3)][sY].setBrikke(null);
                 this.removePiece(new Rute((sX + 3), sY));
                 rokadeSH = true;
                 rokadeKTS = true;
-            } else if ((sX - fX) == 2) {
+            } else if (((sX - fX) == 2) && (TaarnSV == 0) && (KongeS == 0)) {
                 this.ruter[(sX - 1)][sY].setBrikke(ruter[(sX - 4)][sY].getBrikke());
                 this.ruter[(sX - 4)][sY].setBrikke(null);
                 this.removePiece(new Rute((sX - 4), sY));
@@ -1324,6 +1331,32 @@ public class Brett implements Serializable {
         this.ruter[fX][fY].setBrikke(brikken);
         this.ruter[sX][sY].setBrikke(null);
         antRunderSpilt++;
+        
+        if(brikken instanceof Konge){
+            Konge Kongen = (Konge) brikken;
+            if(Kongen.isHvit()){
+                KongeH++;
+            } else if (!Kongen.isHvit()){
+                KongeS++;
+            }
+        }
+        if(brikken instanceof Taarn){
+            Taarn Taarnet = (Taarn) brikken;
+            if(Taarnet.isHvit()){
+                if(this.ruter[sX][sY].getBrikke() == this.ruter[7][0].getBrikke()){ //HH
+                    TaarnHH++;
+                } else if (this.ruter[sX][sY].getBrikke() == this.ruter[0][0].getBrikke()){ //HV
+                    TaarnHV++;
+                }
+                
+            } else if(!Taarnet.isHvit()){
+                if(this.ruter[sX][sY].getBrikke() == this.ruter[7][7].getBrikke()){//SH
+                    TaarnSH++;
+                } else if (this.ruter[sX][sY].getBrikke() == this.ruter[0][7].getBrikke()){ // SV
+                    TaarnSV++;
+                }
+            }
+        }
 
     }
 

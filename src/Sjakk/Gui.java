@@ -39,6 +39,8 @@ class Gui extends JFrame {
     private int teller3 = 0;
     private int teller4 = 0;
     private double tid;
+    private Brikke B;
+    private Brikke A;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -418,14 +420,14 @@ class Gui extends JFrame {
     private class MuseLytter implements MouseListener {
 
         private int teller = 0;
+        
 
         @Override
         public synchronized void mouseClicked(MouseEvent e) {
 
             GuiRute denne = (GuiRute) e.getSource();
             teller++;
-            Rute R = brett.getRute(denne.getYen(), denne.getXen());
-            Brikke b = R.getBrikke();
+            Rute R = brett.getRute(denne.getYen(), denne.getXen());            
             isStarted = true;
             isSjakk = brett.isSjakk(whiteTurn);
             boolean isBlock = brett.getBlockingCheck();
@@ -630,9 +632,9 @@ class Gui extends JFrame {
                         }
                     }
 
-                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && y != startRute.getY() && x - 1 >= 0 && brett.getRute(y, x - 1).isOccupied() && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
+                } else if ((brett.getRute(y, x).getBrikke() instanceof Bonde) && (brett.getRute(y, x - 1).getBrikke() instanceof Bonde) && (y != startRute.getY()) && (x - 1 >= 0) && brett.getRute(y, x - 1).isOccupied() && (brett.getRute(y, x - 1).getBrikke() instanceof Bonde) && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
                     squares[x - 1][y].removeBilde();
-                } else if (brett.getRute(y, x).getBrikke() instanceof Bonde && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
+                } else if ((brett.getRute(y, x).getBrikke() instanceof Bonde) && (brett.getRute(y, x + 1).getBrikke() instanceof Bonde) && (y != startRute.getY()) && (x + 1 < 8) && brett.getRute(y, x + 1).isOccupied() && (brett.getRute(y, x + 1).getBrikke() instanceof Bonde) && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
                     squares[x + 1][y].removeBilde();
 
                 }
