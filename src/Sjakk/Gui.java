@@ -606,7 +606,6 @@ class Gui extends JFrame {
             } else {
                 blackTurn = true;
             }
-            isBlock = false;
             isBlock = brett.checkIfBlockingCheck(whiteTurn);
             brett.setBlockingCheck(isBlock);
             isSjakk = brett.isSjakk(whiteTurn);
