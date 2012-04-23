@@ -148,13 +148,15 @@ public class Brett implements Serializable {
                             trekk = k.sjekkLovligeTrekk(ruter[i][u]);
                         }
                         for (int y = 0; y < trekk.size(); y++) {
-                            if (trekk.get(y).isOccupied() && trekk.get(y).getX() != r.getX()) {
+                            Rute sjekker = ruter[trekk.get(y).getX()][trekk.get(y).getY()];
+                            if (sjekker.isOccupied() && trekk.get(y).getX() != r.getX()) {
                                 help = true;
                             }
                             if (trekk.get(y).getX() == r.getX() && trekk.get(y).getY() == r.getY() && !help) {
                                 res = true;
                             }
                         }
+                        help = false;
                     }
                 }
             }
@@ -333,11 +335,13 @@ public class Brett implements Serializable {
                 }
             }
             ArrayList<Rute> trekk = new ArrayList<>();
+            boolean help = false;
             if (konge.isHvit()) {
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
-                            if (ruter[i][u].getBrikke() instanceof Bonde) {
+                            Brikke sjekken = ruter[i][u].getBrikke();
+                            if (sjekken instanceof Bonde) {
                                 Bonde b = (Bonde) ruter[i][u].getBrikke();
                                 trekk = b.sjekkLovligeTrekk(ruter[i][u]);
                                 for (int j = 0; j < trekk.size(); j++) {
@@ -346,21 +350,85 @@ public class Brett implements Serializable {
                                         j--;
                                     }
                                 }
-                            } else if (!(ruter[i][u].getBrikke() instanceof Konge)) {
+                            } else if (sjekken instanceof Dronning) {
+                                Dronning d = (Dronning) sjekken;
+                                trekk = d.sjekkLovligeTrekk(ruter[i][u]);
+                                ArrayList<Rute> venstreOpp = new ArrayList<>();
+                                ArrayList<Rute> hoyreOpp = new ArrayList<>();
+                                ArrayList<Rute> venstreNed = new ArrayList<>();
+                                ArrayList<Rute> hoyreNed = new ArrayList<>();
+
+                                ArrayList<Rute> hoyre = new ArrayList<>();
+                                ArrayList<Rute> venstre = new ArrayList<>();
+                                ArrayList<Rute> opp = new ArrayList<>();
+                                ArrayList<Rute> ned = new ArrayList<>();
+                                int telleren = trekk.size();
+                                int x = i;
+                                int y = u;
+                                for (int a = 0; a < telleren; a++) {
+                                    if (trekk.get(a).getX() < x && trekk.get(a).getY() > y) {
+                                        venstreOpp.add(trekk.get(a));
+                                    } else if (trekk.get(a).getX() > x && trekk.get(a).getY() > y) {
+                                        hoyreOpp.add(trekk.get(a));
+                                    } else if (trekk.get(a).getX() < x && trekk.get(a).getY() < y) {
+                                        venstreNed.add(trekk.get(a));
+                                    } else if (trekk.get(a).getX() > x && trekk.get(a).getY() < y) {
+                                        hoyreNed.add(trekk.get(a));
+                                    } else if (trekk.get(a).getX() > x && trekk.get(a).getY() == y) {
+                                        hoyre.add(trekk.get(a));
+                                    } else if (trekk.get(a).getX() < x && trekk.get(a).getY() == y) {
+                                        venstre.add(trekk.get(a));
+                                    } else if (trekk.get(a).getY() > y && trekk.get(a).getX() == x) {
+                                        opp.add(trekk.get(a));
+                                    } else {
+                                        ned.add(trekk.get(a));
+                                    }
+                                }
+                                for (int s = 0; s < trekk.size(); s++) {
+                                    if (trekk.get(s).getX() < currentx && trekk.get(s).getY() == currenty) {
+                                        trekk = venstre;
+                                    } else if (trekk.get(s).getX() > currentx && trekk.get(s).getY() == currenty) {
+                                        trekk = hoyre;
+                                    } else if (trekk.get(s).getX() == currentx && trekk.get(s).getY() > currenty) {
+                                        trekk = opp;
+                                    } else if (trekk.get(s).getX() == currentx && trekk.get(s).getY() < currenty) {
+                                        trekk = ned;
+                                    } else if (trekk.get(s).getX() < currentx && trekk.get(s).getY() > currenty) {
+                                        trekk = venstreOpp;
+                                    } else if (trekk.get(s).getX() > currentx && trekk.get(s).getY() > currenty) {
+                                        trekk = hoyreOpp;
+                                    } else if (trekk.get(s).getX() < currentx && trekk.get(s).getY() < currenty) {
+                                        trekk = venstreNed;
+                                    } else if (trekk.get(s).getX() > currentx && trekk.get(s).getY() < currenty) {
+                                        trekk = hoyreNed;
+                                    }
+                                }
+
+                            } else if (sjekken instanceof Loper) {
+                                Loper l = (Loper) sjekken;
+                                trekk = l.sjekkLovligeTrekk(ruter[i][u]);
+                            } else if (sjekken instanceof Taarn) {
+                                Taarn taarn = (Taarn) sjekken;
+                                trekk = taarn.sjekkLovligeTrekk(ruter[i][u]);
+                            } else if (!(sjekken instanceof Konge)) {
                                 trekk = sjekkLovligeTrekk(ruter[i][u]);
                             }
                             for (int y = 0; y < lovligeTrekk.size(); y++) {
                                 for (int w = 0; w < trekk.size(); w++) {
-                                    if (y >= 0 && trekk.get(w).getX() == lovligeTrekk.get(y).getX() && trekk.get(w).getY() == lovligeTrekk.get(y).getY()) {
+                                    if (ruter[trekk.get(w).getX()][trekk.get(w).getY()].isOccupied() && trekk.get(w).getX() != currentx) {
+                                        help = true;
+                                    }
+                                    if (y >= 0 && trekk.get(w).getX() == lovligeTrekk.get(y).getX() && trekk.get(w).getY() == lovligeTrekk.get(y).getY() && !help) {
                                         lovligeTrekk.remove(y);
                                         y--;
                                     }
                                 }
+                                help = false;
                             }
                         }
                     }
                 }
-            }else {
+            } else {
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
@@ -1909,13 +1977,15 @@ public class Brett implements Serializable {
                             trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                         }
                         for (int t = 0; t < trekk.size(); t++) {
-                            if (trekk.get(t).isOccupied() && !trekk.get(t).getBrikke().isHvit()) {
+                            Rute sjekker = ruter[trekk.get(t).getX()][trekk.get(t).getY()];
+                            if (sjekker.isOccupied() && trekk.get(t).getX() != konge.getX()) {
                                 help = true;
                             }
                             if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
                                 return true;
                             }
                         }
+                        help = false;
                     }
                 }
             }
@@ -1946,10 +2016,15 @@ public class Brett implements Serializable {
                                 trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                             }
                             for (int t = 0; t < trekk.size(); t++) {
-                                if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY()) {
+                                Rute sjekker = ruter[trekk.get(t).getX()][trekk.get(t).getY()];
+                                if (sjekker.isOccupied() && trekk.get(t).getX() != konge.getX()) {
+                                    help = true;
+                                }
+                                if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
                                     return true;
                                 }
                             }
+                            help = false;
                         }
                     }
                 }

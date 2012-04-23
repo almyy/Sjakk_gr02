@@ -479,6 +479,7 @@ class Gui extends JFrame {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x,y));
                             }else{
                                 lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
+                                System.out.println("Sjakktrekk");
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
                                 int lX = lovligeTrekk.get(u).getX();
@@ -493,6 +494,7 @@ class Gui extends JFrame {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
                             } else {
                                 lovligeTrekk = brett.blockingCheckMoves(!whiteTurn, new Rute(x, y));
+                                System.out.println("Blocking");
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
                                 int lX = lovligeTrekk.get(u).getX();
