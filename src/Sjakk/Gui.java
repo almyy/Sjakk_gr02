@@ -533,9 +533,34 @@ class Gui extends JFrame {
             isBlock = brett.checkIfBlockingCheck(whiteTurn);
             brett.setBlockingCheck(isBlock);
             isSjakk = brett.isSjakk(whiteTurn);
-            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn,isSjakk);
-            if(isSjakkMatt){
-                System.out.println("SjakkMatt");
+            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn, isSjakk);
+            if (isSjakkMatt) {
+                String[] valg = {"New game", "Exit"};
+                if (whiteTurn) {
+                    int input = showOptionDialog(b, "Hvit er sjakkmatt, Svart vinner!", "Svart vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
+                    switch (input) {
+                        case 0:
+                            dispose();
+                            b = new Gui("Sjakk");
+                            b.setVisible(true);
+                            isStarted = false;
+                            break;
+                        case 1:
+                            System.exit(0);
+                    }
+                } else {
+                    int input = showOptionDialog(b, "Svart er sjakkmatt, Hvit vinner!", "Hvit vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
+                    switch (input) {
+                        case 0:
+                            dispose();
+                            b = new Gui("Sjakk");
+                            b.setVisible(true);
+                            isStarted = false;
+                            break;
+                        case 1: 
+                            System.exit(0);
+                    }
+                }
             }
         }
 
