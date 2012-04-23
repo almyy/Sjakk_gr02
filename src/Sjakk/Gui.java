@@ -38,7 +38,7 @@ class Gui extends JFrame {
     private int teller2 = 0;
     private int teller3 = 0;
     private int teller4 = 0;
-    private double tid;    
+    private double tid;
 
     public Gui(String tittel) {
         setTitle(tittel);
@@ -73,12 +73,12 @@ class Gui extends JFrame {
         private JLabel tidLabel;
         private double teller = tid;
         private String tidString = "" + (int) teller / 60 + ":" + (int) teller % 60;
-        
 
         public TidTaker(final boolean isHvit) {
             int delay = 1000;
             tidLabel = new JLabel(tidString);
             ActionListener taskPerformer = new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     if (isStarted) {
@@ -285,6 +285,14 @@ class Gui extends JFrame {
                 tekstFelt.append("Svart trekk: " + move + " til " + move2 + "\n");
             }
         }
+
+        private void sjakk(boolean e) {
+            if (e) {
+                tekstFelt.append("Hvit konge i sjakk! \n (flytt kongen) \n");
+            } else {
+                tekstFelt.append("Svart konge i sjakk! \n (flytt kongen) \n");
+            }
+        }
     }
 
     private class MuseLytter implements MouseListener {
@@ -299,9 +307,17 @@ class Gui extends JFrame {
             Rute R = brett.getRute(denne.getYen(), denne.getXen());
             isStarted = true;
             isSjakk = brett.isSjakk(!blackTurn);
+            if (denne.hasLabel()) {
+                Brikke B = R.getBrikke();
+                if (R.getBrikke().isHvit() && !blackTurn && !(B instanceof Konge)) {
+                    gameInfo.sjakk(true);
+                }
+                if (!R.getBrikke().isHvit() && blackTurn && !(B instanceof Konge)) {
+                    gameInfo.sjakk(false);
+                }
+            }
             boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
-                System.out.println("Gjør et flytt som fjerner sjakken");
                 if (!isHighlighted && denne.hasLabel()) {
                     move = trekk[denne.getYen()] + (denne.getXen() + 1);
                     if (!blackTurn) {
@@ -334,7 +350,7 @@ class Gui extends JFrame {
                         }
                     }
                 }
-            } else {                
+            } else {
                 if (!isHighlighted && R.isOccupied() && denne.hasLabel()) {
 
                     move = trekk[denne.getYen()] + (denne.getXen() + 1);
@@ -536,13 +552,13 @@ class Gui extends JFrame {
             pack();
             validate();
             if (brett.getRute(denne.getYen(), denne.getXen()).getBrikke() instanceof Bonde && denne.getXen() == 7) {
-                PromotePieceFrame ppf = new PromotePieceFrame(!blackTurn, brett.getRute(denne.getYen(), denne.getXen()));
+                PromotePieceFrame ppf = new PromotePieceFrame(blackTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
             } else if (brett.getRute(denne.getYen(), denne.getXen()).getBrikke() instanceof Bonde && denne.getXen() == 0) {
                 PromotePieceFrame ppf = new PromotePieceFrame(blackTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
             }
-            
+
             isBlock = brett.checkIfBlockingCheck(!blackTurn);
             brett.setBlockingCheck(isBlock);
             isSjakk = brett.isSjakk(!blackTurn);
@@ -574,7 +590,8 @@ class Gui extends JFrame {
                             System.exit(0);
                     }
                 }
-            } if(isHighlighted && !denne.getBackground().equals(highlighted) && !denne.getBackground().equals(highlightedTrekk)) {
+            }
+            if (isHighlighted && !denne.getBackground().equals(highlighted) && !denne.getBackground().equals(highlightedTrekk)) {
                 if (!blackTurn) {
                     for (int i = 0; i < 8; i++) {
                         for (int u = 0; u < 8; u++) {
@@ -594,7 +611,7 @@ class Gui extends JFrame {
                         }
                         isHighlighted = false;
                     }
-                    
+
                 } else {
                     for (int i = 0; i < 8; i++) {
                         for (int u = 0; u < 8; u++) {
@@ -678,56 +695,56 @@ class Gui extends JFrame {
                         squares[r.getY()][r.getX()].removeBilde();
                         dispose();
                         squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/whiteQueen.gif")));
-                        
+
                         break;
                     case "src/images/whiteTaarn.gif":
                         brett.promotePiece(r, new Taarn(true));
                         squares[r.getY()][r.getX()].removeBilde();
                         dispose();
                         squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/whiteTaarn.gif")));
-                        
+
                         break;
                     case "src/images/whiteLoper.gif":
                         brett.promotePiece(r, new Loper(true));
                         squares[r.getY()][r.getX()].removeBilde();
                         dispose();
                         squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/whiteLoper.gif")));
-                        
+
                         break;
                     case "src/images/whiteSpringer.gif":
                         brett.promotePiece(r, new Springer(true));
                         squares[r.getY()][r.getX()].removeBilde();
                         dispose();
                         squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/whiteSpringer.gif")));
-                        
+
                         break;
                     case "src/images/blackQueen.gif":
                         brett.promotePiece(r, new Dronning(false));
                         squares[r.getY()][r.getX()].removeBilde();
                         dispose();
                         squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/blackQueen.gif")));
-                        
+
                         break;
                     case "src/images/blackTaarn.gif":
                         brett.promotePiece(r, new Taarn(false));
                         squares[r.getY()][r.getX()].removeBilde();
                         dispose();
                         squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/blackTaarn.gif")));
-                        
+
                         break;
                     case "src/images/blackLoper.gif":
                         brett.promotePiece(r, new Loper(false));
                         squares[r.getY()][r.getX()].removeBilde();
                         dispose();
                         squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/blackLoper.gif")));
-                        
+
                         break;
                     case "src/images/blackSpringer.gif":
                         brett.promotePiece(r, new Springer(false));
                         squares[r.getY()][r.getX()].removeBilde();
                         dispose();
                         squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/blackSpringer.gif")));
-                        
+
                         break;
                 }
             }
