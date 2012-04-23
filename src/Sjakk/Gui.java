@@ -542,19 +542,11 @@ class Gui extends JFrame {
                 PromotePieceFrame ppf = new PromotePieceFrame(!whiteTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
             }
-            isBlock = brett.checkIfBlockingCheck(whiteTurn);
-            brett.setBlockingCheck(isBlock);
-            isSjakk = brett.isSjakk(whiteTurn);
-            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn, isSjakk);
-            if (isSjakkMatt) {
-                System.out.println("SjakkMatt");
-            }
             if (blackTurn) {
                 blackTurn = false;
             } else {
                 blackTurn = true;
             }
-            isBlock = false;
             isBlock = brett.checkIfBlockingCheck(whiteTurn);
             brett.setBlockingCheck(isBlock);
             isSjakk = brett.isSjakk(whiteTurn);
