@@ -176,28 +176,15 @@ class Gui extends JFrame {
         public MenyBar() {
             JMenu filMeny = new JMenu("File");
             filMeny.setMnemonic('F');
-            JMenu optionMeny = new JMenu("Options");
             add(filMeny);
-            add(optionMeny);
             MenuItem newGame = new MenuItem("New game");
             newGame.setMnemonic('N');
-            MenuItem saveGame = new MenuItem("Save game");
-            saveGame.setMnemonic('S');
-            MenuItem loadGame = new MenuItem("Load game");
-            loadGame.setMnemonic('L');
             MenuItem exit = new MenuItem("Exit");
             exit.setMnemonic('E');
-            MenuItem preferences = new MenuItem("Preferences");
             filMeny.add(newGame);
-            filMeny.add(saveGame);
-            filMeny.add(loadGame);
             filMeny.add(exit);
-            optionMeny.add(preferences);
             newGame.addActionListener(new MenyListener());
-            saveGame.addActionListener(new MenyListener());
-            loadGame.addActionListener(new MenyListener());
             exit.addActionListener(new MenyListener());
-            preferences.addActionListener(new MenyListener());
         }
     }
 
@@ -224,31 +211,13 @@ class Gui extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             String valg = e.getSource().toString();
-            String[] navn = {"New game", "Save game", "Load game", "Exit"};
+            String[] navn = {"New game", "Exit"};
 
             if (valg.equals(navn[0])) {
                 dispose();
                 b = new Gui("Sjakk");
                 b.setVisible(true);
-            } else if (valg.equals(navn[1])) {
-
-                try {
-                    IO a = new IO();
-                    a.IOwrite();
-                } catch (IOException ex) {
-                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-            } else if (valg.equals(navn[2])) {
-                try {
-                    IO c = new IO();
-                    ArrayList<Rutenett> help = c.IORead();
-                    rutenett = help.get(0);
-                } catch (IOException ex) {
-                    Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-
+                isStarted = false;
             } else {
                 System.exit(0);
             }
@@ -324,6 +293,7 @@ class Gui extends JFrame {
                 this.remove(bilde);
             }
             this.setBilde(null);
+            repaint();
         }
 
         public boolean hasLabel() {
@@ -360,63 +330,6 @@ class Gui extends JFrame {
         }
     }
 
-    private class IO {
-
-        private File f;
-        private ObjectInputStream mick;
-
-        public IO() throws IOException {
-            f = new File("C:/Jobb/Sjakk.dat");
-            f.createNewFile();
-        }
-
-        public ArrayList<Rutenett> IORead() {
-            ArrayList<Rutenett> hjelp = new ArrayList();
-            try {
-                mick = new ObjectInputStream(new FileInputStream(f));
-                Object obj = null;
-                while ((obj = mick.readObject()) != null) {
-                    if (obj instanceof Rutenett) {
-                        hjelp.add(((Rutenett) obj));
-                    }
-                }
-            } catch (EOFException ex) {
-                System.out.println("Slutt på fil.");
-            } catch (ClassNotFoundException ex) {
-            } catch (FileNotFoundException ex) {
-            } catch (IOException ex) {
-            } finally {
-                try {
-                    if (mick != null) {
-                        mick.close();
-                    }
-                } catch (IOException ex) {
-                }
-            }
-            return hjelp;
-        }
-
-        public void IOwrite() {
-            ObjectOutputStream lol = null;
-            ArrayList<Rutenett> help = new ArrayList();
-            help.add(rutenett);
-            try {
-                lol = new ObjectOutputStream(new FileOutputStream(f));
-                lol.writeObject(help);
-            } catch (FileNotFoundException ex) {
-            } catch (IOException ex) {
-            } finally {
-                try {
-                    if (lol != null) {
-                        lol.flush();
-                        lol.close();
-                    }
-                } catch (IOException ex) {
-                }
-            }
-        }
-    }
-
     private class MuseLytter implements MouseListener {
 
         private int teller = 0;
@@ -429,7 +342,6 @@ class Gui extends JFrame {
             teller++;
             Rute R = brett.getRute(denne.getYen(), denne.getXen());            
             isStarted = true;
-            isSjakk = brett.isSjakk(whiteTurn);
             boolean isBlock = brett.getBlockingCheck();
             if (isSjakk) {
                 System.out.println("Gjør et flytt som fjerner sjakken");
@@ -498,7 +410,6 @@ class Gui extends JFrame {
                                 int lX = lovligeTrekk.get(u).getX();
                                 int lY = lovligeTrekk.get(u).getY();
                                 squares[lY][lX].setBackground(highlightedTrekk);
-                                squares[lY][lX].addMouseListener(new MuseLytter2());
                             }
                         } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
                             int x = j;
@@ -507,12 +418,12 @@ class Gui extends JFrame {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
                             } else {
                                 lovligeTrekk = brett.sjakkTrekk(!whiteTurn, new Rute(x, y));
+                                System.out.println("Sjakktrekk");
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
                                 int lX = lovligeTrekk.get(u).getX();
                                 int lY = lovligeTrekk.get(u).getY();
                                 squares[lY][lX].setBackground(highlightedTrekk);
-                                squares[lY][lX].addMouseListener(new MuseLytter2());
                             }
                         } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isBlock) {
                             int x = j;
@@ -521,12 +432,12 @@ class Gui extends JFrame {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
                             } else {
                                 lovligeTrekk = brett.blockingCheckMoves(!whiteTurn, new Rute(x, y));
+                                System.out.println("Blocking");
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
                                 int lX = lovligeTrekk.get(u).getX();
                                 int lY = lovligeTrekk.get(u).getY();
                                 squares[lY][lX].setBackground(highlightedTrekk);
-                                squares[lY][lX].addMouseListener(new MuseLytter2());
                             }
                         }
                     } else {
@@ -538,7 +449,6 @@ class Gui extends JFrame {
                                 int lX = lovligeTrekk.get(u).getX();
                                 int lY = lovligeTrekk.get(u).getY();
                                 squares[lY][lX].setBackground(highlightedTrekk);
-                                squares[lY][lX].addMouseListener(new MuseLytter2());
                             }
                         } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isSjakk) {
                             int x = j;
@@ -552,7 +462,6 @@ class Gui extends JFrame {
                                 int lX = lovligeTrekk.get(u).getX();
                                 int lY = lovligeTrekk.get(u).getY();
                                 squares[lY][lX].setBackground(highlightedTrekk);
-                                squares[lY][lX].addMouseListener(new MuseLytter2());
                             }
                         } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isBlock) {
                             int x = j;
@@ -566,61 +475,29 @@ class Gui extends JFrame {
                                 int lX = lovligeTrekk.get(u).getX();
                                 int lY = lovligeTrekk.get(u).getY();
                                 squares[lY][lX].setBackground(highlightedTrekk);
-                                squares[lY][lX].addMouseListener(new MuseLytter2());
                             }
                         }
                     }
                 }
             }
 
+            if (denne.getBackground().equals(highlightedTrekk)) {
+                int x = denne.getXen();
+                int y = denne.getYen();
 
+                Rute startRute = new Rute(0, 0);
+                JLabel oldPic = new JLabel();
+                GuiRute startGuiRute = null;
 
-
-
-
-
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-    }
-
-    private class MuseLytter2 implements MouseListener {
-
-        @Override
-        public synchronized void mouseClicked(MouseEvent e) {
-
-
-            GuiRute denne = (GuiRute) e.getSource();
-            int x = denne.getXen();
-            int y = denne.getYen();
-            Rute startRute = new Rute(0, 0);
-            JLabel oldPic = new JLabel();
-            GuiRute startGuiRute = null;
-            for (int i = 0; i < 8; i++) {
-                for (int u = 0; u < 8; u++) {
-                    if (squares[i][u].getBackground().equals(highlighted)) {
-                        startGuiRute = squares[i][u];
-                        startRute = new Rute(i, u);
-                        oldPic = squares[i][u].getBilde();
+                for (int i = 0; i < 8; i++) {
+                    for (int u = 0; u < 8; u++) {
+                        if (squares[i][u].getBackground().equals(highlighted)) {
+                            startGuiRute = squares[i][u];
+                            startRute = new Rute(i, u);
+                            oldPic = squares[i][u].getBilde();
+                        }
                     }
                 }
-            }
-            if (denne.getBackground().equals(highlightedTrekk)) {
                 if (brett.getRute(y, x).isOccupied()) {
                     if (whiteTurn) {
                         if (brett.getRute(y, x).getBrikke().isHvit()) {
@@ -632,9 +509,9 @@ class Gui extends JFrame {
                         }
                     }
 
-                } else if ((brett.getRute(y, x).getBrikke() instanceof Bonde) && (brett.getRute(y, x - 1).getBrikke() instanceof Bonde) && (y != startRute.getY()) && (x - 1 >= 0) && brett.getRute(y, x - 1).isOccupied() && (brett.getRute(y, x - 1).getBrikke() instanceof Bonde) && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
+                } else if (brett.getRute(startRute.getY(), startRute.getX()).getBrikke() instanceof Bonde && brett.getRute(y, x - 1).getBrikke() instanceof Bonde && y != startRute.getY() && x > 0 && brett.getRute(y, x - 1).isOccupied() && ((Bonde) brett.getRute(y, x - 1).getBrikke()).isUnPasant()) {
                     squares[x - 1][y].removeBilde();
-                } else if ((brett.getRute(y, x).getBrikke() instanceof Bonde) && (brett.getRute(y, x + 1).getBrikke() instanceof Bonde) && (y != startRute.getY()) && (x + 1 < 8) && brett.getRute(y, x + 1).isOccupied() && (brett.getRute(y, x + 1).getBrikke() instanceof Bonde) && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
+                } else if (brett.getRute(startRute.getY(), startRute.getX()).getBrikke() instanceof Bonde && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && y != startRute.getY() && x + 1 < 8 && brett.getRute(y, x + 1).isOccupied() && brett.getRute(y, x + 1).getBrikke() instanceof Bonde && ((Bonde) brett.getRute(y, x + 1).getBrikke()).isUnPasant()) {
                     squares[x + 1][y].removeBilde();
 
                 }
@@ -732,13 +609,14 @@ class Gui extends JFrame {
             } else {
                 blackTurn = true;
             }
-
-
-
-            boolean isBlock = false;
+            isBlock = false;
             isBlock = brett.checkIfBlockingCheck(whiteTurn);
             brett.setBlockingCheck(isBlock);
-
+            isSjakk = brett.isSjakk(whiteTurn);
+            boolean isSjakkMatt = brett.isSjakkMatt(whiteTurn,isSjakk);
+            if(isSjakkMatt){
+                System.out.println("SjakkMatt");
+            }
         }
 
         @Override
