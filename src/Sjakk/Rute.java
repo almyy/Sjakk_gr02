@@ -9,6 +9,7 @@ package Sjakk;
 class Rute {
     private final int x;
     private final int y;
+    private boolean isBlocking = false;
     private Brikke brikke;
     /**
      * Konstruktør med to parametre. Setter x- og y-koordinatene.
@@ -61,11 +62,11 @@ class Rute {
         }
         return false;
     }
-    /**
-     * Standard toString-metode
-     * @return x- og y-koordinaten til ruta i form av tekst.
-     */
-    @Override
+    public boolean getBlocking(){
+        return isBlocking;
+    }public void setBlocking(boolean b){
+        isBlocking = b;
+    }
     public String toString() {
         return "x: " + x + ", y: " + y;
     }
