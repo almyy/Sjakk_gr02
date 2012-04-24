@@ -1476,8 +1476,8 @@ public class Brett implements Serializable {
 
     public ArrayList<Rute> sjakkTrekk(boolean isWhite, Rute r) {
         Brikke b = ruter[r.getX()][r.getY()].getBrikke();
-        isWhite = b.isHvit();
         Rute kongePos = null;
+        isWhite = b.isHvit();
         ArrayList<Rute> trekk = new ArrayList<>();
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
         ArrayList<Rute> trekkKonge = new ArrayList<>();
@@ -2094,9 +2094,7 @@ public class Brett implements Serializable {
                             legal = sjekkLovligeTrekk(ruter[i][u]);
 
                             if (legal.isEmpty()) {
-                                if (legal.size() == 0) {
-                                    return true;
-                                }
+                                return true;
                             }
                         }
                     }
@@ -2106,24 +2104,16 @@ public class Brett implements Serializable {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke() instanceof Konge && !ruter[i][u].getBrikke().isHvit()) {
                             legal = sjekkLovligeTrekk(ruter[i][u]);
-
-                            
-                            if (legal.isEmpty()) {
-                                 == == == =
                             if (legal.size() == 0) {
-                                     >>> >>> > branch 'master'
-                                    of https
-                                    ://github.com/almyy/Sjakk_gr02.git
                                 return true;
-                                }
                             }
                         }
                     }
                 }
             }
-            return false;
         }
-    
+        return false;
+    }
 
     public boolean checkIfIsBlocking(Rute r) {
         Rute sjekk = ruter[r.getX()][r.getY()];

@@ -322,7 +322,7 @@ class Gui extends JFrame {
                     } else {
                         Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
                         if (!sjekk.getBrikke().isHvit()) {
-                            ArrayList<Rute> brikker = brett.whatPiecesBlockCheck(blackTurn);
+                            ArrayList<Rute> brikker = brett.whatPiecesBlockCheck(!blackTurn);
                             if (brikker != null) {
                                 for (int i = 0; i < brikker.size(); i++) {
                                     if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
@@ -391,7 +391,7 @@ class Gui extends JFrame {
                             System.out.println("VAEM " + brett.getRute(x,y).getBlocking());
                             if (brett.getRute(x, y).getBrikke() instanceof Konge) {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
-                            } else {
+                            } else if(brett.getRute(x,y).getBlocking())  {
                                 lovligeTrekk = brett.blockingCheckMoves(!blackTurn, new Rute(x, y));
                                 System.out.println("Blocking");
                             }else{
@@ -433,8 +433,10 @@ class Gui extends JFrame {
                             brett.checkIfIsBlocking(new Rute(x,y));
                             if (brett.getRute(x, y).getBrikke() instanceof Konge) {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
-                            } else {
+                            } else if(brett.getRute(x,y).getBlocking()) {
                                 lovligeTrekk = brett.blockingCheckMoves(blackTurn, new Rute(x, y));
+                            } else{
+                                lovligeTrekk = brett.sjekkLovligeTrekk(new Rute(x,y));
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
                                 int lX = lovligeTrekk.get(u).getX();
@@ -551,10 +553,12 @@ class Gui extends JFrame {
                 PromotePieceFrame ppf = new PromotePieceFrame(blackTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
             }
-            
-            isBlock = brett.checkIfBlockingCheck(!blackTurn);
-            brett.setBlockingCheck(isBlock);
             isSjakk = brett.isSjakk(!blackTurn);
+            if(!isSjakk){
+                isBlock = brett.checkIfBlockingCheck(!blackTurn);
+            }
+            brett.setBlockingCheck(isBlock);
+            
             boolean isSjakkMatt = brett.isSjakkMatt(!blackTurn, isSjakk);
             if (isSjakkMatt) {
                 String[] valg = {"New game", "Exit"};
