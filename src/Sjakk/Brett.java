@@ -2081,7 +2081,7 @@ public class Brett{
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke() instanceof Konge && ruter[i][u].getBrikke().isHvit()) {
                             legal = sjekkLovligeTrekk(ruter[i][u]);
-                            if (legal.size() == 0) {
+                            if (legal.isEmpty()) {
                                 return true;
                             }
                         }
@@ -2092,7 +2092,7 @@ public class Brett{
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke() instanceof Konge && !ruter[i][u].getBrikke().isHvit()) {
                             legal = sjekkLovligeTrekk(ruter[i][u]);
-                            if (legal.size() == 0) {
+                            if (legal.isEmpty()) {
                                 return true;
                             }
                         }
