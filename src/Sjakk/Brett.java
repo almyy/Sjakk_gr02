@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class Brett{
+public class Brett {
 
     private Rute[][] ruter;
     private Hvit hvit;
@@ -1482,6 +1482,18 @@ public class Brett{
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
         ArrayList<Rute> trekkKonge = new ArrayList<>();
         ArrayList<Rute> discardedKonge = new ArrayList<>();
+        boolean oppVenstre;
+        boolean oppHoyre;
+        boolean nedVenstre;
+        boolean nedHoyre;
+        boolean opp;
+        boolean ned;
+        boolean hoyre;
+        boolean venstre;
+        boolean help = false;
+        boolean help2 = false;
+        int aX = 0;
+        int aY = 0;
         if (isWhite) {
             for (int kI = 0; kI < 8; kI++) {
                 for (int kU = 0; kU < 8; kU++) {
@@ -1490,23 +1502,33 @@ public class Brett{
                         kongePos = ruter[kI][kU];
                     }
                 }
-            }boolean help = false;
+            }
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
                         trekk = sjekkLovligeTrekk(ruter[i][u]);
                         for (int y = 0; y < trekkKonge.size(); y++) {
                             help = false;
-                            for(int f = 0; f < trekk.size(); f++){
-                                if(trekk.get(f).getX() == kongePos.getX() && trekk.get(f).getY()==kongePos.getY()){
+                            for (int f = 0; f < trekk.size(); f++) {
+                                if (trekk.get(f).getX() == kongePos.getX() && trekk.get(f).getY() == kongePos.getY()) {
                                     help = true;
+                                    aX = i;
+                                    aY = u;
                                 }
                             }
+                            if (trekkKonge.get(y).getX() == aX && trekkKonge.get(y).getY() == aY) {
+                                discardedKonge.add(trekkKonge.get(y));
+                                trekkKonge.remove(y);
+                                help2 = true;
+                                y--;
+                            }
+                        }
+                        for (int h = 0; h < trekkKonge.size(); h++) {
                             for (int w = 0; w < trekk.size(); w++) {
-                                if (y >= 0 && trekk.get(w).getX() == trekkKonge.get(y).getX() && trekk.get(w).getY() == trekkKonge.get(y).getY()&&help) {
-                                    discardedKonge.add(trekkKonge.get(y));
-                                    trekkKonge.remove(y);
-                                    y--;
+                                if (!help2 && h >= 0 && trekk.get(w).getX() == trekkKonge.get(h).getX() && trekk.get(w).getY() == trekkKonge.get(h).getY() && help) {
+                                    discardedKonge.add(trekkKonge.get(h));
+                                    trekkKonge.remove(h);
+                                    h--;
                                 }
                             }
                         }
@@ -1522,23 +1544,32 @@ public class Brett{
                     }
                 }
             }
-            boolean help = false;
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
                         trekk = sjekkLovligeTrekk(ruter[i][u]);
                         for (int y = 0; y < trekkKonge.size(); y++) {
                             help = false;
-                            for(int f = 0; f < trekk.size(); f++){
-                                if(trekk.get(f).getX() == kongePos.getX() && trekk.get(f).getY()==kongePos.getY()){
+                            for (int f = 0; f < trekk.size(); f++) {
+                                if (trekk.get(f).getX() == kongePos.getX() && trekk.get(f).getY() == kongePos.getY()) {
                                     help = true;
+                                    aX = i;
+                                    aY = u;
                                 }
                             }
+                            if (trekkKonge.get(y).getX() == aX && trekkKonge.get(y).getY() == aY) {
+                                discardedKonge.add(trekkKonge.get(y));
+                                trekkKonge.remove(y);
+                                help2 = true;
+                                y--;
+                            }
+                        }
+                        for (int h = 0; h < trekkKonge.size(); h++) {
                             for (int w = 0; w < trekk.size(); w++) {
-                                if (y >= 0 && trekk.get(w).getX() == trekkKonge.get(y).getX() && trekk.get(w).getY() == trekkKonge.get(y).getY()&&help) {
-                                    discardedKonge.add(trekkKonge.get(y));
-                                    trekkKonge.remove(y);
-                                    y--;
+                                if (!help2 && h >= 0 && trekk.get(w).getX() == trekkKonge.get(h).getX() && trekk.get(w).getY() == trekkKonge.get(h).getY() && help) {
+                                    discardedKonge.add(trekkKonge.get(h));
+                                    trekkKonge.remove(h);
+                                    h--;
                                 }
                             }
                         }
@@ -1546,21 +1577,20 @@ public class Brett{
                 }
             }
         }
-
         if (b instanceof Konge) {
             for (int i = 0; i < trekkKonge.size(); i++) {
                 lovligeTrekk.add(trekkKonge.get(i));
             }
             return lovligeTrekk;
         }
-        boolean venstre = false;
-        boolean hoyre = false;
-        boolean opp = false;
-        boolean ned = false;
-        boolean oppVenstre = false;
-        boolean oppHoyre = false;
-        boolean nedVenstre = false;
-        boolean nedHoyre = false;
+        venstre = false;
+        hoyre = false;
+        opp = false;
+        ned = false;
+        oppVenstre = false;
+        oppHoyre = false;
+        nedVenstre = false;
+        nedHoyre = false;
         ArrayList<Rute> linjeAnalyse = new ArrayList<>();
 
         linjeAnalyse.add(kongePos);
@@ -1608,19 +1638,38 @@ public class Brett{
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
                 } else if (oppVenstre) {
-                    if ((kongePos.getX() - trekkBonde.get(i).getX()) == trekkBonde.get(i).getY() - kongePos.getY()) {
+                    if (help2) {
+                        if (trekkBonde.get(i).getX() >= aX&&(kongePos.getX() - trekkBonde.get(i).getX()) == trekkBonde.get(i).getY() - kongePos.getY()) {
+                            lovligeTrekk.add(trekkBonde.get(i));
+                        }
+                    } else if ((kongePos.getX() - trekkBonde.get(i).getX()) == trekkBonde.get(i).getY() - kongePos.getY()) {
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
                 } else if (oppHoyre) {
-                    if ((trekkBonde.get(i).getX() - kongePos.getX()) == (trekkBonde.get(i).getY() - kongePos.getY())) {
+                    if (help2) {
+                        if (trekkBonde.get(i).getX() <= aX && (trekkBonde.get(i).getX() - kongePos.getX()) == (trekkBonde.get(i).getY() - kongePos.getY())) {
+                            lovligeTrekk.add(trekkBonde.get(i));
+                        }
+                    } else if ((trekkBonde.get(i).getX() - kongePos.getX()) == (trekkBonde.get(i).getY() - kongePos.getY())) {
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
                 } else if (nedVenstre) {
-                    if ((kongePos.getX() - trekkBonde.get(i).getX()) == (kongePos.getY() - trekkBonde.get(i).getY())) {
+                    if (help2) {
+                        if (trekkBonde.get(i).getX() >= aX) {
+                            if ((kongePos.getX() - trekkBonde.get(i).getX()) == (kongePos.getY() - trekkBonde.get(i).getY())) {
+                                lovligeTrekk.add(trekkBonde.get(i));
+                            }
+                        }
+                    } else if ((kongePos.getX() - trekkBonde.get(i).getX()) == (kongePos.getY() - trekkBonde.get(i).getY())) {
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
+
                 } else if (nedHoyre) {
-                    if ((trekkBonde.get(i).getX() - kongePos.getX() == (kongePos.getY() - trekkBonde.get(i).getY()))) {
+                    if (help2) {
+                        if (trekkBonde.get(i).getX() <= aX && (trekkBonde.get(i).getX() - kongePos.getX() == (kongePos.getY() - trekkBonde.get(i).getY()))) {
+                            lovligeTrekk.add(trekkBonde.get(i));
+                        }
+                    } else if ((trekkBonde.get(i).getX() - kongePos.getX() == (kongePos.getY() - trekkBonde.get(i).getY()))) {
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
                 }
@@ -1755,9 +1804,10 @@ public class Brett{
                         while (ru.getX() - tx < 0) {
                             tx--;
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
-                        }while(helpTx < kongePos.getX()+1){
+                        }
+                        while (helpTx < kongePos.getX() + 1) {
                             helpTx++;
-                            lovligeTrekk.add(new Rute(helpTx,ru.getY()));
+                            lovligeTrekk.add(new Rute(helpTx, ru.getY()));
                         }
                     }
                 }
@@ -1772,9 +1822,10 @@ public class Brett{
                         while (tx - ru.getX() < 0) {
                             tx++;
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
-                        }while(helpTx > kongePos.getX()+1){
+                        }
+                        while (helpTx > kongePos.getX() + 1) {
                             helpTx--;
-                            lovligeTrekk.add(new Rute(helpTx,ru.getY()));
+                            lovligeTrekk.add(new Rute(helpTx, ru.getY()));
                         }
                     }
                 }
@@ -1789,7 +1840,8 @@ public class Brett{
                         while (ty - ru.getY() < 0) {
                             ty++;
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
-                        }while(helpTy > kongePos.getY()+1){
+                        }
+                        while (helpTy > kongePos.getY() + 1) {
                             helpTy--;
                             lovligeTrekk.add(new Rute(ru.getX(), helpTy));
                         }
@@ -1811,10 +1863,11 @@ public class Brett{
                         int helpTy = r.getY();
                         while (ru.getY() - ty > 0) {
                             ty--;
-                            lovligeTrekk.add(new Rute(ru.getX(), ty));                            
-                        }while(helpTy < kongePos.getY()+1){
+                            lovligeTrekk.add(new Rute(ru.getX(), ty));
+                        }
+                        while (helpTy < kongePos.getY() + 1) {
                             helpTy++;
-                            lovligeTrekk.add(new Rute(ru.getX(),helpTy));
+                            lovligeTrekk.add(new Rute(ru.getX(), helpTy));
                         }
                     }
                 }
@@ -1832,10 +1885,11 @@ public class Brett{
                             tx--;
                             ty++;
                             lovligeTrekk.add(new Rute(tx, ty));
-                        }while(helpTx-(kongePos.getX()+1) < 0 && (kongePos.getY()+1)-helpTy<0){
+                        }
+                        while (helpTx - (kongePos.getX() + 1) < 0 && (kongePos.getY() + 1) - helpTy < 0) {
                             helpTx++;
                             helpTy--;
-                            lovligeTrekk.add(new Rute(helpTx,helpTy));
+                            lovligeTrekk.add(new Rute(helpTx, helpTy));
                         }
                     }
                     if (blocker instanceof Bonde) {
@@ -1858,10 +1912,11 @@ public class Brett{
                             tx++;
                             ty++;
                             lovligeTrekk.add(new Rute(tx, ty));
-                        }while(kongePos.getX() - helpTx < 0 && kongePos.getX()-helpTy < 0){
+                        }
+                        while (kongePos.getX() - helpTx < 0 && kongePos.getX() - helpTy < 0) {
                             helpTx--;
                             helpTy--;
-                            lovligeTrekk.add(new Rute(helpTx,helpTy));
+                            lovligeTrekk.add(new Rute(helpTx, helpTy));
                         }
                     } else if (blocker instanceof Bonde) {
                         if (ruter[r.getX() + 1][r.getY() + 1].isOccupied() && !ruter[r.getX() + 1][r.getY() + 1].getBrikke().isHvit()) {
@@ -1883,10 +1938,11 @@ public class Brett{
                             tx--;
                             ty--;
                             lovligeTrekk.add(new Rute(tx, ty));
-                        }while(helpTx -kongePos.getX()+1 < 0 && helpTy - kongePos.getY()+1<0){
+                        }
+                        while (helpTx - kongePos.getX() + 1 < 0 && helpTy - kongePos.getY() + 1 < 0) {
                             helpTx++;
                             helpTy++;
-                            lovligeTrekk.add(new Rute(helpTx,helpTy));
+                            lovligeTrekk.add(new Rute(helpTx, helpTy));
                         }
                     }
                 }
@@ -1904,10 +1960,11 @@ public class Brett{
                             tx++;
                             ty--;
                             lovligeTrekk.add(new Rute(tx, ty));
-                        }while((kongePos.getX()+1)-helpTx<0 && helpTy - (kongePos.getY()+1)<0){
+                        }
+                        while ((kongePos.getX() + 1) - helpTx < 0 && helpTy - (kongePos.getY() + 1) < 0) {
                             helpTx--;
                             helpTy++;
-                            lovligeTrekk.add(new Rute(helpTx,helpTy));
+                            lovligeTrekk.add(new Rute(helpTx, helpTy));
                         }
                     }
                 }
@@ -1923,9 +1980,10 @@ public class Brett{
                         while (ru.getX() - tx < 0) {
                             tx--;
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
-                        }while(helpTx < kongePos.getX()+1){
+                        }
+                        while (helpTx < kongePos.getX() + 1) {
                             helpTx++;
-                            lovligeTrekk.add(new Rute(helpTx,ru.getY()));
+                            lovligeTrekk.add(new Rute(helpTx, ru.getY()));
                         }
                     }
                 }
@@ -1940,9 +1998,10 @@ public class Brett{
                         while (tx - ru.getX() < 0) {
                             tx++;
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
-                        }while(helpTx > kongePos.getX()+1){
+                        }
+                        while (helpTx > kongePos.getX() + 1) {
                             helpTx--;
-                            lovligeTrekk.add(new Rute(helpTx,ru.getY()));
+                            lovligeTrekk.add(new Rute(helpTx, ru.getY()));
                         }
                     }
                 }
@@ -1957,7 +2016,8 @@ public class Brett{
                         while (ty - ru.getY() < 0) {
                             ty++;
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
-                        }while(helpTy > kongePos.getY()+1){
+                        }
+                        while (helpTy > kongePos.getY() + 1) {
                             helpTy--;
                             lovligeTrekk.add(new Rute(ru.getX(), helpTy));
                         }
@@ -1975,9 +2035,9 @@ public class Brett{
                             ty--;
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
                         }
-                        while(helpTy < kongePos.getY()-1){
+                        while (helpTy < kongePos.getY() - 1) {
                             helpTy++;
-                            lovligeTrekk.add(new Rute(ru.getX(),helpTy));
+                            lovligeTrekk.add(new Rute(ru.getX(), helpTy));
                         }
                     }
                     if (blocker instanceof Bonde) {
@@ -2001,10 +2061,11 @@ public class Brett{
                             tx--;
                             ty++;
                             lovligeTrekk.add(new Rute(tx, ty));
-                        }while(helpTx-(kongePos.getX()+1) < 0 && (kongePos.getY()+1)-helpTy<0){
+                        }
+                        while (helpTx - (kongePos.getX() + 1) < 0 && (kongePos.getY() + 1) - helpTy < 0) {
                             helpTx++;
                             helpTy--;
-                            lovligeTrekk.add(new Rute(helpTx,helpTy));
+                            lovligeTrekk.add(new Rute(helpTx, helpTy));
                         }
                     }
                     if (blocker instanceof Bonde) {
@@ -2027,10 +2088,11 @@ public class Brett{
                             tx++;
                             ty++;
                             lovligeTrekk.add(new Rute(tx, ty));
-                        }while((kongePos.getX()+1) - helpTx < 0 && (kongePos.getX()+1)-helpTy < 0){
+                        }
+                        while ((kongePos.getX() + 1) - helpTx < 0 && (kongePos.getX() + 1) - helpTy < 0) {
                             helpTx--;
                             helpTy--;
-                            lovligeTrekk.add(new Rute(helpTx,helpTy));
+                            lovligeTrekk.add(new Rute(helpTx, helpTy));
                         }
                     } else if (blocker instanceof Bonde) {
                         if (ruter[r.getX() + 1][r.getY() + 1].isOccupied() && !ruter[r.getX() + 1][r.getY() + 1].getBrikke().isHvit()) {
@@ -2047,15 +2109,16 @@ public class Brett{
                         int tx = r.getX();
                         int ty = r.getY();
                         int helpTx = r.getX();
-                        int helpTy= r.getY();
-                        while (ru.getX()-tx < 0 && ru.getY() - ty < 0) {
+                        int helpTy = r.getY();
+                        while (ru.getX() - tx < 0 && ru.getY() - ty < 0) {
                             tx--;
                             ty--;
                             lovligeTrekk.add(new Rute(tx, ty));
-                        }while(helpTx -kongePos.getX()+1 < 0 && helpTy - kongePos.getY()+1<0){
+                        }
+                        while (helpTx - kongePos.getX() + 1 < 0 && helpTy - kongePos.getY() + 1 < 0) {
                             helpTx++;
                             helpTy++;
-                            lovligeTrekk.add(new Rute(helpTx,helpTy));
+                            lovligeTrekk.add(new Rute(helpTx, helpTy));
                         }
                     }
                 }
@@ -2073,10 +2136,11 @@ public class Brett{
                             tx++;
                             ty--;
                             lovligeTrekk.add(new Rute(tx, ty));
-                        }while((kongePos.getX()+1)-helpTx<0 && helpTy - (kongePos.getY()+1)<0){
+                        }
+                        while ((kongePos.getX() + 1) - helpTx < 0 && helpTy - (kongePos.getY() + 1) < 0) {
                             helpTx--;
                             helpTy++;
-                            lovligeTrekk.add(new Rute(helpTx,helpTy));
+                            lovligeTrekk.add(new Rute(helpTx, helpTy));
                         }
                     }
                 }
