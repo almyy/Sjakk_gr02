@@ -1,19 +1,20 @@
 package Sjakk;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author Rino
+ * @author Team 02, AITeL@HiST
+ * 
+ * Klassen Dronning er brikken som representerer dronningen. Her håndteres logikken rundt selve brikken.
  */
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 public class Dronning extends Brikke {
-    
+    /**
+     * Konstruktør med en parameter.
+     * @param isHvit 
+     * Bestemmer om dronningen skal være svart eller hvit.
+     */
     public Dronning(boolean isHvit) {
             super(6, isHvit,null);
             if(isHvit){
@@ -21,7 +22,14 @@ public class Dronning extends Brikke {
             }else{
                 super.setIcon("src/images/blackQueen.gif");
             }
-} 
+    }
+    /**
+     * Regner ut hvilke ruter dronningen kan flytte til. Tar ikke hensyn til andre brikker i det hele tatt.
+     * @param r
+     * Ruten som dronningen står på.
+     * @return 
+     * Et ArrayList med ruter som bestemmer hvilke flytt dronningen kan ta.
+     */
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk(Rute r) {
         ArrayList<Rute> lovligeRuter = new ArrayList<>();

@@ -1,18 +1,16 @@
 package Sjakk;
-
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
 /**
  *
- * @author Rino
+ * @author Team 02, AITeL@HiST
+ * 
+ * Klasse Brett inneholder all logikk og kommunikasjon med GUI. Dette er
+ * størsteparten av koden vår. Her ligger det et "imaginært" sjakkbrett, hvor
+ * selve brikkeobjektene er lagret. 
  */
-import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class Brett implements Serializable {
+class Brett {
 
     private Rute[][] ruter;
     private Hvit hvit;
@@ -34,7 +32,10 @@ public class Brett implements Serializable {
     private int TaarnSH = 0;
     private int TaarnSV = 0;
     
-
+   /**
+    * Konstruktør uten argumenter. Alle brikker og ruter opprettes her og
+    * plasseres ut på brettet i de riktige posisjonene.
+    */
     public Brett() {
         this.ruter = new Rute[8][8];
         this.hvit = new Hvit();
@@ -46,8 +47,6 @@ public class Brett implements Serializable {
                 this.ruter[i][u] = new Rute(i, u);
             }
         }
-
-
         for (int i = 0; i < bonderS.size(); i++) {
             if (bonderS.get(i) instanceof Bonde) {
                 for (int j = 0; j < 8; j++) {
@@ -94,11 +93,19 @@ public class Brett implements Serializable {
         }
         antRunderSpilt = 0;
     }
-
+    /**
+     * Gir hele det logiske rutenettet til spillet.
+     * @return 
+     * En todimensjonal Rutetabell.
+     */
     public Rute[][] getRuter() {
         return ruter;
     }
 
+    /**
+     * 
+     * @param b 
+     */
     public void setBlockingCheck(boolean b) {
         blockingCheck = b;
     }
@@ -106,14 +113,30 @@ public class Brett implements Serializable {
     public boolean getBlockingCheck() {
         return blockingCheck;
     }
-
+    /**
+     * Gir ruten på en gitt posisjon på brettet.
+     * @param x
+     * X-verdien til ruten.
+     * @param y
+     * Y-verdier til ruten.
+     * @return 
+     * Et ruteobjekt.
+     */
     public Rute getRute(int x, int y) {
         return ruter[x][y];
     }
-
-    public ImageIcon getIcon(int i, int j) {
-        if (ruter[i][j].getBrikke().getIcon() != null) {
-            return ruter[i][j].getBrikke().getIcon();
+    /**
+     * Gir bildet lagret på en gitt posisjon på brettet.
+     * @param x
+     * X-verdien til brikken.
+     * @param y
+     * Y-verdien til brikken.
+     * @return
+     * Et ImageIcon med et bilde av brikken.
+     */
+    public ImageIcon getIcon(int x, int y) {
+        if (ruter[x][y].getBrikke().getIcon() != null) {
+            return ruter[x][y].getBrikke().getIcon();
         }
         return null;
     }
@@ -273,7 +296,13 @@ public class Brett implements Serializable {
         }
         return res;
     }
-
+    /**
+     * Sjekker hvilke trekk en brikke har lov til å ta. Tar hensyn til om brikker setter kongen i sjakk, eller om de blokkerer sjakk, osv.
+     * @param rute
+     * Et ruteobjekt som indikerer hvilken rute brikken står på.
+     * @return 
+     * Et ArrayList med ruteobjekter som bestemmer hvor brikken kan flytte.
+     */
     public ArrayList<Rute> sjekkLovligeTrekk(Rute rute) {
         Brikke brikke = ruter[rute.getX()][rute.getY()].getBrikke();
         if (brikke instanceof Bonde) {
@@ -284,8 +313,6 @@ public class Brett implements Serializable {
             int teller = lovligeTrekk.size();
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
-                    if (ruter[i][u].getBrikke() != null && bonde == ruter[i][u].getBrikke()) {
-                    }
                     if (ruter[i][u].getBrikke() instanceof Bonde && ((Bonde) ruter[i][u].getBrikke()).getAntRunderSpilt() + 1 < antRunderSpilt && ((Bonde) ruter[i][u].getBrikke()).isUnPasant()) {
                         ((Bonde) ruter[i][u].getBrikke()).incUnPasant(false);
                     }
@@ -321,9 +348,15 @@ public class Brett implements Serializable {
                     }
                 } else {
                     if (currentX == x && ruter[x][y].isOccupied()) {
+                        if(teller > 1 && i < teller-1 && lovligeTrekk.get(i+1).getY() == y - 1) {
+                            lovligeTrekk.remove(i+1);
+                            teller--;
+                            i--;
+                        }
                         lovligeTrekk.remove(i);
                         teller--;
                         i--;
+                        
                     } else if (currentX != x && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
                         teller--;
@@ -498,7 +531,9 @@ public class Brett implements Serializable {
         } else if (brikke instanceof Loper) {
             Loper loper = (Loper) brikke;
             ArrayList<Rute> rutene = loper.sjekkLovligeTrekk(rute);
-            //Deler opp rutene i arraylister, en arraylist for hver diagonal med lovlige trekk
+            /*
+             * Deler opp rutene i arraylister, en arraylist for hver diagonal med lovlige trekk
+             */
             ArrayList<Rute> venstreOpp = new ArrayList<>();
             ArrayList<Rute> hoyreOpp = new ArrayList<>();
             ArrayList<Rute> venstreNed = new ArrayList<>();
@@ -524,7 +559,9 @@ public class Brett implements Serializable {
             int hoyreOppT = hoyreOpp.size();
             int venstreNedT = venstreNed.size();
             int hoyreNedT = hoyreNed.size();
-            //sjekker om det står brikker på noen av arraylistene og fjerner henholdsvis de rutene som skal fjernes separat på hver diagonal
+            /*
+             * sjekker om det står brikker på noen av arraylistene og fjerner henholdsvis de rutene som skal fjernes separat på hver diagonal
+             */
             for (int i = 0; i < venstreOppT; i++) {
                 int currentX = venstreOpp.get(i).getX();
                 int currentY = venstreOpp.get(i).getY();
@@ -689,7 +726,9 @@ public class Brett implements Serializable {
                     }
                 }
             }
-            //Legger sammen arraylistene til en arrayList som returneres
+            /*
+             * Legger sammen arraylistene til en arrayList som returneres
+             */
             for (int i = 0; i < venstreOppT; i++) {
                 lovligeTrekk.add(venstreOpp.get(i));
             }
@@ -755,7 +794,9 @@ public class Brett implements Serializable {
             int hoyreOppT = hoyreOpp.size();
             int venstreNedT = venstreNed.size();
             int hoyreNedT = hoyreNed.size();
-            //sjekker om det står brikker på noen av arraylistene og fjerner henholdsvis de rutene som skal fjernes separat på hver diagonal
+            /*
+             * sjekker om det står brikker på noen av arraylistene og fjerner henholdsvis de rutene som skal fjernes separat på hver diagonal
+             */
             for (int i = 0; i < venstreOppT; i++) {
                 int currentX = venstreOpp.get(i).getX();
                 int currentY = venstreOpp.get(i).getY();
@@ -1322,7 +1363,11 @@ public class Brett implements Serializable {
         }
         return null;
     }
-
+    /**
+    * Fjerner en brikke på en gitt rute. Dette fjerner brikken i logikken, men bildet vil fortsatt vises i GUI.
+    * @param r 
+    * Et ruteobjekt som bestemmer x- og y-koordinaten til brikken som skal fjernes.
+    */
     private void removePiece(Rute r) {
         if (r.isOccupied() && r.getBrikke().isHvit()) {
             hvit.removePiece(r.getBrikke());
@@ -1330,7 +1375,15 @@ public class Brett implements Serializable {
             svart.removePiece(r.getBrikke());
         }
     }
-
+    /**
+     * Flytter en brikke i logikken. Dette flytter brikken i logikken, men ikke i GUI.
+     * @param flyttRute
+     * Ruten som brikken skal flytte til.
+     * @param startRute
+     * Ruten som brikken skal flytte fra.
+     * @param whiteTurn 
+     * Bestemmer om det er hvit eller svart brikke som flyttes.
+     */
     public void flyttBrikke(Rute flyttRute, Rute startRute, Boolean whiteTurn) {
         rokadeHH = false;
         rokadeHV = false;
@@ -1341,37 +1394,35 @@ public class Brett implements Serializable {
         int sY = startRute.getX();
         int sX = startRute.getY();
         synchronized (this) {
-        if (this.ruter[sX][sY].getBrikke() instanceof Konge && this.ruter[sX][sY].getBrikke().isHvit() && (rokadeKTH == false)) {
-            if (((fX - sX) == 2) && (TaarnHH == 0) && (KongeH == 0)) {
-                this.ruter[(sX + 1)][sY].setBrikke(ruter[(sX + 3)][sY].getBrikke());
-                this.ruter[(sX + 3)][sY].setBrikke(null);
-                this.removePiece(new Rute((sX + 3), sY));
-                rokadeHH = true;
-                rokadeKTH = true;
-
-
-            } else if (((sX - fX) == 2) && (TaarnHV == 0) && (KongeH == 0)) {
-                this.ruter[(sX - 1)][sY].setBrikke(ruter[(sX - 4)][sY].getBrikke());
-                this.ruter[(sX - 4)][sY].setBrikke(null);
-                this.removePiece(new Rute((sX - 4), sY));
-                rokadeHV = true;
-                rokadeKTH = true;
+            if (this.ruter[sX][sY].getBrikke() instanceof Konge && this.ruter[sX][sY].getBrikke().isHvit() && (rokadeKTH == false)) {
+                if (((fX - sX) == 2) && (TaarnHH == 0) && (KongeH == 0)) {
+                    this.ruter[(sX + 1)][sY].setBrikke(ruter[(sX + 3)][sY].getBrikke());
+                    this.ruter[(sX + 3)][sY].setBrikke(null);
+                    this.removePiece(new Rute((sX + 3), sY));
+                    rokadeHH = true;
+                    rokadeKTH = true;
+                } else if (((sX - fX) == 2) && (TaarnHV == 0) && (KongeH == 0)) {
+                    this.ruter[(sX - 1)][sY].setBrikke(ruter[(sX - 4)][sY].getBrikke());
+                    this.ruter[(sX - 4)][sY].setBrikke(null);
+                    this.removePiece(new Rute((sX - 4), sY));
+                    rokadeHV = true;
+                    rokadeKTH = true;
+                }
+            } else if (this.ruter[sX][sY].getBrikke() instanceof Konge && !this.ruter[sX][sY].getBrikke().isHvit() && (rokadeKTS == false)) {
+                if (((fX - sX) == 2) && (TaarnSH == 0) && (KongeS == 0)) {
+                    this.ruter[(sX + 1)][sY].setBrikke(ruter[(sX + 3)][sY].getBrikke());
+                    this.ruter[(sX + 3)][sY].setBrikke(null);
+                    this.removePiece(new Rute((sX + 3), sY));
+                    rokadeSH = true;
+                    rokadeKTS = true;
+                } else if (((sX - fX) == 2) && (TaarnSV == 0) && (KongeS == 0)) {
+                    this.ruter[(sX - 1)][sY].setBrikke(ruter[(sX - 4)][sY].getBrikke());
+                    this.ruter[(sX - 4)][sY].setBrikke(null);
+                    this.removePiece(new Rute((sX - 4), sY));
+                    rokadeSV = true;
+                    rokadeKTS = true;
+                }
             }
-        } else if (this.ruter[sX][sY].getBrikke() instanceof Konge && !this.ruter[sX][sY].getBrikke().isHvit() && (rokadeKTS == false)) {
-            if (((fX - sX) == 2) && (TaarnSH == 0) && (KongeS == 0)) {
-                this.ruter[(sX + 1)][sY].setBrikke(ruter[(sX + 3)][sY].getBrikke());
-                this.ruter[(sX + 3)][sY].setBrikke(null);
-                this.removePiece(new Rute((sX + 3), sY));
-                rokadeSH = true;
-                rokadeKTS = true;
-            } else if (((sX - fX) == 2) && (TaarnSV == 0) && (KongeS == 0)) {
-                this.ruter[(sX - 1)][sY].setBrikke(ruter[(sX - 4)][sY].getBrikke());
-                this.ruter[(sX - 4)][sY].setBrikke(null);
-                this.removePiece(new Rute((sX - 4), sY));
-                rokadeSV = true;
-                rokadeKTS = true;
-            }
-        }
         }
         Brikke brikken = this.ruter[sX][sY].getBrikke();
         if (this.ruter[fX][fY].isOccupied()) {
@@ -1381,7 +1432,7 @@ public class Brett implements Serializable {
             this.ruter[fX][fY - 1].setBrikke(null);
         } else if (brikken instanceof Bonde && (sX != fX && this.ruter[fX][fY + 1].isOccupied() && this.ruter[fX][fY + 1].getBrikke() instanceof Bonde && ((Bonde) this.ruter[fX][fY + 1].getBrikke()).isUnPasant())) {
             this.removePiece(ruter[fX][fY + 1]);
-            this.ruter[fX][fY - 1].setBrikke(null);
+            this.ruter[fX][fY + 1].setBrikke(null);
         }
         if (brikken instanceof Bonde) {
             Bonde bonden = (Bonde) brikken;
@@ -1397,52 +1448,58 @@ public class Brett implements Serializable {
         this.ruter[fX][fY].setBrikke(brikken);
         this.ruter[sX][sY].setBrikke(null);
         antRunderSpilt++;
-        
-        if(brikken instanceof Konge){
+        if (brikken instanceof Konge) {
             Konge Kongen = (Konge) brikken;
-            if(Kongen.isHvit()){
+            if (Kongen.isHvit()) {
                 KongeH++;
-            } else if (!Kongen.isHvit()){
+            } else if (!Kongen.isHvit()) {
                 KongeS++;
             }
         }
-        if(brikken instanceof Taarn){
+        if (brikken instanceof Taarn) {
             Taarn Taarnet = (Taarn) brikken;
-            if(Taarnet.isHvit()){
-                if(this.ruter[sX][sY].getBrikke() == this.ruter[7][0].getBrikke()){ //HH
+            if (Taarnet.isHvit()) {
+                if (this.ruter[sX][sY].getBrikke() == this.ruter[7][0].getBrikke()) { //HH
                     TaarnHH++;
-                } else if (this.ruter[sX][sY].getBrikke() == this.ruter[0][0].getBrikke()){ //HV
+                } else if (this.ruter[sX][sY].getBrikke() == this.ruter[0][0].getBrikke()) { //HV
                     TaarnHV++;
                 }
-                
-            } else if(!Taarnet.isHvit()){
-                if(this.ruter[sX][sY].getBrikke() == this.ruter[7][7].getBrikke()){//SH
+
+            } else if (!Taarnet.isHvit()) {
+                if (this.ruter[sX][sY].getBrikke() == this.ruter[7][7].getBrikke()) {//SH
                     TaarnSH++;
-                } else if (this.ruter[sX][sY].getBrikke() == this.ruter[0][7].getBrikke()){ // SV
+                } else if (this.ruter[sX][sY].getBrikke() == this.ruter[0][7].getBrikke()) { // SV
                     TaarnSV++;
                 }
             }
         }
 
     }
-
+    /**
+     * Finner ut om et tårn har blitt flyttet i logikken.
+     * @param e
+     * Bestemmer hvilket tårn det er snakk om.
+     * @return 
+     * True eller false alt etter om tårnet er flyttet.
+     */
     public boolean update(String e) {
         if (e.equalsIgnoreCase("HV")) {
             return rokadeHV;
-        }
-        else if (e.equalsIgnoreCase("HH")) {
+        } else if (e.equalsIgnoreCase("HH")) {
             return rokadeHH;
-        }
-        else if (e.equalsIgnoreCase("SV")) {
+        } else if (e.equalsIgnoreCase("SV")) {
             return rokadeSV;
-        }
-        else if (e.equalsIgnoreCase("SH")) {
+        } else if (e.equalsIgnoreCase("SH")) {
             return rokadeSH;
         }
 
         return false;
     }
-
+    /**
+     * 
+     * @param isWhite
+     * @return 
+     */
     public ArrayList<Rute> whatPiecesBlockCheck(boolean isWhite) {
         ArrayList<Rute> res = new ArrayList<>();
         ArrayList<Rute> brikkene = new ArrayList<>();
@@ -1477,7 +1534,12 @@ public class Brett implements Serializable {
         }
         return res;
     }
-
+    /**
+     * 
+     * @param isWhite
+     * @param r
+     * @return 
+     */
     public ArrayList<Rute> sjakkTrekk(boolean isWhite, Rute r) {
         Brikke b = ruter[r.getX()][r.getY()].getBrikke();
         isWhite = b.isHvit();
@@ -1619,7 +1681,11 @@ public class Brett implements Serializable {
         }
         return lovligeTrekk;
     }
-
+    /**
+     * 
+     * @param isWhite
+     * @return 
+     */
     public boolean isSjakk(Boolean isWhite) {
         ArrayList<Rute> trekk = new ArrayList<>();
         Rute konge = null;
@@ -1669,7 +1735,14 @@ public class Brett implements Serializable {
         }
         return false;
     }
-
+    /**
+     * 
+     * @param whiteTurn
+     * Gir informasjon om det er hvit eller svart sin tur.
+     * @param r
+     * 
+     * @return 
+     */
     public ArrayList<Rute> blockingCheckMoves(boolean whiteTurn, Rute r) {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
         ArrayList<Rute> sjekkTrekk = new ArrayList<>();
@@ -1982,7 +2055,11 @@ public class Brett implements Serializable {
         }
         return lovligeTrekk;
     }
-
+    /**
+     * 
+     * @param isWhite
+     * @return 
+     */
     public boolean checkIfBlockingCheck(boolean isWhite) {
         ArrayList<Rute> trekk = new ArrayList<>();
         boolean help = false;
@@ -2071,28 +2148,36 @@ public class Brett implements Serializable {
         }
         return false;
     }
-
-    public boolean isSjakkMatt(boolean whiteTurn,boolean isSjakk) {
+    /**
+     * Sjekker om det er sjakk matt eller ikke.
+     * @param whiteTurn
+     * Bestemmer om det er svart eller hvit sin tur.
+     * @param isSjakk
+     * Sjekker om det i tillegg er sjakk.
+     * @return 
+     * True eller false, altså om det er sjakk matt.
+     */
+    public boolean isSjakkMatt(boolean whiteTurn, boolean isSjakk) {
         ArrayList<Rute> muligeMoves = whatPiecesBlockCheck(whiteTurn);
         ArrayList<Rute> legal = new ArrayList<>();
-        if (muligeMoves.size()<=1&&isSjakk) {
+        if (muligeMoves.size() <= 1 && isSjakk) {
             if (whiteTurn) {
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke() instanceof Konge && ruter[i][u].getBrikke().isHvit()) {
                             legal = sjekkLovligeTrekk(ruter[i][u]);
-                            if(legal.size()==0){
+                            if (legal.isEmpty()) {
                                 return true;
                             }
                         }
                     }
                 }
-            }else {
+            } else {
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke() instanceof Konge && !ruter[i][u].getBrikke().isHvit()) {
                             legal = sjekkLovligeTrekk(ruter[i][u]);
-                            if(legal.size()==0){
+                            if (legal.isEmpty()) {
                                 return true;
                             }
                         }
@@ -2102,7 +2187,13 @@ public class Brett implements Serializable {
         }
         return false;
     }
-
+    /**
+     * Oppdaterer en brikke hvis en bonde kommer helt over på andre siden av brettet.
+     * @param r
+     * Ruta som bonden står på.
+     * @param b 
+     * Hvilken type brikke som bonden skal forvandles til.
+     */
     public void promotePiece(Rute r, Brikke b) {
         ruter[r.getX()][r.getY()].setBrikke(b);
     }

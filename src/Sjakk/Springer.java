@@ -1,20 +1,20 @@
 package Sjakk;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Rino
- */
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
+/**
+ *
+ * @author Team 02, AITeL@HiST
+ * 
+ * Klassen Springer er brikken som representerer springeren. Her håndteres logikken rundt selve brikken.
+ */
 public class Springer extends Brikke {
-
+    /**
+     * Konstruktør med en parameter.
+     * @param isHvit 
+     * Bestemmer om springeren skal være svart eller hvit.
+     */
     public Springer(boolean isHvit){
         super(1, isHvit,null);  
         if(isHvit){
@@ -23,6 +23,13 @@ public class Springer extends Brikke {
             super.setIcon("src/images/blackSpringer.gif");
         }
     }
+    /**
+     * Regner ut hvilke ruter springeren kan flytte til. Tar ikke hensyn til andre brikker i det hele tatt.
+     * @param r
+     * Ruten som springeren står på.
+     * @return 
+     * Et ArrayList med ruter som bestemmer hvilke flytt springeren kan ta.
+     */
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk(Rute r) {
         ArrayList<Rute> lovligeTrekk = new ArrayList();

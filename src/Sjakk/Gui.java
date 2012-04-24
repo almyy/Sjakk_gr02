@@ -5,13 +5,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static javax.swing.JOptionPane.*;
 import javax.swing.*;
-
+/**
+ *
+ * @author Team 02, AITeL@HiST
+ * 
+ * Klassen GUI håndterer all kommunikasjon med brukeren. Klassen kommuniserer kun med klassen Brett, som igjen tar seg av det logiske i selve brettet.
+ * 
+ */
 class Gui extends JFrame {
 
     private final Brett brett = new Brett();
@@ -39,7 +42,12 @@ class Gui extends JFrame {
     private int teller3 = 0;
     private int teller4 = 0;
     private double tid;
-
+    /**
+     * Konstruktør med èn parameter. Her opprettes alt som skal ses av brukeren. Det inkluderer selve rammen til spillet, i tillegg til hver enkelt del av
+     * spillet, for eksempel rutenettet med de forskjellige bildene.
+     * @param tittel 
+     * Tittelen på spillet.
+     */
     public Gui(String tittel) {
         setTitle(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,7 +63,7 @@ class Gui extends JFrame {
                 tid = Double.parseDouble(showInputDialog(null, "Hvor lang tid vil dere ha på dere? (Oppgis i sekunder, 0 = evig)"));
                 input = false;
             } catch (NumberFormatException NFE) {
-                showMessageDialog(null, "Input må være tall!");
+                showMessageDialog(null, "Input må være et tall!");
             }
         }
 
@@ -67,18 +75,27 @@ class Gui extends JFrame {
         setJMenuBar(new MenyBar());
         pack();
     }
-
+    /**
+     * Klassen som tar seg av tidtakingen. 
+     */
     private class TidTaker extends JPanel {
 
         private JLabel tidLabel;
         private double teller = tid;
         private String tidString = "" + (int) teller / 60 + ":" + (int) teller % 60;
-        
-
+        /**
+         * Konstruktør som oppretter en ActionListener som utfører en viss handling hvert sekund. I denne oppdaterer den tiden og legger den ut i en JLabel
+         * hvert sekund.
+         * @param isHvit
+         * Bestemmer om det er en hvit eller svart sin tur.
+         */
         public TidTaker(final boolean isHvit) {
             int delay = 1000;
             tidLabel = new JLabel(tidString);
             ActionListener taskPerformer = new ActionListener() {
+                /**
+                 * lol
+                 */
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     if (isStarted) {
@@ -189,7 +206,6 @@ class Gui extends JFrame {
 
                     if (i == 0 || i == 1 || i == 6 || i == 7) {
                         JLabel bilde = new JLabel(brett.getIcon(j, i));
-
                         squares[i][j] = new GuiRute(bilde, i, j);
                         add(squares[i][j]);
                     } else {
@@ -541,7 +557,7 @@ class Gui extends JFrame {
                 PromotePieceFrame ppf = new PromotePieceFrame(blackTurn, brett.getRute(denne.getYen(), denne.getXen()));
                 ppf.setVisible(true);
             }
-            
+
             isBlock = brett.checkIfBlockingCheck(!blackTurn);
             brett.setBlockingCheck(isBlock);
             isSjakk = brett.isSjakk(!blackTurn);
@@ -573,7 +589,8 @@ class Gui extends JFrame {
                             System.exit(0);
                     }
                 }
-            } if(isHighlighted && !denne.getBackground().equals(highlighted) && !denne.getBackground().equals(highlightedTrekk)) {
+            }
+            if (isHighlighted && !denne.getBackground().equals(highlighted) && !denne.getBackground().equals(highlightedTrekk)) {
                 if (!blackTurn) {
                     for (int i = 0; i < 8; i++) {
                         for (int u = 0; u < 8; u++) {
@@ -593,7 +610,7 @@ class Gui extends JFrame {
                         }
                         isHighlighted = false;
                     }
-                    
+
                 } else {
                     for (int i = 0; i < 8; i++) {
                         for (int u = 0; u < 8; u++) {
@@ -723,10 +740,5 @@ class Gui extends JFrame {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        Gui b = new Gui("Sjakk");
-        b.setVisible(true);
     }
 }
