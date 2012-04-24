@@ -554,9 +554,7 @@ class Gui extends JFrame {
                 ppf.setVisible(true);
             }
             isSjakk = brett.isSjakk(!blackTurn);
-            if(!isSjakk){
-                isBlock = brett.checkIfBlockingCheck(!blackTurn);
-            }
+            isBlock = brett.checkIfBlockingCheck(!blackTurn);
             brett.setBlockingCheck(isBlock);
             
             boolean isSjakkMatt = brett.isSjakkMatt(!blackTurn, isSjakk);
