@@ -1,11 +1,12 @@
 package Sjakk;
+
 /**
  *
  * @author Team 02, AITeL@HiST
- * 
+ *
  * Klasse Brett inneholder all logikk og kommunikasjon med GUI. Dette er
  * størsteparten av koden vår. Her ligger det et "imaginært" sjakkbrett, hvor
- * selve brikkeobjektene er lagret. 
+ * selve brikkeobjektene er lagret.
  */
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -31,11 +32,11 @@ class Brett {
     private int TaarnHV = 0;
     private int TaarnSH = 0;
     private int TaarnSV = 0;
-    
-   /**
-    * Konstruktør uten argumenter. Alle brikker og ruter opprettes her og
-    * plasseres ut på brettet i de riktige posisjonene.
-    */
+
+    /**
+     * Konstruktør uten argumenter. Alle brikker og ruter opprettes her og
+     * plasseres ut på brettet i de riktige posisjonene.
+     */
     public Brett() {
         this.ruter = new Rute[8][8];
         this.hvit = new Hvit();
@@ -93,18 +94,19 @@ class Brett {
         }
         antRunderSpilt = 0;
     }
+
     /**
      * Gir hele det logiske rutenettet til spillet.
-     * @return 
-     * En todimensjonal Rutetabell.
+     *
+     * @return En todimensjonal Rutetabell.
      */
     public Rute[][] getRuter() {
         return ruter;
     }
 
     /**
-     * 
-     * @param b 
+     *
+     * @param b
      */
     public void setBlockingCheck(boolean b) {
         blockingCheck = b;
@@ -113,26 +115,24 @@ class Brett {
     public boolean getBlockingCheck() {
         return blockingCheck;
     }
+
     /**
      * Gir ruten på en gitt posisjon på brettet.
-     * @param x
-     * X-verdien til ruten.
-     * @param y
-     * Y-verdier til ruten.
-     * @return 
-     * Et ruteobjekt.
+     *
+     * @param x X-verdien til ruten.
+     * @param y Y-verdier til ruten.
+     * @return Et ruteobjekt.
      */
     public Rute getRute(int x, int y) {
         return ruter[x][y];
     }
+
     /**
      * Gir bildet lagret på en gitt posisjon på brettet.
-     * @param x
-     * X-verdien til brikken.
-     * @param y
-     * Y-verdien til brikken.
-     * @return
-     * Et ImageIcon med et bilde av brikken.
+     *
+     * @param x X-verdien til brikken.
+     * @param y Y-verdien til brikken.
+     * @return Et ImageIcon med et bilde av brikken.
      */
     public ImageIcon getIcon(int x, int y) {
         if (ruter[x][y].getBrikke().getIcon() != null) {
@@ -296,12 +296,14 @@ class Brett {
         }
         return res;
     }
+
     /**
-     * Sjekker hvilke trekk en brikke har lov til å ta. Tar hensyn til om brikker setter kongen i sjakk, eller om de blokkerer sjakk, osv.
-     * @param rute
-     * Et ruteobjekt som indikerer hvilken rute brikken står på.
-     * @return 
-     * Et ArrayList med ruteobjekter som bestemmer hvor brikken kan flytte.
+     * Sjekker hvilke trekk en brikke har lov til å ta. Tar hensyn til om
+     * brikker setter kongen i sjakk, eller om de blokkerer sjakk, osv.
+     *
+     * @param rute Et ruteobjekt som indikerer hvilken rute brikken står på.
+     * @return Et ArrayList med ruteobjekter som bestemmer hvor brikken kan
+     * flytte.
      */
     public ArrayList<Rute> sjekkLovligeTrekk(Rute rute) {
         Brikke brikke = ruter[rute.getX()][rute.getY()].getBrikke();
@@ -348,15 +350,15 @@ class Brett {
                     }
                 } else {
                     if (currentX == x && ruter[x][y].isOccupied()) {
-                        if(teller > 1 && i < teller-1 && lovligeTrekk.get(i+1).getY() == y - 1) {
-                            lovligeTrekk.remove(i+1);
+                        if (teller > 1 && i < teller - 1 && lovligeTrekk.get(i + 1).getY() == y - 1) {
+                            lovligeTrekk.remove(i + 1);
                             teller--;
                             i--;
                         }
                         lovligeTrekk.remove(i);
                         teller--;
                         i--;
-                        
+
                     } else if (currentX != x && ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
                         teller--;
@@ -532,7 +534,8 @@ class Brett {
             Loper loper = (Loper) brikke;
             ArrayList<Rute> rutene = loper.sjekkLovligeTrekk(rute);
             /*
-             * Deler opp rutene i arraylister, en arraylist for hver diagonal med lovlige trekk
+             * Deler opp rutene i arraylister, en arraylist for hver diagonal
+             * med lovlige trekk
              */
             ArrayList<Rute> venstreOpp = new ArrayList<>();
             ArrayList<Rute> hoyreOpp = new ArrayList<>();
@@ -560,7 +563,8 @@ class Brett {
             int venstreNedT = venstreNed.size();
             int hoyreNedT = hoyreNed.size();
             /*
-             * sjekker om det står brikker på noen av arraylistene og fjerner henholdsvis de rutene som skal fjernes separat på hver diagonal
+             * sjekker om det står brikker på noen av arraylistene og fjerner
+             * henholdsvis de rutene som skal fjernes separat på hver diagonal
              */
             for (int i = 0; i < venstreOppT; i++) {
                 int currentX = venstreOpp.get(i).getX();
@@ -795,7 +799,8 @@ class Brett {
             int venstreNedT = venstreNed.size();
             int hoyreNedT = hoyreNed.size();
             /*
-             * sjekker om det står brikker på noen av arraylistene og fjerner henholdsvis de rutene som skal fjernes separat på hver diagonal
+             * sjekker om det står brikker på noen av arraylistene og fjerner
+             * henholdsvis de rutene som skal fjernes separat på hver diagonal
              */
             for (int i = 0; i < venstreOppT; i++) {
                 int currentX = venstreOpp.get(i).getX();
@@ -1363,11 +1368,14 @@ class Brett {
         }
         return null;
     }
+
     /**
-    * Fjerner en brikke på en gitt rute. Dette fjerner brikken i logikken, men bildet vil fortsatt vises i GUI.
-    * @param r 
-    * Et ruteobjekt som bestemmer x- og y-koordinaten til brikken som skal fjernes.
-    */
+     * Fjerner en brikke på en gitt rute. Dette fjerner brikken i logikken, men
+     * bildet vil fortsatt vises i GUI.
+     *
+     * @param r Et ruteobjekt som bestemmer x- og y-koordinaten til brikken som
+     * skal fjernes.
+     */
     private void removePiece(Rute r) {
         if (r.isOccupied() && r.getBrikke().isHvit()) {
             hvit.removePiece(r.getBrikke());
@@ -1375,14 +1383,14 @@ class Brett {
             svart.removePiece(r.getBrikke());
         }
     }
+
     /**
-     * Flytter en brikke i logikken. Dette flytter brikken i logikken, men ikke i GUI.
-     * @param flyttRute
-     * Ruten som brikken skal flytte til.
-     * @param startRute
-     * Ruten som brikken skal flytte fra.
-     * @param whiteTurn 
-     * Bestemmer om det er hvit eller svart brikke som flyttes.
+     * Flytter en brikke i logikken. Dette flytter brikken i logikken, men ikke
+     * i GUI.
+     *
+     * @param flyttRute Ruten som brikken skal flytte til.
+     * @param startRute Ruten som brikken skal flytte fra.
+     * @param whiteTurn Bestemmer om det er hvit eller svart brikke som flyttes.
      */
     public void flyttBrikke(Rute flyttRute, Rute startRute, Boolean whiteTurn) {
         rokadeHH = false;
@@ -1475,12 +1483,12 @@ class Brett {
         }
 
     }
+
     /**
      * Finner ut om et tårn har blitt flyttet i logikken.
-     * @param e
-     * Bestemmer hvilket tårn det er snakk om.
-     * @return 
-     * True eller false alt etter om tårnet er flyttet.
+     *
+     * @param e Bestemmer hvilket tårn det er snakk om.
+     * @return True eller false alt etter om tårnet er flyttet.
      */
     public boolean update(String e) {
         if (e.equalsIgnoreCase("HV")) {
@@ -1495,10 +1503,11 @@ class Brett {
 
         return false;
     }
+
     /**
-     * 
+     *
      * @param isWhite
-     * @return 
+     * @return
      */
     public ArrayList<Rute> whatPiecesBlockCheck(boolean isWhite) {
         ArrayList<Rute> res = new ArrayList<>();
@@ -1534,11 +1543,12 @@ class Brett {
         }
         return res;
     }
+
     /**
-     * 
+     *
      * @param isWhite
      * @param r
-     * @return 
+     * @return
      */
     public ArrayList<Rute> sjakkTrekk(boolean isWhite, Rute r) {
         Brikke b = ruter[r.getX()][r.getY()].getBrikke();
@@ -1705,7 +1715,7 @@ class Brett {
                     }
                 } else if (oppVenstre) {
                     if (help2) {
-                        if (trekkBonde.get(i).getX() >= aX&&(kongePos.getX() - trekkBonde.get(i).getX()) == trekkBonde.get(i).getY() - kongePos.getY()) {
+                        if (trekkBonde.get(i).getX() >= aX && (kongePos.getX() - trekkBonde.get(i).getX()) == trekkBonde.get(i).getY() - kongePos.getY()) {
                             lovligeTrekk.add(trekkBonde.get(i));
                         }
                     } else if ((kongePos.getX() - trekkBonde.get(i).getX()) == trekkBonde.get(i).getY() - kongePos.getY()) {
@@ -1743,10 +1753,11 @@ class Brett {
         }
         return lovligeTrekk;
     }
+
     /**
-     * 
+     *
      * @param isWhite
-     * @return 
+     * @return
      */
     public boolean isSjakk(Boolean isWhite) {
         ArrayList<Rute> trekk = new ArrayList<>();
@@ -1797,13 +1808,13 @@ class Brett {
         }
         return false;
     }
+
     /**
-     * 
-     * @param whiteTurn
-     * Gir informasjon om det er hvit eller svart sin tur.
+     *
+     * @param whiteTurn Gir informasjon om det er hvit eller svart sin tur.
      * @param r
-     * 
-     * @return 
+     *
+     * @return
      */
     public ArrayList<Rute> blockingCheckMoves(boolean whiteTurn, Rute r) {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
@@ -2225,10 +2236,11 @@ class Brett {
         }
         return lovligeTrekk;
     }
+
     /**
-     * 
+     *
      * @param isWhite
-     * @return 
+     * @return
      */
     public boolean checkIfIsBlocking(Rute r) {
         Rute sjekk = ruter[r.getX()][r.getY()];
@@ -2444,7 +2456,6 @@ class Brett {
         return res;
     }
 
-
     public boolean checkIfBlockingCheck(boolean isWhite) {
         ArrayList<Rute> trekk = new ArrayList<>();
         boolean help = false;
@@ -2465,7 +2476,7 @@ class Brett {
                         if (b instanceof Bonde) {
                             Bonde test = (Bonde) b;
                             trekk = test.sjekkLovligeTrekk(ruter[u][v]);
-                            if (!trekk.isEmpty()) {
+                            if ((trekk != null) && !trekk.isEmpty()) {
                                 for (int d = 0; d < trekk.size(); d++) {
                                     if (trekk.get(d).getX() == u) {
                                         trekk.remove(d);
@@ -2482,9 +2493,11 @@ class Brett {
                             Dronning test = (Dronning) b;
                             trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                         }
-                        for (int t = 0; t < trekk.size(); t++) {
-                            if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY()) {
-                                return true;
+                        if ((trekk != null) && !trekk.isEmpty()) {
+                            for (int t = 0; t < trekk.size(); t++) {
+                                if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY()) {
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -2506,7 +2519,7 @@ class Brett {
                             if (b instanceof Bonde) {
                                 Bonde test = (Bonde) b;
                                 trekk = test.sjekkLovligeTrekk(ruter[u][v]);
-                                if (!trekk.isEmpty()) {
+                                if ((trekk != null) && !trekk.isEmpty()) {
                                     for (int d = 0; d < trekk.size(); d++) {
                                         if (trekk.get(d).getX() == u) {
                                             trekk.remove(d);
@@ -2523,11 +2536,13 @@ class Brett {
                                 Dronning test = (Dronning) b;
                                 trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                             }
+                            if((trekk != null) && !trekk.isEmpty()){
                             for (int t = 0; t < trekk.size(); t++) {
                                 if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
                                     return true;
                                 }
                             }
+                        }
                             help = false;
                         }
                     }
@@ -2536,14 +2551,13 @@ class Brett {
         }
         return false;
     }
+
     /**
      * Sjekker om det er sjakk matt eller ikke.
-     * @param whiteTurn
-     * Bestemmer om det er svart eller hvit sin tur.
-     * @param isSjakk
-     * Sjekker om det i tillegg er sjakk.
-     * @return 
-     * True eller false, altså om det er sjakk matt.
+     *
+     * @param whiteTurn Bestemmer om det er svart eller hvit sin tur.
+     * @param isSjakk Sjekker om det i tillegg er sjakk.
+     * @return True eller false, altså om det er sjakk matt.
      */
     public boolean isSjakkMatt(boolean whiteTurn, boolean isSjakk) {
         ArrayList<Rute> muligeMoves = whatPiecesBlockCheck(whiteTurn);
@@ -2575,12 +2589,13 @@ class Brett {
         }
         return false;
     }
+
     /**
-     * Oppdaterer en brikke hvis en bonde kommer helt over på andre siden av brettet.
-     * @param r
-     * Ruta som bonden står på.
-     * @param b 
-     * Hvilken type brikke som bonden skal forvandles til.
+     * Oppdaterer en brikke hvis en bonde kommer helt over på andre siden av
+     * brettet.
+     *
+     * @param r Ruta som bonden står på.
+     * @param b Hvilken type brikke som bonden skal forvandles til.
      */
     public void promotePiece(Rute r, Brikke b) {
         ruter[r.getX()][r.getY()].setBrikke(b);
