@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class Brett implements Serializable {
+public class Brett{
 
     private Rute[][] ruter;
     private Hvit hvit;
@@ -2092,7 +2092,6 @@ public class Brett implements Serializable {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke() instanceof Konge && ruter[i][u].getBrikke().isHvit()) {
                             legal = sjekkLovligeTrekk(ruter[i][u]);
-
                             if (legal.isEmpty()) {
                                 return true;
                             }
@@ -2104,7 +2103,7 @@ public class Brett implements Serializable {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke() instanceof Konge && !ruter[i][u].getBrikke().isHvit()) {
                             legal = sjekkLovligeTrekk(ruter[i][u]);
-                            if (legal.size() == 0) {
+                            if (legal.isEmpty()) {
                                 return true;
                             }
                         }
