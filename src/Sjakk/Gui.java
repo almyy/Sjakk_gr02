@@ -438,7 +438,7 @@ class Gui extends JFrame {
                             if (brett.getRute(x, y).getBrikke() instanceof Konge) {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
                             } else if(brett.getRute(x,y).getBlocking()) {
-                                lovligeTrekk = brett.blockingCheckMoves(blackTurn, new Rute(x, y));
+                                lovligeTrekk = brett.blockingCheckMoves(!blackTurn, new Rute(x, y));
                             } else{
                                 lovligeTrekk = brett.sjekkLovligeTrekk(new Rute(x,y));
                             }
