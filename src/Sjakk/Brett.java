@@ -418,7 +418,7 @@ public class Brett{
                                         j--;
                                     }
                                 }
-                            } else if (!(sjekken instanceof Konge)) {
+                            } else {
                                 trekk = sjekkLovligeTrekk(ruter[i][u]);
                             }
                             for (int y = 0; y < lovligeTrekk.size(); y++) {
