@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class Rute implements Serializable{
     private final int x;
     private final int y;
+    private boolean isBlocking = false;
     private Brikke brikke;
     
     public Rute(int x, int y){
@@ -40,6 +41,11 @@ public class Rute implements Serializable{
             return true;
         }
         return false;
+    }
+    public boolean getBlocking(){
+        return isBlocking;
+    }public void setBlocking(boolean b){
+        isBlocking = b;
     }
     public String toString() {
         return "x: " + x + ", y: " + y;
