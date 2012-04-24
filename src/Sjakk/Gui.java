@@ -13,7 +13,6 @@ import static javax.swing.JOptionPane.*;
 import javax.swing.*;
 
 class Gui extends JFrame {
-
     private final Brett brett = new Brett();
     private GuiRute squares[][] = new GuiRute[8][8];
     private ArrayList<Rute> lovligeTrekk;
@@ -34,14 +33,14 @@ class Gui extends JFrame {
     private static Gui b;
     private boolean blackTurn = false;
     private boolean isStarted = false;
-    private int teller1 = 0;
-    private int teller2 = 0;
-    private int teller3 = 0;
-    private int teller4 = 0;
+    private transient int teller1 = 0;
+    private transient int teller2 = 0;
+    private transient int teller3 = 0;
+    private transient int teller4 = 0;
     private double tid;
 
     public Gui(String tittel) {
-        setTitle(tittel);
+        super(tittel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(700, 600));
         setLayout(new BorderLayout());
@@ -651,15 +650,15 @@ class Gui extends JFrame {
             setLayout(new GridLayout(2, 2));
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             if (isHvit) {
-                add(new Knapp("src/images/whiteQueen.gif"));
-                add(new Knapp("src/images/whiteTaarn.gif"));
-                add(new Knapp("src/images/whiteLoper.gif"));
-                add(new Knapp("src/images/whiteSpringer.gif"));
+                add(new Knapp("Dronning","src/images/whiteQueen.gif"));
+                add(new Knapp("Tårn","src/images/whiteTaarn.gif"));
+                add(new Knapp("Løper","src/images/whiteLoper.gif"));
+                add(new Knapp("Springer","src/images/whiteSpringer.gif"));
             } else {
-                add(new Knapp("src/images/blackQueen.gif"));
-                add(new Knapp("src/images/blackTaarn.gif"));
-                add(new Knapp("src/images/blackLoper.gif"));
-                add(new Knapp("src/images/blackSpringer.gif"));
+                add(new Knapp("Dronning","src/images/blackQueen.gif"));
+                add(new Knapp("Tårn","src/images/blackTaarn.gif"));
+                add(new Knapp("Løper","src/images/blackLoper.gif"));
+                add(new Knapp("Springer","src/images/blackSpringer.gif"));
             }
             this.r = r;
             pack();
@@ -668,8 +667,8 @@ class Gui extends JFrame {
 
         private class Knapp extends JButton {
 
-            public Knapp(String s) {
-                super(new ImageIcon(s));
+            public Knapp(String e, String s) {
+                super(e,new ImageIcon(s));
                 setActionCommand(s);
                 addActionListener(new KnappeLytter());
             }

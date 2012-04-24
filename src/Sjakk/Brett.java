@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
-public class Brett implements Serializable {
+public class Brett{
 
     private Rute[][] ruter;
     private Hvit hvit;
