@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author Rino
+ * @author Team 02, AITeL@HiST
+ * 
+ * Klassen Konge er brikken som representerer kongen. Her håndteres logikken rundt selve brikken.
  */
 public class Konge extends Brikke{
-    
+    /**
+     * Konstruktør med èn parameter.
+     * @param isHvit 
+     * Bestemmer om kongen skal være svart eller hvit.
+     */
     public Konge(boolean isHvit){
         super(0, isHvit,null);
         if(isHvit){
@@ -24,7 +25,13 @@ public class Konge extends Brikke{
             super.setIcon("src/images/blackKing.png");
         }
     }
-
+    /**
+     * Regner ut hvilke ruter kongen kan flytte til. Tar ikke hensyn til andre brikker i det hele tatt.
+     * @param r
+     * Ruten som kongen står på.
+     * @return 
+     * Et ArrayList med ruter som bestemmer hvilke flytt kongen kan ta.
+     */
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk(Rute r) {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
@@ -47,8 +54,15 @@ public class Konge extends Brikke{
         return lovligeTrekk;
         
     }
+    /**
+     * Besetmmer om kongen har noen lovlige trekk å ta.
+     * @param r
+     * Ruteobjekt som bestemmer hvor kongen står.
+     * @return 
+     * True eller false, om kongen har noen lovlige trekk eller ikke.
+     */
     public boolean hasMoves(Rute r){
-        if(sjekkLovligeTrekk(r).size()==0){
+        if(sjekkLovligeTrekk(r).isEmpty()){
             return false;
         }
         return true;

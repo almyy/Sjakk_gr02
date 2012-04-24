@@ -3,17 +3,18 @@ package Sjakk;
 
 import java.util.ArrayList;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
- * @author Rino
+ * @author Team 02, AITeL@HiST
+ * 
+ * Klassen Loper er brikken som representerer løperen. Her håndteres logikken rundt selve brikken.
  */
 public class Loper extends Brikke {
-    
+    /**
+     * Konstruktør med en parameter.
+     * @param isHvit 
+     * Bestemmer om løperen skal være svart eller hvit.
+     */
     public Loper(boolean isHvit){
         super(5, isHvit,null);  
         if(isHvit){
@@ -22,7 +23,13 @@ public class Loper extends Brikke {
             super.setIcon("src/images/blackLoper.gif");
         }
     }
-
+    /**
+     * Regner ut hvilke ruter løperen kan flytte til. Tar ikke hensyn til andre brikker i det hele tatt.
+     * @param r
+     * Ruten som løperen står på.
+     * @return 
+     * Et ArrayList med ruter som bestemmer hvilke flytt løperen kan ta.
+     */
     @Override
     public ArrayList<Rute> sjekkLovligeTrekk(Rute r) {
         ArrayList<Rute> lovligeRuter = new ArrayList<>();
