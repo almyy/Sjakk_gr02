@@ -29,11 +29,8 @@ class Gui extends JFrame {
     private final Color lightBrown = new Color(244, 164, 96);
     private final Color highlighted = new Color(195, 205, 205);
     private final Color highlightedTrekk = new Color(191, 239, 255);
-    private final Color highlightedSjakkSave = new Color(255, 255, 255);
-    private boolean whiteTurn = true;
     private boolean isHighlighted = false;
     private boolean isSjakk = false;
-    private boolean blockingCheck = false;
     private Rutenett rutenett;
     private GameInfo gameInfo;
     private static Gui b;
@@ -88,7 +85,7 @@ class Gui extends JFrame {
 
         private JLabel tidLabel;
         private double teller = tid;
-        private String tidString = "" + (int) teller / 60 + ":" + (int) teller % 60;
+        private String tidString = ""+ (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
 
         /**
          * Konstruktør som oppretter en ActionListener som utfører en viss
@@ -122,7 +119,7 @@ class Gui extends JFrame {
                                 }
                             }
                             teller--;
-                            tidString = (int) teller / 60 + ":" + (int) teller % 60;
+                            tidString = ""+ (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
                         } else if (!isHvit && blackTurn) {
                             if (teller <= 0) {
                                 input = showOptionDialog(b, "Svart har ikke mer tid, hvit vinner!", "Hvit vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
@@ -138,7 +135,7 @@ class Gui extends JFrame {
                                 }
                             }
                             teller--;
-                            tidString = (int) teller / 60 + ":" + (int) teller % 60;
+                            tidString = ""+ (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
                         }
                         tidLabel.setText(tidString);
                     }
@@ -298,8 +295,8 @@ class Gui extends JFrame {
             add(jsp);
         }
 
-        private void updateInfo(String move, String move2, boolean whiteTurn) {
-            if (!whiteTurn) {
+        private void updateInfo(String move, String move2, boolean blackTurn) {
+            if (!blackTurn) {
                 tekstFelt.append("Hvitt trekk: " + move + " til " + move2 + "\n");
             } else {
                 tekstFelt.append("Svart trekk: " + move + " til " + move2 + "\n");
@@ -341,7 +338,6 @@ class Gui extends JFrame {
                                     if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
-                                        whiteTurn = false;
                                     }
                                 }
                             }
@@ -355,7 +351,6 @@ class Gui extends JFrame {
                                     if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
-                                        whiteTurn = true;
                                     }
                                 }
                             }
@@ -371,14 +366,12 @@ class Gui extends JFrame {
                         if (sjekk.getBrikke().isHvit()) {
                             denne.setBackground(highlighted);
                             isHighlighted = true;
-                            whiteTurn = false;
                         }
                     } else {
                         Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
                         if (!sjekk.getBrikke().isHvit()) {
                             denne.setBackground(highlighted);
                             isHighlighted = true;
-                            whiteTurn = true;
                         }
                     }
                 }
@@ -402,7 +395,6 @@ class Gui extends JFrame {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
                             } else {
                                 lovligeTrekk = brett.sjakkTrekk(!blackTurn, new Rute(x, y));
-                                System.out.println("Sjakktrekk");
                             }
                             for (int u = 0; u < lovligeTrekk.size(); u++) {
                                 int lX = lovligeTrekk.get(u).getX();
@@ -413,12 +405,10 @@ class Gui extends JFrame {
                             int x = j;
                             int y = i;
                             brett.checkIfIsBlocking(new Rute(x, y));
-                            System.out.println("VAEM " + brett.getRute(x, y).getBlocking());
                             if (brett.getRute(x, y).getBrikke() instanceof Konge) {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(brett.getRute(x, y));
                             } else if (brett.getRute(x, y).getBlocking()) {
                                 lovligeTrekk = brett.blockingCheckMoves(!blackTurn, new Rute(x, y));
-                                System.out.println("Blocking");
                             } else {
                                 lovligeTrekk = brett.sjekkLovligeTrekk(new Rute(x, y));
                             }
@@ -508,13 +498,13 @@ class Gui extends JFrame {
 
                 }
                 brett.flyttBrikke(new Rute(x, y), startRute, blackTurn);
+                gameInfo.updateInfo(move, move2, blackTurn);
                 if (blackTurn) {
                     blackTurn = false;
                 } else {
                     blackTurn = true;
                 }
                 move2 = trekk[y] + (x + 1);
-                gameInfo.updateInfo(move, move2, blackTurn);
                 startGuiRute.removeBilde();
                 denne.setBilde(oldPic);
 
