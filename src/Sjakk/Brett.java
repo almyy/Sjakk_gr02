@@ -342,6 +342,7 @@ class Brett {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
                             Brikke sjekken = ruter[i][u].getBrikke();
+                            ruter[currentx][currenty].setBrikke(null);
                             if (sjekken instanceof Bonde) {
                                 Bonde b = (Bonde) ruter[i][u].getBrikke();
                                 trekk = b.sjekkLovligeTrekk(ruter[i][u]);
@@ -353,7 +354,7 @@ class Brett {
                                 }
                             } else {
                                 trekk = sjekkLovligeTrekk(ruter[i][u]);
-                            }
+                            }ruter[currentx][currenty].setBrikke(konge);
                             for (int y = 0; y < lovligeTrekk.size(); y++) {
                                 for (int w = 0; w < trekk.size(); w++) {
                                     if (y >= 0 && trekk.get(w).getX() == lovligeTrekk.get(y).getX() && trekk.get(w).getY() == lovligeTrekk.get(y).getY()) {
@@ -369,6 +370,7 @@ class Brett {
                 for (int i = 0; i < 8; i++) {
                     for (int u = 0; u < 8; u++) {
                         if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
+                            ruter[currentx][currenty].setBrikke(null);
                             if (ruter[i][u].getBrikke() instanceof Bonde) {
                                 Bonde b = (Bonde) ruter[i][u].getBrikke();
                                 trekk = b.sjekkLovligeTrekk(ruter[i][u]);
@@ -380,7 +382,7 @@ class Brett {
                                 }
                             } else if (!(ruter[i][u].getBrikke() instanceof Konge)) {
                                 trekk = sjekkLovligeTrekk(ruter[i][u]);
-                            }
+                            }ruter[currentx][currenty].setBrikke(konge);
                             for (int y = 0; y < lovligeTrekk.size(); y++) {
                                 for (int w = 0; w < trekk.size(); w++) {
                                     if (y >= 0 && trekk.get(w).getX() == lovligeTrekk.get(y).getX() && trekk.get(w).getY() == lovligeTrekk.get(y).getY()) {
