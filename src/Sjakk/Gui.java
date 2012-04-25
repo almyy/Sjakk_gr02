@@ -438,7 +438,6 @@ class Gui extends JFrame {
                                 squares[lY][lX].setBackground(highlightedTrekk);
                             }
                         } else if (squares[i][j] != null && squares[i][j].getBackground().equals(highlighted) && isBlock) {
-
                             int x = j;
                             int y = i;
                             brett.checkIfIsBlocking(new Rute(x, y));
