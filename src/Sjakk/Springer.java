@@ -20,9 +20,9 @@ public class Springer extends Brikke {
     public Springer(boolean isHvit) {
         super(1, isHvit, null);
         if (isHvit) {
-            super.setIcon(new ImageIcon(getClass().getResource("/images/whiteSpringer.gif")));
+            super.setIcon(new ImageIcon(getClass().getResource("/Images/whiteSpringer.gif")));
         } else {
-            super.setIcon(new ImageIcon(getClass().getResource("/images/blackSpringer.gif")));
+            super.setIcon(new ImageIcon(getClass().getResource("/Images/blackSpringer.gif")));
         }
     }
 

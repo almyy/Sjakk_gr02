@@ -17,9 +17,9 @@ public class Dronning extends Brikke {
     public Dronning(boolean isHvit) {
             super(6, isHvit,null);
             if(isHvit){
-                super.setIcon(new ImageIcon(getClass().getResource("/images/whiteQueen.gif")));
+                super.setIcon(new ImageIcon(getClass().getResource("/Images/whiteQueen.gif")));
             }else{
-                super.setIcon(new ImageIcon(getClass().getResource("/images/blackQueen.gif")));
+                super.setIcon(new ImageIcon(getClass().getResource("/Images/blackQueen.gif")));
             }
     }
     /**
