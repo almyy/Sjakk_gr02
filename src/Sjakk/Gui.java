@@ -70,7 +70,7 @@ class Gui extends JFrame {
             } catch (NumberFormatException NFE) {
                 showMessageDialog(null, "Input må være et tall!");
             } catch (NullPointerException e){
-                System.exit(0);
+                tid = 0;
             }
             
         }
