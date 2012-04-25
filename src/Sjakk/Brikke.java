@@ -45,8 +45,8 @@ abstract class Brikke {
      * @param i 
      * En String som beskriver pathen til bildet.
      */
-    public void setIcon(String i){
-        this.icon = new ImageIcon(i);
+    public void setIcon(ImageIcon i){
+        this.icon = i;
     }
     /**
      * Finner de lovlige trekkene til de forskjellige brikkene. Metodekroppen er satt i de forskjellige brikkene.
