@@ -332,7 +332,6 @@ class Gui extends JFrame {
                                     if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
-                                        whiteTurn = false;
                                         gameInfo.sjakk(true);
                                     }
                                 }
@@ -347,7 +346,6 @@ class Gui extends JFrame {
                                     if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
-                                        whiteTurn = true;
                                         gameInfo.sjakk(false);
                                     }
                                 }
