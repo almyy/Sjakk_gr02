@@ -106,7 +106,7 @@ class Gui extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     if (isStarted) {
-                        int input = 0;
+                        int input;
                         String[] valg = {"New game", "Exit"};
                         if (isHvit && !blackTurn) {
                             if (teller <= 0) {
@@ -332,7 +332,6 @@ class Gui extends JFrame {
                                     if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
-                                        whiteTurn = false;
                                         gameInfo.sjakk(true);
                                     }
                                 }
@@ -347,7 +346,6 @@ class Gui extends JFrame {
                                     if (brikker.get(i).getX() == denne.getYen() && brikker.get(i).getY() == denne.getXen()) {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
-                                        whiteTurn = true;
                                         gameInfo.sjakk(false);
                                     }
                                 }
