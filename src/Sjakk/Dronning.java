@@ -7,7 +7,6 @@ package Sjakk;
  * Klassen Dronning er brikken som representerer dronningen. Her håndteres logikken rundt selve brikken.
  */
 import java.util.ArrayList;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 public class Dronning extends Brikke {
     /**
@@ -18,9 +17,9 @@ public class Dronning extends Brikke {
     public Dronning(boolean isHvit) {
             super(6, isHvit,null);
             if(isHvit){
-                super.setIcon("src/images/whiteQueen.gif");
+                super.setIcon(new ImageIcon(getClass().getResource("/Images/whiteQueen.gif")));
             }else{
-                super.setIcon("src/images/blackQueen.gif");
+                super.setIcon(new ImageIcon(getClass().getResource("/Images/blackQueen.gif")));
             }
     }
     /**

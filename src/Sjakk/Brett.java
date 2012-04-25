@@ -417,7 +417,7 @@ class Brett {
                             }
                         }
                     }
-                    if (!sjekk && !ruter[(currentx + 1)][currenty].isOccupied() && !ruter[(currentx + 2)][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
+                    if (!sjekk && !ruter[(currentx + 1)][currenty].isOccupied() && !ruter[(currentx + 2)][currenty].isOccupied() && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx + 2), currenty));
                         hjelp++;
                     }
@@ -465,7 +465,7 @@ class Brett {
                             }
                         }
                     }
-                    if (!sjekk && !ruter[currentx + 1][currenty].isOccupied() && !ruter[currentx + 2][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
+                    if (!sjekk && !ruter[currentx + 1][currenty].isOccupied() && !ruter[currentx + 2][currenty].isOccupied() && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx + 2, currenty));
                         hjelp++;
                     }
@@ -2312,7 +2312,7 @@ class Brett {
                         if (b instanceof Bonde) {
                             Bonde test = (Bonde) b;
                             trekk = test.sjekkLovligeTrekk(ruter[u][v]);
-                            if (!trekk.isEmpty()) {
+                            if ((trekk != null) && !trekk.isEmpty()) {
                                 for (int d = 0; d < trekk.size(); d++) {
                                     if (trekk.get(d).getX() == u) {
                                         trekk.remove(d);
@@ -2329,9 +2329,11 @@ class Brett {
                             Dronning test = (Dronning) b;
                             trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                         }
-                        for (int t = 0; t < trekk.size(); t++) {
-                            if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY()) {
-                                return true;
+                        if ((trekk != null) && !trekk.isEmpty()) {
+                            for (int t = 0; t < trekk.size(); t++) {
+                                if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY()) {
+                                    return true;
+                                }
                             }
                         }
                     }
@@ -2353,7 +2355,7 @@ class Brett {
                             if (b instanceof Bonde) {
                                 Bonde test = (Bonde) b;
                                 trekk = test.sjekkLovligeTrekk(ruter[u][v]);
-                                if (!trekk.isEmpty()) {
+                                if ((trekk != null) && !trekk.isEmpty()) {
                                     for (int d = 0; d < trekk.size(); d++) {
                                         if (trekk.get(d).getX() == u) {
                                             trekk.remove(d);
@@ -2370,9 +2372,11 @@ class Brett {
                                 Dronning test = (Dronning) b;
                                 trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                             }
-                            for (int t = 0; t < trekk.size(); t++) {
-                                if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
-                                    return true;
+                            if ((trekk != null) && !trekk.isEmpty()) {
+                                for (int t = 0; t < trekk.size(); t++) {
+                                    if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
+                                        return true;
+                                    }
                                 }
                             }
                             help = false;

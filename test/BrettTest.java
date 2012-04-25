@@ -3,8 +3,7 @@
  * and open the template in the editor.
  */
 
-import Sjakk.Brett;
-import Sjakk.Rute;
+
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import static org.junit.Assert.assertEquals;
@@ -43,10 +42,10 @@ public class BrettTest {
         System.out.println("getIcon");
         int i = 0;
         int j = 0;
-        Brett instance = new Brett();
+        
         ImageIcon expResult = null;
-        ImageIcon result = instance.getIcon(i, j);
-        assertEquals(expResult, result);
+       
+      
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -57,11 +56,10 @@ public class BrettTest {
     @Test
     public void testSjekkLovligeTrekk() {
         System.out.println("sjekkLovligeTrekk");
-        Brett instance = new Brett();
-        Rute rute = instance.getRute(5,0);
+    
         ArrayList expResult = null;
-        ArrayList result = instance.sjekkLovligeTrekk(rute);
-        assertEquals(expResult, result);
+       
+      
         // TODO review the generated test code and remove the default call to fail.
     }
 
@@ -71,11 +69,8 @@ public class BrettTest {
     @Test
     public void testFlyttBrikke() {
         System.out.println("flyttBrikke");
-        Rute startRute = null;
-        ArrayList<Rute> lovligeTrekk = null;
-        Rute flyttRute = null;
-        Brett instance = new Brett();
-        instance.flyttBrikke(startRute, flyttRute);
+     
+        
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
