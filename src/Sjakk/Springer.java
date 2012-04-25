@@ -1,7 +1,7 @@
 package Sjakk;
 
+
 import java.util.ArrayList;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 /**
  *
