@@ -54,7 +54,7 @@ public class Bonde extends Brikke {
             }
             return lovligeTrekk;
         }
-        else return null;
+        else return lovligeTrekk;
     }
     /**
      * Setter variablen unPasant til parameteren.
