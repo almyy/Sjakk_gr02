@@ -71,6 +71,7 @@ class Gui extends JFrame {
                 showMessageDialog(null, "Input må være et tall!");
             } catch (NullPointerException e){
                 tid = 0;
+                input = false;
             }
             
         }
