@@ -308,9 +308,9 @@ class Gui extends JFrame {
 
         private void sjakk(boolean e) {
             if (e) {
-                tekstFelt.append("Hvit konge i sjakk! \n (flytt kongen) \n");
+                tekstFelt.append("Hvit konge i sjakk! \n (Gjør ett trekk \nfor å unngå sjakk) \n");
             } else {
-                tekstFelt.append("Svart konge i sjakk! \n (flytt kongen) \n");
+                tekstFelt.append("Svart konge i sjakk! \n (Gjør ett trekk \nfor å unngå sjakk) \n");
             }
         }
     }
@@ -342,6 +342,7 @@ class Gui extends JFrame {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
                                         whiteTurn = false;
+                                        gameInfo.sjakk(true);
                                     }
                                 }
                             }
@@ -356,6 +357,7 @@ class Gui extends JFrame {
                                         denne.setBackground(highlighted);
                                         isHighlighted = true;
                                         whiteTurn = true;
+                                        gameInfo.sjakk(false);
                                     }
                                 }
                             }
