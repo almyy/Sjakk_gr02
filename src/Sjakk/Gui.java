@@ -293,14 +293,14 @@ class Gui extends JFrame {
 
         public GameInfo() {
             tekstFelt = new TextArea();
-            tekstFelt.setPreferredSize(new Dimension(150, 490));
+            tekstFelt.setPreferredSize(new Dimension(150, 150));
             tekstFelt.setEditable(false);
             JScrollPane jsp = new JScrollPane(tekstFelt);
             add(jsp);
         }
 
         private void updateInfo(String move, String move2, boolean whiteTurn) {
-            if (!whiteTurn) {
+            if (whiteTurn) {
                 tekstFelt.append("Hvitt trekk: " + move + " til " + move2 + "\n");
             } else {
                 tekstFelt.append("Svart trekk: " + move + " til " + move2 + "\n");
