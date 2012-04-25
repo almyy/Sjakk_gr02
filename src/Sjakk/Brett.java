@@ -227,11 +227,21 @@ class Brett {
             int teller = lovligeTrekk.size();
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
+                    /**
+                     * Hvis det har gått 2 runder siden bonden flytta 2 fram,
+                     * skal den ikke kunne bli utført en passant på lengere.
+                     */
                     if (ruter[i][u].getBrikke() instanceof Bonde && ((Bonde) ruter[i][u].getBrikke()).getAntRunderSpilt() + 1 < antRunderSpilt && ((Bonde) ruter[i][u].getBrikke()).isUnPasant()) {
                         ((Bonde) ruter[i][u].getBrikke()).incUnPasant(false);
                     }
                 }
+
             }
+            /*
+             * Går igjennom de lovlige trekkene fra klassen Bonde, og sjekker om
+             * de er lovlige. Hvis ikke, blir de fjernet. Metoden tar også
+             * hensyn til en passant.
+             */
             for (int i = 0; i < teller; i++) {
                 int x = lovligeTrekk.get(i).getX();
                 int y = lovligeTrekk.get(i).getY();
@@ -254,6 +264,9 @@ class Brett {
                         teller--;
                         i--;
                     }
+                    /*
+                     * Her legges trekkene for en passant til hvis de er mulige.
+                     */
                     if (currentX - 1 >= 0 && currentX < 8 && currentY >= 0 && currentY < 8 && ruter[currentX - 1][currentY].isOccupied() && ruter[currentX - 1][currentY].getBrikke() instanceof Bonde) {
                         if (currentX - 1 == x && ruter[currentX - 1][currentY].isOccupied() && !ruter[currentX - 1][currentY].getBrikke().isHvit() && ((Bonde) ruter[currentX - 1][currentY].getBrikke()).isUnPasant()) {
                             lovligeTrekk.add(new Rute(x, y));
@@ -264,6 +277,9 @@ class Brett {
                             lovligeTrekk.add(new Rute(x, y));
                         }
                     }
+                    /*
+                     * Samme som over, men for svart.
+                     */
                 } else if (!bonde.isHvit() && i >= 0) {
                     if (currentY == 6 && y == 4 && ruter[x][y + 1].isOccupied()) {
                         lovligeTrekk.remove(i);
@@ -302,6 +318,9 @@ class Brett {
                 }
             }
             return lovligeTrekk;
+            /*
+             * Fjerner trekk som ikke er lovlige for hesten.
+             */
         } else if (brikke instanceof Springer) {
             Springer springer = (Springer) brikke;
             ArrayList<Rute> lovligeTrekk = springer.sjekkLovligeTrekk(rute);
@@ -311,13 +330,22 @@ class Brett {
             for (int i = 0; i < teller; i++) {
                 int x = lovligeTrekk.get(i).getX();
                 int y = lovligeTrekk.get(i).getY();
+                /*
+                 * Fjerner trekket fra lista hvis hesten er hvit og brikken på
+                 * ruta den vil flytte til er hvit.
+                 */
                 if (ruter[cX][cY].getBrikke().isHvit()) {
                     if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
                         teller--;
                         i--;
                     }
-                } else {
+
+                }
+                /*
+                 * Fjerner trekket fra lista hvis hesten er svart og brikken på
+                 * ruta den vil flytte til er svart.
+                 */ else {
                     if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
                         teller--;
@@ -1361,6 +1389,10 @@ class Brett {
         int fX = flyttRute.getY();
         int sY = startRute.getX();
         int sX = startRute.getY();
+        /*
+         * Sjekker om brikken som er valgt er ett hvitt Kongeobjekt og om tårnet og kongen er flyttet siden spillstart.
+         * Den sjekker begge tårnene.
+         */
         if (this.ruter[sX][sY].getBrikke() instanceof Konge && this.ruter[sX][sY].getBrikke().isHvit() && (rokadeKTH == false)) {
             if (((fX - sX) == 2) && (TaarnHH == 0) && (KongeH == 0)) {
                 this.ruter[(sX + 1)][sY].setBrikke(ruter[(sX + 3)][sY].getBrikke());
@@ -1375,6 +1407,9 @@ class Brett {
                 rokadeHV = true;
                 rokadeKTH = true;
             }
+            /*
+             * Samme som over, men for svarte brikkeobjekt.
+             */
         } else if (this.ruter[sX][sY].getBrikke() instanceof Konge && !this.ruter[sX][sY].getBrikke().isHvit() && (rokadeKTS == false)) {
             if (((fX - sX) == 2) && (TaarnSH == 0) && (KongeS == 0)) {
                 this.ruter[(sX + 1)][sY].setBrikke(ruter[(sX + 3)][sY].getBrikke());
@@ -1390,9 +1425,15 @@ class Brett {
                 rokadeKTS = true;
             }
         }
+        /*
+         * Fjerner tatt bikke ved ordiære trekk.
+         */
         Brikke brikken = this.ruter[sX][sY].getBrikke();
         if (this.ruter[fX][fY].isOccupied()) {
             this.removePiece(ruter[fX][fY]);
+            /*
+             * Fjerner brikken som er tatt via passant trekket for svart og hvit.
+             */
         } else if (brikken instanceof Bonde && sX != fX && this.ruter[fX][fY - 1].isOccupied() && this.ruter[fX][fY - 1].getBrikke() instanceof Bonde && ((Bonde) this.ruter[fX][fY - 1].getBrikke()).isUnPasant()) {
             this.removePiece(ruter[fX][fY - 1]);
             this.ruter[fX][fY - 1].setBrikke(null);
@@ -1400,6 +1441,10 @@ class Brett {
             this.removePiece(ruter[fX][fY + 1]);
             this.ruter[fX][fY + 1].setBrikke(null);
         }
+        /*
+         * Hvis brikken er en bonde så skal metoden sjekke om den har mulighet
+         * til å bli utført en passant på.
+         */
         if (brikken instanceof Bonde) {
             Bonde bonden = (Bonde) brikken;
             if (bonden.isHvit() && sY == 1 && fY == 3) {
@@ -1411,9 +1456,15 @@ class Brett {
             }
             brikken = (Brikke) bonden;
         }
+        /*
+         * Fjerner brikken som har blitt flyttet fra startruten.
+         */
         this.ruter[fX][fY].setBrikke(brikken);
         this.ruter[sX][sY].setBrikke(null);
         antRunderSpilt++;
+        /*
+         * Justerer trekktelleren for svart og hvit konge.
+         */
         if (brikken instanceof Konge) {
             Konge Kongen = (Konge) brikken;
             if (Kongen.isHvit()) {
@@ -1422,6 +1473,9 @@ class Brett {
                 KongeS++;
             }
         }
+        /*
+         * Justerer trekktelleren for svarte og hvite tårn. 
+         */
         if (brikken instanceof Taarn) {
             Taarn Taarnet = (Taarn) brikken;
             if (Taarnet.isHvit()) {
@@ -1473,7 +1527,8 @@ class Brett {
         ArrayList<Rute> brikkene = new ArrayList<>();
         if (isWhite) {
             /*
-             * legger alle ruter med brikker på i et array, henholdsvis hvit og svarte.
+             * legger alle ruter med brikker på i et array, henholdsvis hvit og
+             * svarte.
              */
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
@@ -1482,9 +1537,10 @@ class Brett {
                     }
                 }
             }/*
-             * kjører sjakkTrekk metoden på rutene med brikker, 
-             * dette for å sjekke om det har noen lovlige trekk, dersom det er sjakk.
-             * om de har noen lovlige trekk, blir rutene lagt til et array som returneres
+             * kjører sjakkTrekk metoden på rutene med brikker, dette for å
+             * sjekke om det har noen lovlige trekk, dersom det er sjakk. om de
+             * har noen lovlige trekk, blir rutene lagt til et array som
+             * returneres
              */
             for (int i = 0; i < brikkene.size(); i++) {
                 ArrayList<Rute> sjekk = sjakkTrekk(isWhite, brikkene.get(i));
@@ -1562,15 +1618,16 @@ class Brett {
                         if (ruter[i][u].getBrikke() instanceof Springer) {
                             horse = ruter[i][u];
                         }/*
-                         * Sjekker om noen av de svarte brikkene kan angripe den hvite kongen
+                         * Sjekker om noen av de svarte brikkene kan angripe den
+                         * hvite kongen
                          */
                         for (int y = 0; y < trekkKonge.size(); y++) {
                             help = false;
                             for (int f = 0; f < trekk.size(); f++) {
                                 /*
                                  * sjekker hvilken brikke som angriper kongen.
-                                 * og lagrer dens x og y koordinater i variablene
-                                 * aX og aY
+                                 * og lagrer dens x og y koordinater i
+                                 * variablene aX og aY
                                  */
                                 if (trekk.get(f).getX() == kongePos.getX() && trekk.get(f).getY() == kongePos.getY()) {
                                     help = true;
@@ -1579,9 +1636,10 @@ class Brett {
                                 }
                             }
                             /*
-                             * Sjekker om en angriperbrikken står på noen av kongens lovlige trekk
-                             * dersom den gjør det, legges kongens trekk på en ny arraylist 
-                             * som skal evaluere hvor sjakken kommer fra senere
+                             * Sjekker om en angriperbrikken står på noen av
+                             * kongens lovlige trekk dersom den gjør det, legges
+                             * kongens trekk på en ny arraylist som skal
+                             * evaluere hvor sjakken kommer fra senere
                              */
                             if (trekkKonge.get(y).getX() == aX && trekkKonge.get(y).getY() == aY) {
                                 discardedKonge.add(trekkKonge.get(y));
@@ -1590,11 +1648,11 @@ class Brett {
                                 y--;
                             }
                         }/*
-                         * denne kodesnutten sjekker om noen av trekkene til 
-                         * angriperen er de samme som trekkene til kongen, 
-                         * dersom kongen ikke kan angripe angriperen.
-                         * disse skal også legges til en arrayList som skal
-                         * evaluere hvor sjakken kommer fra
+                         * denne kodesnutten sjekker om noen av trekkene til
+                         * angriperen er de samme som trekkene til kongen,
+                         * dersom kongen ikke kan angripe angriperen. disse skal
+                         * også legges til en arrayList som skal evaluere hvor
+                         * sjakken kommer fra
                          */
                         for (int h = 0; h < trekkKonge.size(); h++) {
                             for (int w = 0; w < trekk.size(); w++) {
@@ -1610,7 +1668,7 @@ class Brett {
             }
         } else {
             /*
-             * denne gjør det samme som over, men for svart 
+             * denne gjør det samme som over, men for svart
              */
             for (int kI = 0; kI < 8; kI++) {
                 for (int kU = 0; kU < 8; kU++) {
@@ -1669,10 +1727,9 @@ class Brett {
         }
         ArrayList<Rute> trekkHorse = new ArrayList<>();
         /*
-         * denne snutten sjekker om angriperen var en hest, 
-         * hvis det var tilfellet, er angrepsruten lagret i 
-         * variabelen horse, noe som gjør at resten av algoritmen
-         * ikke trengs å kjøre gjennom
+         * denne snutten sjekker om angriperen var en hest, hvis det var
+         * tilfellet, er angrepsruten lagret i variabelen horse, noe som gjør at
+         * resten av algoritmen ikke trengs å kjøre gjennom
          */
         if (horse != null) {
             if (b instanceof Bonde) {
@@ -1704,8 +1761,8 @@ class Brett {
         nedVenstre = false;
         nedHoyre = false;
         /*
-         * boolean variabler som forteller hvor sjakken kommer fra
-         * (hvilken diagonal / akse)
+         * boolean variabler som forteller hvor sjakken kommer fra (hvilken
+         * diagonal / akse)
          */
         ArrayList<Rute> linjeAnalyse = new ArrayList<>();
 
@@ -1739,9 +1796,9 @@ class Brett {
         ArrayList<Rute> trekkBonde = new ArrayList<>();
         trekkBonde = sjekkLovligeTrekk(r);
         /*
-         * sjekker om brikken på ruten som ble sendt inn som argument
-         * kan gjøre noe med denne sjakken, og returnerer hvilke trekk 
-         * som kan stoppe en sjakk.
+         * sjekker om brikken på ruten som ble sendt inn som argument kan gjøre
+         * noe med denne sjakken, og returnerer hvilke trekk som kan stoppe en
+         * sjakk.
          */
         if (trekkBonde != null) {
             for (int i = 0; i < trekkBonde.size(); i++) {
@@ -1794,8 +1851,8 @@ class Brett {
         ArrayList<Rute> trekk = new ArrayList<>();
         Rute konge = null;
         /*
-         * sjekker enkelt og greit om noen av motstanderspillerene
-         * har lovlige trekk som = ruten kongen står på.
+         * sjekker enkelt og greit om noen av motstanderspillerene har lovlige
+         * trekk som = ruten kongen står på.
          */
         if (isWhite) {
             for (int kI = 0; kI < 8; kI++) {
@@ -1878,10 +1935,10 @@ class Brett {
             }
         }
         /*
-         * 
-         * lager en dronning, og sjekker lovlige trekk i dronningklasse
-         * på ruten kongen står på. Disse trekkene blir delt opp i flere
-         * arrayer, et for hver akse/diagonal
+         *
+         * lager en dronning, og sjekker lovlige trekk i dronningklasse på ruten
+         * kongen står på. Disse trekkene blir delt opp i flere arrayer, et for
+         * hver akse/diagonal
          */
         Dronning d = new Dronning(true);
         sjekkTrekk = d.sjekkLovligeTrekk(kongePos);
@@ -1926,15 +1983,16 @@ class Brett {
         int tellerHN = hoyreNed.size();
         Rute ru = null;
         /*
-         * 
+         *
          */
         if (whiteTurn) {
             for (int i = 0; i < tellerV; i++) {
                 ru = ruter[venstre.get(i).getX()][venstre.get(i).getY()];
                 /*
                  * sjekker om det står en svart dronning eller et svart taarn
-                 * til venstre for kongen. dersom det er tilfelle legger algoritmen til denne ruten
-                 * 
+                 * til venstre for kongen. dersom det er tilfelle legger
+                 * algoritmen til denne ruten
+                 *
                  */
                 if (ru != null && (ru.isOccupied() && !ru.getBrikke().isHvit() && (ru.getBrikke() instanceof Dronning || ru.getBrikke() instanceof Taarn))) {
                     if (blocker instanceof Dronning || blocker instanceof Taarn) {
@@ -1942,18 +2000,18 @@ class Brett {
                         int tx = r.getX();
                         int helpTx = r.getX();
                         /*
-                         * Her legges rutene som allerede er sjekket før algoritmen
-                         * visste om det var en trussel fra venstre frem til brikken som
-                         * blokkerer sjakken 
+                         * Her legges rutene som allerede er sjekket før
+                         * algoritmen visste om det var en trussel fra venstre
+                         * frem til brikken som blokkerer sjakken
                          */
                         while (ru.getX() - tx < 0) {
                             tx--;
-                            if(ruter[tx][ru.getY()].isOccupied()){
+                            if (ruter[tx][ru.getY()].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
                         }/*
-                         * 
+                         *
                          * her legges til rutene fra posisjonen til blokkeren
                          * frem til dens egen konge
                          */
@@ -1968,7 +2026,7 @@ class Brett {
                 }
             }/*
              * Samme for alle tilfellene, bare at algoritmene for hvilke ruter
-             * som skal legges til, varierer avhengig av hvilken diagonal/akse 
+             * som skal legges til, varierer avhengig av hvilken diagonal/akse
              * angrepet kommer fra
              */
             for (int i = 0; i < tellerH; i++) {
@@ -1980,7 +2038,7 @@ class Brett {
                         int helpTx = r.getX();
                         while (tx - ru.getX() < 0) {
                             tx++;
-                            if(ruter[tx][ru.getY()].isOccupied()){
+                            if (ruter[tx][ru.getY()].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
@@ -2004,7 +2062,7 @@ class Brett {
                         int helpTy = r.getY();
                         while (ty - ru.getY() < 0) {
                             ty++;
-                            if(ruter[ru.getX()][ty].isOccupied()){
+                            if (ruter[ru.getX()][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
@@ -2034,7 +2092,7 @@ class Brett {
                         int helpTy = r.getY();
                         while (ru.getY() - ty > 0) {
                             ty--;
-                            if(ruter[ru.getX()][ty].isOccupied()){
+                            if (ruter[ru.getX()][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
@@ -2061,7 +2119,7 @@ class Brett {
                         while ((ru.getX() - tx) < 0 && (ty - ru.getY()) < 0) {
                             tx--;
                             ty++;
-                            if(ruter[tx][ty].isOccupied()){
+                            if (ruter[tx][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
@@ -2094,7 +2152,7 @@ class Brett {
                         while ((tx - hoyreOpp.get(i).getX()) < 0 && (ty - hoyreOpp.get(i).getY()) < 0) {
                             tx++;
                             ty++;
-                            if(ruter[tx][ty].isOccupied()){
+                            if (ruter[tx][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
@@ -2126,7 +2184,7 @@ class Brett {
                         while (tx - ru.getX() < 0 && ru.getY() - ty < 0) {
                             tx--;
                             ty--;
-                            if(ruter[tx][ty].isOccupied()){
+                            if (ruter[tx][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
@@ -2158,7 +2216,7 @@ class Brett {
                         while ((tx - ru.getX()) < 0 && (ru.getY() - ty) < 0) {
                             tx++;
                             ty--;
-                            if(ruter[tx][ty].isOccupied()){
+                            if (ruter[tx][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
@@ -2188,7 +2246,7 @@ class Brett {
                         int helpTx = r.getX();
                         while (ru.getX() - tx < 0) {
                             tx--;
-                            if(ruter[tx][ru.getY()].isOccupied()){
+                            if (ruter[tx][ru.getY()].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
@@ -2212,7 +2270,7 @@ class Brett {
                         int helpTx = r.getX();
                         while (tx - ru.getX() < 0) {
                             tx++;
-                            if(ruter[tx][ru.getY()].isOccupied()){
+                            if (ruter[tx][ru.getY()].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
@@ -2236,7 +2294,7 @@ class Brett {
                         int helpTy = r.getY();
                         while (ty - ru.getY() < 0) {
                             ty++;
-                            if(ruter[ru.getX()][ty].isOccupied()){
+                            if (ruter[ru.getX()][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
@@ -2266,7 +2324,7 @@ class Brett {
                         int helpTy = r.getY();
                         while (ru.getY() - ty > 0) {
                             ty--;
-                            if(ruter[ru.getX()][ty].isOccupied()){
+                            if (ruter[ru.getX()][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
@@ -2293,7 +2351,7 @@ class Brett {
                         while ((ru.getX() - tx) < 0 && (ty - ru.getY()) < 0) {
                             tx--;
                             ty++;
-                            if(ruter[tx][ty].isOccupied()){
+                            if (ruter[tx][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
@@ -2326,7 +2384,7 @@ class Brett {
                         while ((tx - hoyreOpp.get(i).getX()) < 0 && (ty - hoyreOpp.get(i).getY()) < 0) {
                             tx++;
                             ty++;
-                            if(ruter[tx][ty].isOccupied()){
+                            if (ruter[tx][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
@@ -2358,7 +2416,7 @@ class Brett {
                         while (tx - ru.getX() < 0 && ru.getY() - ty < 0) {
                             tx--;
                             ty--;
-                            if(ruter[tx][ty].isOccupied()){
+                            if (ruter[tx][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
@@ -2390,7 +2448,7 @@ class Brett {
                         while ((tx - ru.getX()) < 0 && (ru.getY() - ty) < 0) {
                             tx++;
                             ty--;
-                            if(ruter[tx][ty].isOccupied()){
+                            if (ruter[tx][ty].isOccupied()) {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
@@ -2455,10 +2513,10 @@ class Brett {
                     if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
                         /*
                          * fjerner brikken på ruten som kom inn som parameter,
-                         * og sjekker deretter om noen av de svarte brikkene 
-                         * kan sette kongen i sjakk. Hvis de kan det, så skal 
-                         * ruten settes til å være en rute med en brikke som
-                         * blokkerer sjakk.
+                         * og sjekker deretter om noen av de svarte brikkene kan
+                         * sette kongen i sjakk. Hvis de kan det, så skal ruten
+                         * settes til å være en rute med en brikke som blokkerer
+                         * sjakk.
                          */
                         sjekk.setBrikke(null);
                         trekk = sjekkLovligeTrekk(ruter[i][u]);
@@ -2552,8 +2610,8 @@ class Brett {
                          * sjekker alle lovlige trekk på de svarte brikkene,
                          * uten at brett-klassen fjerner noen lovlige trekk
                          * (brikkene kan altså angripe gjennom andre brikker)
-                         * dersom noen av brikkene nå har lovlige trekk som kan sette kongen i sjakk
-                         * vil denne metoden returnere true
+                         * dersom noen av brikkene nå har lovlige trekk som kan
+                         * sette kongen i sjakk vil denne metoden returnere true
                          */
                         if ((trekk != null) && !trekk.isEmpty()) {
                             for (int t = 0; t < trekk.size(); t++) {
@@ -2628,7 +2686,8 @@ class Brett {
         ArrayList<Rute> legal = new ArrayList<>();
         boolean isSjakk = isSjakk(whiteTurn);
         /*
-         * Sjekker om kongen er sjakk, og om det fins noen brikker som kan blokkere sjakk
+         * Sjekker om kongen er sjakk, og om det fins noen brikker som kan
+         * blokkere sjakk
          */
         if (muligeMoves.size() <= 1 && isSjakk) {
             if (whiteTurn) {
