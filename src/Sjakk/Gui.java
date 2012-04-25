@@ -532,7 +532,7 @@ class Gui extends JFrame {
                             } else {
                                 squares[i][u].setBackground(lightBrown);
                             }
-                        }brett.setBlockingCheck(false);
+                        }
                     }
                     isHighlighted = false;
                 }
@@ -684,15 +684,15 @@ class Gui extends JFrame {
             setLayout(new GridLayout(2, 2));
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             if (isHvit) {
-                add(new Knapp("Dronning", "src/images/whiteQueen.gif"));
-                add(new Knapp("Tårn", "src/images/whiteTaarn.gif"));
-                add(new Knapp("Løper", "src/images/whiteLoper.gif"));
-                add(new Knapp("Springer", "src/images/whiteSpringer.gif"));
+                add(new Knapp("hvitDronning", new ImageIcon(getClass().getResource("/Images/whiteQueen.gif"))));
+                add(new Knapp("hvitTårn", new ImageIcon(getClass().getResource("/Images/whiteTaarn.gif"))));
+                add(new Knapp("hvitLøper", new ImageIcon(getClass().getResource("/Images/whiteLoper.gif"))));
+                add(new Knapp("hvitSpringer", new ImageIcon(getClass().getResource("/Images/whiteSpringer.gif"))));
             } else {
-                add(new Knapp("Dronning", "src/images/blackQueen.gif"));
-                add(new Knapp("Tårn", "src/images/blackTaarn.gif"));
-                add(new Knapp("Løper", "src/images/blackLoper.gif"));
-                add(new Knapp("Springer", "src/images/blackSpringer.gif"));
+                add(new Knapp("svartDronning", new ImageIcon(getClass().getResource("/Images/blackQueen.gif"))));
+                add(new Knapp("svartTårn", new ImageIcon(getClass().getResource("/Images/blackTaarn.gif"))));
+                add(new Knapp("svartLøper", new ImageIcon(getClass().getResource("/Images/blackLoper.gif"))));
+                add(new Knapp("svartSpringer", new ImageIcon(getClass().getResource("/Images/blackSpringer.gif"))));
             }
             this.r = r;
             pack();
@@ -700,10 +700,10 @@ class Gui extends JFrame {
         }
 
         private class Knapp extends JButton {
-
-            public Knapp(String e, String s) {
-                super(e, new ImageIcon(s));
-                setActionCommand(s);
+            private ImageIcon bilde;
+            public Knapp(String e, ImageIcon i) {
+                super(i);
+                setActionCommand(e);
                 addActionListener(new KnappeLytter());
             }
         }
@@ -714,59 +714,59 @@ class Gui extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String valg = e.getActionCommand();
                 switch (valg) {
-                    case "src/images/whiteQueen.gif":
+                    case "hvitDronning":
                         brett.promotePiece(r, new Dronning(true));
                         squares[r.getY()][r.getX()].removeBilde();
-                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/whiteQueen.gif")));
+                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon(getClass().getResource("/Images/whiteQueen.gif"))));
                         isDone = true;
                         dispose();
                         break;
-                    case "src/images/whiteTaarn.gif":
+                    case "hvitTårn":
                         brett.promotePiece(r, new Taarn(true));
                         squares[r.getY()][r.getX()].removeBilde();
-                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/whiteTaarn.gif")));
+                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon(getClass().getResource("/Images/whiteTaarn.gif"))));
                         isDone = true;
                         dispose();
                         break;
-                    case "src/images/whiteLoper.gif":
+                    case "hvitLøper":
                         brett.promotePiece(r, new Loper(true));
                         squares[r.getY()][r.getX()].removeBilde();
-                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/whiteLoper.gif")));
+                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon(getClass().getResource("/Images/whiteLoper.gif"))));
                         isDone = true;
                         dispose();
                         break;
-                    case "src/images/whiteSpringer.gif":
+                    case "hvitSpringer":
                         brett.promotePiece(r, new Springer(true));
                         squares[r.getY()][r.getX()].removeBilde();
-                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/whiteSpringer.gif")));
+                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon(getClass().getResource("/Images/whiteSpringer.gif"))));
                         isDone = true;
                         dispose();
                         break;
-                    case "src/images/blackQueen.gif":
+                    case "svartDronning":
                         brett.promotePiece(r, new Dronning(false));
                         squares[r.getY()][r.getX()].removeBilde();
-                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/blackQueen.gif")));
+                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon(getClass().getResource("/Images/blackQueen.gif"))));
                         isDone = true;
                         dispose();
                         break;
-                    case "src/images/blackTaarn.gif":
+                    case "svartTårn":
                         brett.promotePiece(r, new Taarn(false));
                         squares[r.getY()][r.getX()].removeBilde();
-                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/blackTaarn.gif")));
+                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon(getClass().getResource("/Images/blackTaarn.gif"))));
                         isDone = true;
                         dispose();
                         break;
-                    case "src/images/blackLoper.gif":
+                    case "svartLøper":
                         brett.promotePiece(r, new Loper(false));
                         squares[r.getY()][r.getX()].removeBilde();
-                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/blackLoper.gif")));
+                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon(getClass().getResource("/Images/blackLoper.gif"))));
                         isDone = true;
                         dispose();
                         break;
-                    case "src/images/blackSpringer.gif":
+                    case "svartSpringer":
                         brett.promotePiece(r, new Springer(false));
                         squares[r.getY()][r.getX()].removeBilde();
-                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon("src/images/blackSpringer.gif")));
+                        squares[r.getY()][r.getX()].setBilde(new JLabel(new ImageIcon(getClass().getResource("/Images/blackSpringer.gif"))));
                         isDone = true;
                         dispose();
                         break;
