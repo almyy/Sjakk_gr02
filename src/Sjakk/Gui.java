@@ -22,7 +22,7 @@ class Gui extends JFrame {
     private final Brett brett = new Brett();
     private GuiRute squares[][] = new GuiRute[8][8];
     private ArrayList<Rute> lovligeTrekk;
-    private final String[] trekk = {"A", "B", "C", "D", "E", "F", "G", "H"};
+    private final String[] trekk = {"a", "b", "c", "d", "e", "f", "g", "h"};
     private String move;
     private String move2;
     private final Color brown = new Color(160, 82, 45);
@@ -39,10 +39,10 @@ class Gui extends JFrame {
     private static Gui b;
     private boolean blackTurn = false;
     private boolean isStarted = false;
-    private transient int teller1 = 0;
-    private transient int teller2 = 0;
-    private transient int teller3 = 0;
-    private transient int teller4 = 0;
+    private int teller1 = 0;
+    private int teller2 = 0;
+    private int teller3 = 0;
+    private int teller4 = 0;
     private double tid;
     private boolean isDone = true;
 
@@ -292,7 +292,7 @@ class Gui extends JFrame {
     }
 
     private class GameInfo extends JPanel {
-
+        private int trekkT = 0;
         private TextArea tekstFelt;
 
         public GameInfo() {
@@ -304,31 +304,20 @@ class Gui extends JFrame {
         }
 
         private void updateInfo(String move, String move2, boolean whiteTurn) {
-            if (whiteTurn) {
-                tekstFelt.append("Hvitt trekk: " + move + " til " + move2 + "\n");
-            } else {
-                tekstFelt.append("Svart trekk: " + move + " til " + move2 + "\n");
-            }
+            trekkT++;
+            tekstFelt.append( trekkT+". " + move + " " + move2 + "\n");
         }
 
         private void sjakk(boolean e) {
-            if (e) {
-                tekstFelt.append("Hvit konge i sjakk! \n (Gjør ett trekk \nfor å unngå sjakk) \n");
-            } else {
-                tekstFelt.append("Svart konge i sjakk! \n (Gjør ett trekk \nfor å unngå sjakk) \n");
-            }
+
         }
     }
 
     private class MuseLytter implements MouseListener {
-
-        private int teller = 0;
-
         @Override
         public synchronized void mouseClicked(MouseEvent e) {
 
             GuiRute denne = (GuiRute) e.getSource();
-            teller++;
             Rute R = brett.getRute(denne.getYen(), denne.getXen());
             isStarted = true;
             isSjakk = brett.isSjakk(!blackTurn);

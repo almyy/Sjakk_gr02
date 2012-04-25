@@ -381,7 +381,7 @@ class Brett {
                                         j--;
                                     }
                                 }
-                            } else if (!(ruter[i][u].getBrikke() instanceof Konge)) {
+                            } else {
                                 trekk = sjekkLovligeTrekk(ruter[i][u]);
                             }
                             ruter[currentx][currenty].setBrikke(konge);
