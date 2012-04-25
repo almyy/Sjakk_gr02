@@ -2,6 +2,7 @@ package Sjakk;
 
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,9 +19,9 @@ public class Taarn extends Brikke {
     public Taarn(boolean isHvit) {
         super(5, isHvit,null);
         if(isHvit){
-            super.setIcon("src/images/whiteTaarn.gif");
+            super.setIcon(new ImageIcon("src/images/whiteTaarn.gif"));
         }else{
-            super.setIcon("src/images/blackTaarn.gif");
+            super.setIcon(new ImageIcon("src/images/blackTaarn.gif"));
         }
     }
     /**

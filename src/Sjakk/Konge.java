@@ -1,8 +1,8 @@
 package Sjakk;
 
 
+
 import java.util.ArrayList;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
  * Klassen Konge er brikken som representerer kongen. Her håndteres logikken rundt selve brikken.
  */
 public class Konge extends Brikke{
+    
     /**
      * Konstruktør med èn parameter.
      * @param isHvit 
@@ -20,9 +21,9 @@ public class Konge extends Brikke{
     public Konge(boolean isHvit){
         super(0, isHvit,null);
         if(isHvit){
-            super.setIcon("src/images/whiteKing.png");
+            super.setIcon(new ImageIcon("Images/whiteKing.png"));
         }else{
-            super.setIcon("src/images/blackKing.png");
+            super.setIcon(new ImageIcon("Images/blackKing.png"));
         }
     }
     /**

@@ -1,5 +1,6 @@
 package Sjakk;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 /**
  *
  * @author Team 02, AITeL@HiST
@@ -17,9 +18,9 @@ public class Bonde extends Brikke {
     public Bonde(boolean isHvit){
         super(1, isHvit,null);
         if(isHvit){
-            super.setIcon("src/images/whitepawn.gif");
+            super.setIcon(new ImageIcon("src/images/whitepawn.gif"));
         }else{
-            super.setIcon("src/images/blackpawn.gif");
+            super.setIcon(new ImageIcon("src/images/blackpawn.gif"));
         }
         unPasant = false;
         antRunderSpilt = 0;

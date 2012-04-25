@@ -2,6 +2,7 @@ package Sjakk;
 
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,9 +19,9 @@ public class Loper extends Brikke {
     public Loper(boolean isHvit){
         super(5, isHvit,null);  
         if(isHvit){
-            super.setIcon("src/images/whiteLoper.gif");
+            super.setIcon(new ImageIcon("src/images/whiteLoper.gif"));
         }else{
-            super.setIcon("src/images/blackLoper.gif");
+            super.setIcon(new ImageIcon("src/images/blackLoper.gif"));
         }
     }
     /**
