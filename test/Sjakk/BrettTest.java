@@ -102,18 +102,18 @@ public class BrettTest {
         Brett brett = new Brett();
         Rute r1 = new Rute(3, 1);
         Rute r2 = new Rute(3, 3);
-        brett.flyttBrikke(brett.getRute(r2.getX(), r2.getY()), brett.getRute(r1.getX(), r1.getY()));
+        
         //assertTrue(brett.getRute(r2.getX(), r2.getY()).isOccupied() && brett.getRute(r2.getX(), r2.getY()).getBrikke() instanceof Bonde && brett.getRute(r2.getX(), r2.getY()).getBrikke().isHvit());
         //assertTrue(brett.getRute(r2.getX(), r2.getY()).isOccupied());
         //assertTrue(brett.getRute(r2.getX(), r2.getY()).getBrikke() instanceof Bonde);
         //assertTrue(brett.getRute(r2.getX(), r2.getY()).getBrikke().isHvit());
         r1 = new Rute(6, 7);
         r2 = new Rute(7, 5);
-        brett.flyttBrikke(r1, r2);
+        
        // assertTrue(brett.getRute(r2.getX(), r2.getY()).isOccupied() && brett.getRute(r2.getX(), r2.getY()).getBrikke() instanceof Springer && !brett.getRute(r2.getX(), r2.getY()).getBrikke().isHvit());
         r1 = new Rute(2, 0);
         r2 = new Rute(7, 5);
-        brett.flyttBrikke(r1, r2);
+        
       //  assertTrue(brett.getRute(r2.getX(), r2.getY()).isOccupied() && brett.getRute(r2.getX(), r2.getY()).getBrikke() instanceof Loper && brett.getRute(r2.getX(), r2.getY()).getBrikke().isHvit());
         
     }
