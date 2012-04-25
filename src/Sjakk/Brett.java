@@ -2197,6 +2197,13 @@ class Brett {
         ArrayList<Rute> trekk = new ArrayList<>();
         boolean res = false;
         Rute kongePos = null;
+        for(int i = 0; i < 8; i++){
+            for(int u = 0; u < 8; u++){
+                if(ruter[i][u].isOccupied()){
+                    ruter[i][u].setBlocking(false);
+                }
+            }
+        }
         if (whiteTurn) {
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
@@ -2208,34 +2215,13 @@ class Brett {
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
-                        Brikke b = ruter[i][u].getBrikke();
-                        if (b instanceof Bonde) {
-                            Bonde bond = (Bonde) b;
-                            trekk = bond.sjekkLovligeTrekk(ruter[i][u]);
-                            for (int x = 0; x < trekk.size(); x++) {
-                                if (trekk.get(x).getX() == ruter[i][u].getX()) {
-                                    trekk.remove(x);
-                                    x--;
-                                }
-                            }
-                        } else if (b instanceof Loper) {
-                            Loper l = (Loper) b;
-                            trekk = l.sjekkLovligeTrekk(ruter[i][u]);
-                        } else if (b instanceof Dronning) {
-                            Dronning d = (Dronning) b;
-                            trekk = d.sjekkLovligeTrekk(ruter[i][u]);
-                        } else if (b instanceof Taarn) {
-                            Taarn t = (Taarn) b;
-                            trekk = t.sjekkLovligeTrekk(ruter[i][u]);
-                        }
+                        sjekk.setBrikke(null);
+                        trekk = sjekkLovligeTrekk(ruter[i][u]);
+                        sjekk.setBrikke(test);
                         for (int y = 0; y < trekk.size(); y++) {
                             if (trekk.get(y).getX() == kongePos.getX() && trekk.get(y).getY() == kongePos.getY() && !(test instanceof Konge)) {
-                                sjekk.setBrikke(null);
-                                if (isSjakk(whiteTurn)) {
-                                    sjekk.setBlocking(true);
-                                    res = true;
-                                }
-                                sjekk.setBrikke(test);
+                                sjekk.setBlocking(true);
+                                res = true;
                             }
                         }
 
@@ -2253,38 +2239,15 @@ class Brett {
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
-                        Brikke b = ruter[i][u].getBrikke();
-                        if (b instanceof Bonde) {
-                            Bonde bond = (Bonde) b;
-                            trekk = bond.sjekkLovligeTrekk(ruter[i][u]);
-                            for (int x = 0; x < trekk.size(); x++) {
-                                if (trekk.get(x).getX() == ruter[i][u].getX()) {
-                                    trekk.remove(x);
-                                    x--;
-                                }
-                            }
-                        } else if (b instanceof Loper) {
-                            Loper l = (Loper) b;
-                            trekk = l.sjekkLovligeTrekk(ruter[i][u]);
-                        } else if (b instanceof Dronning) {
-                            Dronning d = (Dronning) b;
-                            trekk = d.sjekkLovligeTrekk(ruter[i][u]);
-                        } else if (b instanceof Taarn) {
-                            Taarn t = (Taarn) b;
-                            trekk = t.sjekkLovligeTrekk(ruter[i][u]);
-                        }
-
+                        sjekk.setBrikke(null);
+                        trekk = sjekkLovligeTrekk(ruter[i][u]);
+                        sjekk.setBrikke(test);
                         for (int y = 0; y < trekk.size(); y++) {
                             if (trekk.get(y).getX() == kongePos.getX() && trekk.get(y).getY() == kongePos.getY() && !(test instanceof Konge)) {
-                                sjekk.setBrikke(null);
-                                if (isSjakk(whiteTurn)) {
-                                    sjekk.setBlocking(true);
-                                    res = true;
-                                }
-                                sjekk.setBrikke(test);
+                                sjekk.setBlocking(true);
+                                res = true;
                             }
                         }
-
                     }
                 }
             }

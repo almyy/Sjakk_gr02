@@ -532,7 +532,7 @@ class Gui extends JFrame {
                             } else {
                                 squares[i][u].setBackground(lightBrown);
                             }
-                        }brett.setBlockingCheck(false);
+                        }
                     }
                     isHighlighted = false;
                 }
