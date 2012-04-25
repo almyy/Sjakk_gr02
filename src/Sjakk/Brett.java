@@ -238,11 +238,11 @@ class Brett {
                         }
                         for (int y = 0; y < trekk.size(); y++) {
                             if (y == venstreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + hoyreT
-                                    || y == hoyreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT ||
-                                    y == oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT ||
-                                    y == nedT + oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT ||
-                                    y == venstreOppT + venstreNedT || y == hoyreOppT + venstreNedT + venstreOppT + hoyreNedT ||
-                                    y == venstreNedT || y == hoyreNedT + venstreNedT + venstreOppT) {
+                                    || y == hoyreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT
+                                    || y == oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT
+                                    || y == nedT + oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT
+                                    || y == venstreOppT + venstreNedT || y == hoyreOppT + venstreNedT + venstreOppT + hoyreNedT
+                                    || y == venstreNedT || y == hoyreNedT + venstreNedT + venstreOppT) {
                                 help = false;
                             }
                             Rute sjekker = ruter[trekk.get(y).getX()][trekk.get(y).getY()];
@@ -329,7 +329,7 @@ class Brett {
                 int x = lovligeTrekk.get(i).getX();
                 int y = lovligeTrekk.get(i).getY();
                 if (bonde.isHvit()) {
-                    if(currentY == 1 && y == 3 && ruter[x][y-1].isOccupied()) {
+                    if (currentY == 1 && y == 3 && ruter[x][y - 1].isOccupied()) {
                         lovligeTrekk.remove(i);
                         teller--;
                         i--;
@@ -359,7 +359,7 @@ class Brett {
                         }
                     }
                 } else {
-                    if(currentY == 6 && y == 4 && ruter[x][y+1].isOccupied()) {
+                    if (currentY == 6 && y == 4 && ruter[x][y + 1].isOccupied()) {
                         lovligeTrekk.remove(i);
                         teller--;
                         i--;
@@ -531,7 +531,7 @@ class Brett {
                             }
                         }
                     }
-                    if (!sjekk && !ruter[(currentx + 1)][currenty].isOccupied() && !ruter[(currentx + 2)][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
+                    if (!sjekk && !ruter[(currentx + 1)][currenty].isOccupied() && !ruter[(currentx + 2)][currenty].isOccupied() && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx + 2), currenty));
                         hjelp++;
                     }
@@ -552,7 +552,7 @@ class Brett {
                             }
                         }
                     }
-                    if (!ruter[(currentx - 1)][currenty].isOccupied() && !ruter[(currentx - 2)][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
+                    if (!sjekk && !ruter[(currentx - 1)][currenty].isOccupied() && !ruter[(currentx - 2)][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx - 2), currenty));
                         hjelp++;
                     }
@@ -574,7 +574,7 @@ class Brett {
                             }
                         }
                     }
-                    if (!sjekk && !ruter[currentx + 1][currenty].isOccupied() && !ruter[currentx + 2][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
+                    if (!sjekk && !ruter[currentx + 1][currenty].isOccupied() && !ruter[currentx + 2][currenty].isOccupied() && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx + 2, currenty));
                         hjelp++;
                     }
@@ -595,7 +595,7 @@ class Brett {
                             }
                         }
                     }
-                    if (!ruter[currentx - 1][currenty].isOccupied() && !ruter[currentx - 2][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
+                    if (!sjekk && !ruter[currentx - 1][currenty].isOccupied() && !ruter[currentx - 2][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx - 2, currenty));
                         hjelp++;
                     }
@@ -2513,13 +2513,13 @@ class Brett {
                                 Dronning test = (Dronning) b;
                                 trekk = test.sjekkLovligeTrekk(ruter[u][v]);
                             }
-                            if((trekk != null) && !trekk.isEmpty()){
-                            for (int t = 0; t < trekk.size(); t++) {
-                                if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
-                                    return true;
+                            if ((trekk != null) && !trekk.isEmpty()) {
+                                for (int t = 0; t < trekk.size(); t++) {
+                                    if (trekk.get(t).getX() == konge.getX() && trekk.get(t).getY() == konge.getY() && !help) {
+                                        return true;
+                                    }
                                 }
                             }
-                        }
                             help = false;
                         }
                     }
