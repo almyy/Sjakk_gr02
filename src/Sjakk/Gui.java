@@ -44,9 +44,10 @@ class Gui extends JFrame {
     private boolean isDone = true;
 
     /**
-     * Konstruktør med èn parameter. Her opprettes alt som skal ses av brukeren.
-     * Det inkluderer selve rammen til spillet, i tillegg til hver enkelt del av
-     * spillet, for eksempel rutenettet med de forskjellige bildene.
+     * Konstruktør med èn parameter. Her opprettes alt som skal sees av
+     * brukeren. Det inkluderer selve rammen til spillet, i tillegg til hver
+     * enkelt del av spillet, for eksempel rutenettet med de forskjellige
+     * bildene.
      *
      * @param tittel Tittelen på spillet.
      */
@@ -89,7 +90,7 @@ class Gui extends JFrame {
 
         private JLabel tidLabel;
         private double teller = tid;
-        private String tidString = ""+ (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
+        private String tidString = "" + (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
 
         /**
          * Konstruktør som oppretter en ActionListener som utfører en viss
@@ -102,8 +103,10 @@ class Gui extends JFrame {
             int delay = 1000;
             tidLabel = new JLabel(tidString);
             ActionListener taskPerformer = new ActionListener() {
+
                 /**
-                 * Hendelsen som skal skje hvert sekund. Her dekrementeres en teller i tillegg til at den nye tiden blir skrevet ut.
+                 * Hendelsen som skal skje hvert sekund. Her dekrementeres en
+                 * teller i tillegg til at den nye tiden blir skrevet ut.
                  */
                 @Override
                 public void actionPerformed(ActionEvent evt) {
@@ -125,7 +128,7 @@ class Gui extends JFrame {
                                 }
                             }
                             teller--;
-                            tidString = ""+ (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
+                            tidString = "" + (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
                         } else if (!isHvit && blackTurn) {
                             if (teller <= 0) {
                                 input = showOptionDialog(b, "Svart har ikke mer tid, hvit vinner!", "Hvit vinner!", YES_NO_OPTION, PLAIN_MESSAGE, null, valg, valg[0]);
@@ -141,7 +144,7 @@ class Gui extends JFrame {
                                 }
                             }
                             teller--;
-                            tidString = ""+ (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
+                            tidString = "" + (int) teller / 3600 + ":" + (int) (teller % 3600) / 60 + ":" + (int) teller % 60;
                         }
                         tidLabel.setText(tidString);
                     }
@@ -152,8 +155,10 @@ class Gui extends JFrame {
 
         }
     }
+
     /**
-     * Programmets meny. Her er det mulighet for å lage nytt spill eller å avslutte spillet.
+     * Programmets meny. Her er det mulighet for å lage nytt spill eller å
+     * avslutte spillet.
      */
     private class MenyBar extends JMenuBar {
 
@@ -171,6 +176,7 @@ class Gui extends JFrame {
             exit.addActionListener(new MenyListener());
         }
     }
+
     /**
      * Hver enkelt valg i menyen. Brukes i MenyBar.
      */
@@ -188,6 +194,7 @@ class Gui extends JFrame {
             return navn;
         }
     }
+
     /**
      * Lytteren knyttet til hver enkelt valg i menyen.
      */
@@ -195,10 +202,11 @@ class Gui extends JFrame {
 
         public MenyListener() {
         }
+
         /**
-         * Beskriver hva som skal gjøres når et valg blir trykket. 
-         * @param e 
-         * MenuItem-objektet.
+         * Beskriver hva som skal gjøres når et valg blir trykket.
+         *
+         * @param e MenuItem-objektet.
          */
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -215,9 +223,11 @@ class Gui extends JFrame {
             }
         }
     }
+
     /**
-     * Selve sjakkbrettet. Her opprettes det 64 GuiRute-objekter med riktig bilde for de forskjellige brikkene på rett plass.
-     * I tillegg legges det en muselytter på hvert eneste GuiRute-objekt.
+     * Selve sjakkbrettet. Her opprettes det 64 GuiRute-objekter med riktig
+     * bilde for de forskjellige brikkene på rett plass. I tillegg legges det en
+     * muselytter på hvert eneste GuiRute-objekt.
      */
     private class Rutenett extends JPanel {
 
@@ -247,9 +257,11 @@ class Gui extends JFrame {
             }
         }
     }
+
     /**
-     * Klassen som legger ut bildet på ruta den tilhører. Klassen har en x- og en y-koordinat som holder styr på hvilken
-     * rute det er snakk om i rutenettet.
+     * Klassen som legger ut bildet på ruta den tilhører. Klassen har en x- og
+     * en y-koordinat som holder styr på hvilken rute det er snakk om i
+     * rutenettet.
      */
     private class GuiRute extends JPanel {
 
@@ -270,10 +282,11 @@ class Gui extends JFrame {
             this.x = x;
             this.y = y;
         }
+
         /**
          * Endrer bildet på ruta.
-         * @param nyBilde 
-         * Det nye bildet som skal legges ut.
+         *
+         * @param nyBilde Det nye bildet som skal legges ut.
          */
         public void setBilde(JLabel nyBilde) {
             bilde = nyBilde;
@@ -283,14 +296,16 @@ class Gui extends JFrame {
                 pack();
             }
         }
+
         /**
          * Henter bildet på denne ruta.
-         * @return 
-         * En JLabel med et ImageIcon.
+         *
+         * @return En JLabel med et ImageIcon.
          */
         public JLabel getBilde() {
             return bilde;
         }
+
         /**
          * Fjerner bildet på denne ruta.
          */
@@ -301,35 +316,40 @@ class Gui extends JFrame {
             this.setBilde(null);
             repaint();
         }
+
         /**
          * Sjekker om det ligger et bilde på ruta.
-         * @return 
-         * True eller false, om det er et bilde her eller ikke.
+         *
+         * @return True eller false, om det er et bilde her eller ikke.
          */
         public boolean hasLabel() {
             return bilde != null;
         }
+
         /**
          * Gir x-verdien til ruta
-         * @return 
-         * En integer fra 0-7 som representer x-koordinaten til ruta.
+         *
+         * @return En integer fra 0-7 som representer x-koordinaten til ruta.
          */
         public int getXen() {
             return x;
         }
+
         /**
          * Gir y-verdien til ruta
-         * @return 
-         * En integer fra 0-7 som representer y-koordinaten til ruta.
+         *
+         * @return En integer fra 0-7 som representer y-koordinaten til ruta.
          */
         public int getYen() {
             return y;
         }
     }
+
     /**
      * Klassen som skriver ut trekkene som er tatt i et TextArea.
      */
     private class GameInfo extends JPanel {
+
         private int trekkT = 0;
         private TextArea tekstFelt;
 
@@ -340,33 +360,39 @@ class Gui extends JFrame {
             JScrollPane jsp = new JScrollPane(tekstFelt);
             add(jsp);
         }
+
         /**
          * Oppdaterer tekstområdet med det siste trekket.
-         * @param move
-         * En String som indikerer hvilken rute brikken sto på før trekket ble gjort.
-         * @param move2
-         * En String som indikerer hvilken rute brikken står på etter at trekket har blitt gjort.
+         *
+         * @param move En String som indikerer hvilken rute brikken sto på før
+         * trekket ble gjort.
+         * @param move2 En String som indikerer hvilken rute brikken står på
+         * etter at trekket har blitt gjort.
          */
         private void updateInfo(String move, String move2) {
             trekkT++;
-            tekstFelt.append( trekkT+". " + move + " " + move2 + "\n");
+            tekstFelt.append(trekkT + ". " + move + " " + move2 + "\n");
         }
     }
+
     /**
-     * Klassen som lytter etter musetrykk på de forskjellige rutene i sjakkbrettet.
+     * Klassen som lytter etter musetrykk på de forskjellige rutene i
+     * sjakkbrettet.
      */
     private class MuseLytter implements MouseListener {
+
         /**
-         * Metoden som skal kjøres hver gang en rute er trykket. Her sjekkes det om programme skal finne trekk for spilleren,
-         * om den skal flytte brikken eller om den skal fjerne opplyste trekk. Det er her all kommunikasjon med Brett ligger.
-         * @param e 
-         * Ruten som er trykket på.
+         * Metoden som skal kjøres hver gang en rute er trykket. Her sjekkes det
+         * om programmet skal finne trekk for spilleren, om den skal flytte
+         * brikken eller om den skal fjerne opplyste trekk. Det er her
+         * mesteparten av kommunikasjon med Brett ligger.
+         *
+         * @param e Ruten som er trykket på.
          */
         @Override
         public void mouseClicked(MouseEvent e) {
 
             GuiRute denne = (GuiRute) e.getSource();
-            Rute R = brett.getRute(denne.getYen(), denne.getXen());
             isStarted = true;
             isSjakk = brett.isSjakk(!blackTurn);
             boolean isBlock = brett.getBlockingCheck();
@@ -403,8 +429,7 @@ class Gui extends JFrame {
                     }
                 }
             } else {
-                if (!isHighlighted && R.isOccupied() && denne.hasLabel()) {
-
+                if (!isHighlighted && denne.hasLabel()) {
                     move = trekk[denne.getYen()] + (denne.getXen() + 1);
                     if (!blackTurn) {
                         Rute sjekk = brett.getRute(denne.getYen(), denne.getXen());
@@ -579,7 +604,7 @@ class Gui extends JFrame {
                 repaint();
                 teller1++;
             }
-            if (brett.update("HH") && teller2 == 0) {
+            else if (brett.update("HH") && teller2 == 0) {
                 JLabel pic = squares[0][7].getBilde();
                 GuiRute oldTaarn = squares[0][7];
                 oldTaarn.removeBilde();
@@ -587,7 +612,7 @@ class Gui extends JFrame {
                 repaint();
                 teller2++;
             }
-            if (brett.update("SH") && teller3 == 0) {
+            else if (brett.update("SH") && teller3 == 0) {
                 JLabel pic = squares[7][7].getBilde();
                 GuiRute oldTaarn = squares[7][7];
                 oldTaarn.removeBilde();
@@ -595,7 +620,7 @@ class Gui extends JFrame {
                 repaint();
                 teller3++;
             }
-            if (brett.update("SV") && teller4 == 0) {
+            else if (brett.update("SV") && teller4 == 0) {
                 JLabel pic = squares[7][0].getBilde();
                 GuiRute oldTaarn = squares[7][0];
                 oldTaarn.removeBilde();
@@ -692,47 +717,58 @@ class Gui extends JFrame {
                 }
             }
         }
+
         /**
          * Ikke i bruk.
-         * @param e 
+         *
+         * @param e
          */
         @Override
         public void mousePressed(MouseEvent e) {
         }
+
         /**
          * Ikke i bruk.
-         * @param e 
+         *
+         * @param e
          */
         @Override
         public void mouseReleased(MouseEvent e) {
         }
+
         /**
          * Ikke i bruk.
-         * @param e 
+         *
+         * @param e
          */
         @Override
         public void mouseEntered(MouseEvent e) {
         }
+
         /**
          * Ikke i bruk.
-         * @param e 
+         *
+         * @param e
          */
         @Override
         public void mouseExited(MouseEvent e) {
         }
     }
+
     /**
-     * Vinduet som kommer opp når du har flyttet en bonde til andre siden av brettet.
+     * Vinduet som kommer opp når du har flyttet en bonde til andre siden av
+     * brettet.
      */
     private class PromotePieceFrame extends JFrame {
 
         private Rute r;
+
         /**
          * Konstruktøren lager et vindu med fire knapper, svart eller hvit.
-         * @param isHvit 
-         * Bestemmer om knappene skal ha hvite eller svarte bilder.
-         * @param r
-         * Ruten som brikken sto på.
+         *
+         * @param isHvit Bestemmer om knappene skal ha hvite eller svarte
+         * bilder.
+         * @param r Ruten som brikken sto på.
          */
         public PromotePieceFrame(boolean isHvit, Rute r) {
             setLayout(new GridLayout(2, 2));
@@ -752,18 +788,20 @@ class Gui extends JFrame {
             pack();
 
         }
+
         /**
          * Selve knappen som dukker opp i forvandlingsvinduet
          */
         private class Knapp extends JButton {
 
             private ImageIcon bilde;
+
             /**
              * Konstruktøren legger et bilde og en knappelytter til knappen.
-             * @param e
-             * En string med info om hvilken brikke knappen representerer.
-             * @param i 
-             * Et ImageIcon som legges oppå knappen.
+             *
+             * @param e En string med info om hvilken brikke knappen
+             * representerer.
+             * @param i Et ImageIcon som legges oppå knappen.
              */
             public Knapp(String e, ImageIcon i) {
                 super(i);
@@ -771,14 +809,17 @@ class Gui extends JFrame {
                 addActionListener(new KnappeLytter());
             }
         }
+
         /**
-         * Knappelytteren som brukes til å finne ut hvilken knapp som blir trykket på.
+         * Knappelytteren som brukes til å finne ut hvilken knapp som blir
+         * trykket på.
          */
         private class KnappeLytter implements ActionListener {
+
             /**
              * Det som skal skje når en knapp blir trykket på.
-             * @param e 
-             * Knappen som blir trykket på.
+             *
+             * @param e Knappen som blir trykket på.
              */
             @Override
             public void actionPerformed(ActionEvent e) {
