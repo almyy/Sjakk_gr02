@@ -300,9 +300,9 @@ class Gui extends JFrame {
 
         private void updateInfo(String move, String move2, boolean whiteTurn) {
             if (!whiteTurn) {
-                tekstFelt.append("Hvitt trekk: " + move + " til " + move2 + "\n");
-            } else {
                 tekstFelt.append("Svart trekk: " + move + " til " + move2 + "\n");
+            } else {
+                tekstFelt.append("Hvitt trekk: " + move + " til " + move2 + "\n");
             }
         }
 
