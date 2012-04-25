@@ -140,7 +140,12 @@ class Brett {
         }
         return null;
     }
-
+    /**
+     * Sjekker om en Rute r er sikret av en spiller på likt lag
+     * 
+     * @param r
+     * @return 
+     */
     private boolean checkIfSecured(Rute r) {
         Rute sjekk = ruter[r.getX()][r.getY()];
         Brikke test = sjekk.getBrikke();
@@ -417,6 +422,9 @@ class Brett {
                             }
                         }
                     }
+                    if (ruter[6][1].isOccupied() && ruter[6][1].getBrikke() instanceof Konge) {
+                        sjekk = true;
+                    }
                     if (!sjekk && !ruter[(currentx + 1)][currenty].isOccupied() && !ruter[(currentx + 2)][currenty].isOccupied() && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx + 2), currenty));
                         hjelp++;
@@ -440,6 +448,8 @@ class Brett {
                                 }
                             }
                         }
+                    }if((ruter[1][1].isOccupied() && ruter[1][1].getBrikke() instanceof Konge)||(ruter[2][1].isOccupied() && ruter[2][1].getBrikke() instanceof Konge)){
+                        sjekk = true;
                     }
                     if (!sjekk && !ruter[(currentx - 1)][currenty].isOccupied() && !ruter[(currentx - 2)][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx - 2), currenty));
@@ -464,6 +474,8 @@ class Brett {
                                 }
                             }
                         }
+                    }if (ruter[6][6].isOccupied() && ruter[6][6].getBrikke() instanceof Konge) {
+                        sjekk = true;
                     }
                     if (!sjekk && !ruter[currentx + 1][currenty].isOccupied() && !ruter[currentx + 2][currenty].isOccupied() && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx + 2, currenty));
@@ -488,6 +500,9 @@ class Brett {
                                 }
                             }
                         }
+                    }
+                    if((ruter[1][6].isOccupied() && ruter[1][6].getBrikke() instanceof Konge)||(ruter[2][6].isOccupied() && ruter[2][6].getBrikke() instanceof Konge)){
+                        sjekk = true;
                     }
                     if (!sjekk && !ruter[currentx - 1][currenty].isOccupied() && !ruter[currentx - 2][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx - 2, currenty));
@@ -1472,7 +1487,8 @@ class Brett {
     }
 
     /**
-     *
+     *  metoden sjekker hvilke brikker som har muligheten til å blokkere sjakk.
+     * 
      * @param isWhite
      * @return
      */
