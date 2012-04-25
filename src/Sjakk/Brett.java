@@ -1551,7 +1551,7 @@ class Brett {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
                         trekk = sjekkLovligeTrekk(ruter[i][u]);
-                        if(ruter[i][u].getBrikke() instanceof Springer){
+                        if (ruter[i][u].getBrikke() instanceof Springer) {
                             horse = ruter[i][u];
                         }
                         for (int y = 0; y < trekkKonge.size(); y++) {
@@ -1595,8 +1595,13 @@ class Brett {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
                         trekk = sjekkLovligeTrekk(ruter[i][u]);
-                        if(ruter[i][u].getBrikke() instanceof Springer){
-                            horse = ruter[i][u];
+                        if (ruter[i][u].getBrikke() instanceof Springer) {
+                            trekk = sjekkLovligeTrekk(ruter[i][u]);
+                            for (int y = 0; y < trekk.size(); y++) {
+                                if (trekk.get(y).getY() == kongePos.getY() && trekk.get(y).getX() == kongePos.getX()) {
+                                    horse = ruter[i][u];
+                                }
+                            }
                         }
                         for (int y = 0; y < trekkKonge.size(); y++) {
                             help = false;
@@ -1632,15 +1637,28 @@ class Brett {
                 lovligeTrekk.add(trekkKonge.get(i));
             }
             return lovligeTrekk;
-        } else if(horse != null){
-            ArrayList<Rute> trekkHorse = sjekkLovligeTrekk(r);
-            for(int i = 0; i < trekkHorse.size(); i++){
-                if(trekkHorse.get(i).getX() == horse.getX() && trekkHorse.get(i).getY() == horse.getY()){
-                    lovligeTrekk.add(trekkHorse.get(i));
+        }
+        ArrayList<Rute> trekkHorse = new ArrayList<>();
+        if (horse != null) {
+            if (b instanceof Bonde) {
+                Bonde test = (Bonde) b;
+                trekkHorse = b.sjekkLovligeTrekk(r);
+                for (int u = 0; u < trekkHorse.size(); u++) {
+                    if (trekkHorse.get(u).getX() == r.getX()) {
+                        trekkHorse.remove(u);
+                        u--;
+                    }
                 }
-                return lovligeTrekk;
+            } else {
+                trekkHorse = sjekkLovligeTrekk(r);
             }
-            
+            for (int i = 0; i < trekkHorse.size(); i++) {
+                if (trekkHorse.get(i).getX() == horse.getX() && trekkHorse.get(i).getY() == horse.getY()) {
+                    lovligeTrekk.add(trekkHorse.get(i));
+                    return lovligeTrekk;
+                }
+            }
+
         }
         venstre = false;
         hoyre = false;
