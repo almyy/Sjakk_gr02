@@ -62,11 +62,26 @@ class Rute {
         }
         return false;
     }
+    /**
+     * returnerer om isBlocking variabelen
+     * @return true/false
+     */
     public boolean getBlocking(){
         return isBlocking;
-    }public void setBlocking(boolean b){
+    }
+    /**
+     * setter isBlocking variabelen til å være lik argumentet.
+     * 
+     * @param b 
+     */
+    public void setBlocking(boolean b){
         isBlocking = b;
     }
+    /**
+     * 
+     * @return en string med x og y koordinatene. 
+     */
+    @Override
     public String toString() {
         return "x: " + x + ", y: " + y;
     }

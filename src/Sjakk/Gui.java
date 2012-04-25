@@ -243,7 +243,7 @@ class Gui extends JFrame {
         private int y;
 
         public GuiRute(JLabel bilde, int x, int y) {
-            setPreferredSize(new Dimension(50, 50));
+            setSize(new Dimension(50, 50));
             this.bilde = bilde;
             this.x = x;
             this.y = y;
@@ -581,7 +581,7 @@ class Gui extends JFrame {
                 isBlock = brett.checkIfBlockingCheck(!blackTurn);
                 brett.setBlockingCheck(isBlock);
 
-                boolean isSjakkMatt = brett.isSjakkMatt(!blackTurn, isSjakk);
+                boolean isSjakkMatt = brett.isSjakkMatt(!blackTurn);
                 if (isSjakkMatt) {
                     String[] valg = {"New game", "Exit"};
                     if (!blackTurn) {

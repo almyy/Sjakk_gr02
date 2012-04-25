@@ -105,13 +105,17 @@ class Brett {
     }
 
     /**
+     * setter blockingCheck til å være lik argumentet b
      *
      * @param b
      */
     public void setBlockingCheck(boolean b) {
         blockingCheck = b;
     }
-
+    /**
+     * sier fra om noen brikker på brettet blokkerer sjakk
+     * @return true/false
+     */
     public boolean getBlockingCheck() {
         return blockingCheck;
     }
@@ -144,7 +148,7 @@ class Brett {
      * Sjekker om en Rute r er sikret av en spiller på likt lag
      * 
      * @param r
-     * @return 
+     * @return En ArrayList med alle brikker som kan blokkere sjakk. 
      */
     private boolean checkIfSecured(Rute r) {
         Rute sjekk = ruter[r.getX()][r.getY()];
@@ -1528,10 +1532,11 @@ class Brett {
     }
 
     /**
+     * Sjekker hvilke lovlige trekk en brikke på ruten r har, dersom brikkens medhørende konge står i sjakk.
      *
      * @param isWhite
      * @param r
-     * @return
+     * @return En ArrayList alle lovlige trekk
      */
     public ArrayList<Rute> sjakkTrekk(boolean isWhite, Rute r) {
         Brikke b = ruter[r.getX()][r.getY()].getBrikke();
@@ -1753,9 +1758,9 @@ class Brett {
     }
 
     /**
-     *
+     * Sjekker om en av kongene står i sjakk. Hvilke konge som sjekkes bestemmes av isWhite
      * @param isWhite
-     * @return
+     * @return true/false
      */
     public boolean isSjakk(Boolean isWhite) {
         ArrayList<Rute> trekk = new ArrayList<>();
@@ -1808,11 +1813,11 @@ class Brett {
     }
 
     /**
-     *
+     * Sjekker hvilke lovlige trekk en rutes brikke har, dersom denne brikken blokkerer en sjakk.
      * @param whiteTurn Gir informasjon om det er hvit eller svart sin tur.
      * @param r
      *
-     * @return
+     * @return en Arraylist med alle lovlige trekk
      */
     public ArrayList<Rute> blockingCheckMoves(boolean whiteTurn, Rute r) {
         ArrayList<Rute> lovligeTrekk = new ArrayList<>();
@@ -2300,9 +2305,10 @@ class Brett {
     }
 
     /**
-     *
+     * Sjekker om en spesifikk rute blokkerer sjakk. Denne metoden kaller setBlocking-metoden
+     * og sier i fra til ruten at dens brikke blokkerer sjakk.
      * @param isWhite
-     * @return
+     * @return true/false
      */
     public boolean checkIfIsBlocking(Rute r) {
         Rute sjekk = ruter[r.getX()][r.getY()];
@@ -2368,7 +2374,12 @@ class Brett {
         }
         return res;
     }
-
+    /**
+     * Sjekker kun om den er noen brikker som blokkerer sjakk.
+     * 
+     * @param isWhite
+     * @return true/false
+     */
     public boolean checkIfBlockingCheck(boolean isWhite) {
         ArrayList<Rute> trekk = new ArrayList<>();
         boolean help = false;
@@ -2469,13 +2480,12 @@ class Brett {
      * Sjekker om det er sjakk matt eller ikke.
      *
      * @param whiteTurn Bestemmer om det er svart eller hvit sin tur.
-     * @param isSjakk Sjekker om det i tillegg er sjakk.
      * @return True eller false, altså om det er sjakk matt.
      */
-    public boolean isSjakkMatt(boolean whiteTurn, boolean isSjakk) {
+    public boolean isSjakkMatt(boolean whiteTurn) {
         ArrayList<Rute> muligeMoves = whatPiecesBlockCheck(whiteTurn);
         ArrayList<Rute> legal = new ArrayList<>();
-        isSjakk = isSjakk(whiteTurn);
+        boolean isSjakk = isSjakk(whiteTurn);
         if (muligeMoves.size() <= 1 && isSjakk) {
             if (whiteTurn) {
                 for (int i = 0; i < 8; i++) {
