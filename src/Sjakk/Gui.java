@@ -254,11 +254,9 @@ class Gui extends JFrame {
         public void setBilde(JLabel nyBilde) {
             bilde = nyBilde;
             if (bilde != null) {
-                synchronized (this) {
-                    this.add(bilde);
-                    repaint();
-                }
-
+                this.add(bilde);
+                repaint();
+                pack();
             }
             this.repaint();
         }
@@ -534,7 +532,7 @@ class Gui extends JFrame {
                             } else {
                                 squares[i][u].setBackground(lightBrown);
                             }
-                        }
+                        }brett.setBlockingCheck(false);
                     }
                     isHighlighted = false;
                 }
@@ -586,7 +584,7 @@ class Gui extends JFrame {
             if (isDone) {
                 isBlock = brett.checkIfBlockingCheck(!blackTurn);
                 brett.setBlockingCheck(isBlock);
-                
+
                 boolean isSjakkMatt = brett.isSjakkMatt(!blackTurn, isSjakk);
                 if (isSjakkMatt) {
                     String[] valg = {"New game", "Exit"};
@@ -636,7 +634,7 @@ class Gui extends JFrame {
                             }
                             isHighlighted = false;
                         }
-                        
+
                     } else {
                         for (int i = 0; i < 8; i++) {
                             for (int u = 0; u < 8; u++) {

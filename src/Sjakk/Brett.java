@@ -237,7 +237,12 @@ class Brett {
                             trekk = k.sjekkLovligeTrekk(ruter[i][u]);
                         }
                         for (int y = 0; y < trekk.size(); y++) {
-                            if (y == venstreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + hoyreT || y == hoyreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT || y == oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT || y == nedT + oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT || y == venstreOppT + venstreNedT || y == hoyreOppT + venstreNedT + venstreOppT + hoyreNedT || y == venstreNedT || y == hoyreNedT + venstreNedT + venstreOppT) {
+                            if (y == venstreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + hoyreT
+                                    || y == hoyreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT ||
+                                    y == oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT ||
+                                    y == nedT + oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT ||
+                                    y == venstreOppT + venstreNedT || y == hoyreOppT + venstreNedT + venstreOppT + hoyreNedT ||
+                                    y == venstreNedT || y == hoyreNedT + venstreNedT + venstreOppT) {
                                 help = false;
                             }
                             Rute sjekker = ruter[trekk.get(y).getX()][trekk.get(y).getY()];
@@ -360,6 +365,11 @@ class Brett {
                         i--;
                     }
                     if (currentX == x && ruter[x][y].isOccupied()) {
+                        if (teller > 1 && i < teller - 1 && lovligeTrekk.get(i + 1).getY() == y - 1) {
+                            lovligeTrekk.remove(i + 1);
+                            teller--;
+                            i--;
+                        }
                         lovligeTrekk.remove(i);
                         teller--;
                         i--;
@@ -400,11 +410,13 @@ class Brett {
                     if (ruter[x][y].isOccupied() && ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
                         teller--;
+                        i--;
                     }
                 } else {
                     if (ruter[x][y].isOccupied() && !ruter[x][y].getBrikke().isHvit()) {
                         lovligeTrekk.remove(i);
                         teller--;
+                        i--;
                     }
                 }
             }
@@ -502,17 +514,45 @@ class Brett {
                 }
             }
             int hjelp = 0;
+            boolean sjekk = false;
             if (konge.isHvit()) {
                 if (ruter[4][0].getBrikke() instanceof Konge && ruter[(currentx + 3)][currenty].getBrikke() instanceof Taarn && ruter[(currentx + 3)][currenty].getBrikke().isHvit() && !rokadeKTH && (TaarnHH == 0) && (KongeH == 0)) {
-                    while (!ruter[(currentx + 1)][currenty].isOccupied() && !ruter[(currentx + 2)][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
+                    for (int i = 0; i < 8; i++) {
+                        for (int u = 0; u < 8; u++) {
+                            if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit() && !(ruter[i][u].getBrikke() instanceof Konge)) {
+                                trekk = sjekkLovligeTrekk(ruter[i][u]);
+                                for (int y = 0; y < trekk.size(); y++) {
+                                    if (trekk.get(y).getX() == 5 && trekk.get(y).getY() == 0) {
+                                        sjekk = true;
+                                    } else if (trekk.get(y).getX() == 6 && trekk.get(y).getY() == 0) {
+                                        sjekk = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!sjekk && !ruter[(currentx + 1)][currenty].isOccupied() && !ruter[(currentx + 2)][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx + 2), currenty));
                         hjelp++;
                     }
                 }
                 hjelp = 0;
                 if (ruter[4][0].getBrikke() instanceof Konge && ruter[currentx - 4][currenty].getBrikke() instanceof Taarn && ruter[currentx - 4][currenty].getBrikke().isHvit() && !rokadeKTH && (TaarnHV == 0) && (KongeH == 0)) {
-
-                    while (!ruter[(currentx - 1)][currenty].isOccupied() && !ruter[(currentx - 2)][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
+                    for (int i = 0; i < 8; i++) {
+                        for (int u = 0; u < 8; u++) {
+                            if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit() && !(ruter[i][u].getBrikke() instanceof Konge)) {
+                                trekk = sjekkLovligeTrekk(ruter[i][u]);
+                                for (int y = 0; y < trekk.size(); y++) {
+                                    if (trekk.get(y).getX() == 3 && trekk.get(y).getY() == 0) {
+                                        sjekk = true;
+                                    } else if (trekk.get(y).getX() == 2 && trekk.get(y).getY() == 0) {
+                                        sjekk = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!ruter[(currentx - 1)][currenty].isOccupied() && !ruter[(currentx - 2)][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute((currentx - 2), currenty));
                         hjelp++;
                     }
@@ -520,13 +560,41 @@ class Brett {
                 hjelp = 0;
             } else if (!konge.isHvit()) {
                 if (ruter[4][7].getBrikke() instanceof Konge && ruter[currentx + 3][currenty].getBrikke() instanceof Taarn && !ruter[currentx + 3][currenty].getBrikke().isHvit() && !rokadeKTS && (TaarnSH == 0) && (KongeS == 0)) {
-                    while (!ruter[currentx + 1][currenty].isOccupied() && !ruter[currentx + 2][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
+                    for (int i = 0; i < 8; i++) {
+                        for (int u = 0; u < 8; u++) {
+                            if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit() && !(ruter[i][u].getBrikke() instanceof Konge)) {
+                                trekk = sjekkLovligeTrekk(ruter[i][u]);
+                                for (int y = 0; y < trekk.size(); y++) {
+                                    if (trekk.get(y).getX() == 5 && trekk.get(y).getY() == 7) {
+                                        sjekk = true;
+                                    } else if (trekk.get(y).getX() == 6 && trekk.get(y).getY() == 7) {
+                                        sjekk = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!sjekk && !ruter[currentx + 1][currenty].isOccupied() && !ruter[currentx + 2][currenty].isOccupied() && ((currentx + 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx + 2, currenty));
                         hjelp++;
                     }
                 }
                 hjelp = 0;
                 if (ruter[4][7].getBrikke() instanceof Konge && ruter[currentx - 4][currenty].getBrikke() instanceof Taarn && !ruter[currentx - 4][currenty].getBrikke().isHvit() && !rokadeKTS && (TaarnSV == 0) && (KongeS == 0)) {
+                    for (int i = 0; i < 8; i++) {
+                        for (int u = 0; u < 8; u++) {
+                            if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit() && !(ruter[i][u].getBrikke() instanceof Konge)) {
+                                trekk = sjekkLovligeTrekk(ruter[i][u]);
+                                for (int y = 0; y < trekk.size(); y++) {
+                                    if (trekk.get(y).getX() == 3 && trekk.get(y).getY() == 7) {
+                                        sjekk = true;
+                                    } else if (trekk.get(y).getX() == 2 && trekk.get(y).getY() == 7) {
+                                        sjekk = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     if (!ruter[currentx - 1][currenty].isOccupied() && !ruter[currentx - 2][currenty].isOccupied() && !ruter[currentx - 3][currenty].isOccupied() && ((currentx - 2) > 0) && (hjelp <= 0)) {
                         lovligeTrekk.add(new Rute(currentx - 2, currenty));
                         hjelp++;
@@ -1703,19 +1771,35 @@ class Brett {
         if (trekkBonde != null) {
             for (int i = 0; i < trekkBonde.size(); i++) {
                 if (venstre) {
-                    if (trekkBonde.get(i).getY() == kongePos.getY() && trekkBonde.get(i).getX() < kongePos.getX()) {
+                    if (help2) {
+                        if (trekkBonde.get(i).getX() >= aX && trekkBonde.get(i).getY() == kongePos.getY() && trekkBonde.get(i).getX() < kongePos.getX()) {
+                            lovligeTrekk.add(trekkBonde.get(i));
+                        }
+                    } else if (trekkBonde.get(i).getY() == kongePos.getY() && trekkBonde.get(i).getX() < kongePos.getX()) {
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
                 } else if (hoyre) {
-                    if (trekkBonde.get(i).getY() == kongePos.getY() && trekkBonde.get(i).getX() > kongePos.getX()) {
+                    if (help2) {
+                        if (trekkBonde.get(i).getX() <= aX && trekkBonde.get(i).getY() == kongePos.getY() && trekkBonde.get(i).getX() > kongePos.getX()) {
+                            lovligeTrekk.add(trekkBonde.get(i));
+                        }
+                    } else if (trekkBonde.get(i).getY() == kongePos.getY() && trekkBonde.get(i).getX() > kongePos.getX()) {
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
                 } else if (opp) {
-                    if (trekkBonde.get(i).getX() == kongePos.getX() && trekkBonde.get(i).getY() > kongePos.getY()) {
+                    if (help2) {
+                        if (trekkBonde.get(i).getY() <= aY && trekkBonde.get(i).getX() == kongePos.getX() && trekkBonde.get(i).getY() > kongePos.getY()) {
+                            lovligeTrekk.add(trekkBonde.get(i));
+                        }
+                    } else if (trekkBonde.get(i).getX() == kongePos.getX() && trekkBonde.get(i).getY() > kongePos.getY()) {
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
                 } else if (ned) {
-                    if (trekkBonde.get(i).getX() == kongePos.getX() && trekkBonde.get(i).getY() < kongePos.getY()) {
+                    if (help2) {
+                        if (trekkBonde.get(i).getY() >= aY && trekkBonde.get(i).getX() == kongePos.getX() && trekkBonde.get(i).getY() < kongePos.getY()) {
+                            lovligeTrekk.add(trekkBonde.get(i));
+                        }
+                    } else if (trekkBonde.get(i).getX() == kongePos.getX() && trekkBonde.get(i).getY() < kongePos.getY()) {
                         lovligeTrekk.add(trekkBonde.get(i));
                     }
                 } else if (oppVenstre) {
@@ -2249,19 +2333,19 @@ class Brett {
      */
     public boolean checkIfIsBlocking(Rute r) {
         Rute sjekk = ruter[r.getX()][r.getY()];
-        boolean whiteTurn = sjekk.getBrikke().isHvit();
+        Brikke test = sjekk.getBrikke();
+        boolean whiteTurn = test.isHvit();
         ArrayList<Rute> trekk = new ArrayList<>();
         boolean res = false;
-        boolean help = false;
-        int hoyreT = 0;
-        int venstreT = 0;
-        int oppT = 0;
-        int nedT = 0;
-        int hoyreOppT = 0;
-        int venstreOppT = 0;
-        int hoyreNedT = 0;
-        int venstreNedT = 0;
+        Rute kongePos = null;
         if (whiteTurn) {
+            for (int i = 0; i < 8; i++) {
+                for (int u = 0; u < 8; u++) {
+                    if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit() && ruter[i][u].getBrikke() instanceof Konge) {
+                        kongePos = ruter[i][u];
+                    }
+                }
+            }
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
@@ -2275,91 +2359,38 @@ class Brett {
                                     x--;
                                 }
                             }
-                        } else if (b instanceof Springer) {
-                            Springer s = (Springer) b;
-                            trekk = s.sjekkLovligeTrekk(ruter[i][u]);
                         } else if (b instanceof Loper) {
                             Loper l = (Loper) b;
                             trekk = l.sjekkLovligeTrekk(ruter[i][u]);
                         } else if (b instanceof Dronning) {
                             Dronning d = (Dronning) b;
                             trekk = d.sjekkLovligeTrekk(ruter[i][u]);
-
-                            Loper lo = new Loper(d.isHvit());
-                            Taarn taa = new Taarn(d.isHvit());
-
-                            ArrayList<Rute> rutene = lo.sjekkLovligeTrekk(ruter[i][u]);
-                            ArrayList<Rute> ruteneTaarn = taa.sjekkLovligeTrekk(ruter[i][u]);
-
-                            ArrayList<Rute> venstreOpp = new ArrayList<>();
-                            ArrayList<Rute> hoyreOpp = new ArrayList<>();
-                            ArrayList<Rute> venstreNed = new ArrayList<>();
-                            ArrayList<Rute> hoyreNed = new ArrayList<>();
-
-                            ArrayList<Rute> hoyre = new ArrayList<>();
-                            ArrayList<Rute> venstre = new ArrayList<>();
-                            ArrayList<Rute> opp = new ArrayList<>();
-                            ArrayList<Rute> ned = new ArrayList<>();
-                            int tellerL = rutene.size();
-                            int tellerT = ruteneTaarn.size();
-                            int x = i;
-                            int y = u;
-
-                            for (int a = 0; a < tellerL; a++) {
-                                if (rutene.get(a).getX() < x && rutene.get(a).getY() > y) {
-                                    venstreOpp.add(rutene.get(a));
-                                } else if (rutene.get(a).getX() > x && rutene.get(a).getY() > y) {
-                                    hoyreOpp.add(rutene.get(a));
-                                } else if (rutene.get(a).getX() < x && rutene.get(a).getY() < y) {
-                                    venstreNed.add(rutene.get(a));
-                                } else {
-                                    hoyreNed.add(rutene.get(a));
-                                }
-                            }
-                            for (int s = 0; s < tellerT; s++) {
-                                if (ruteneTaarn.get(s).getX() > x) {
-                                    hoyre.add(ruteneTaarn.get(s));
-                                } else if (ruteneTaarn.get(s).getX() < x) {
-                                    venstre.add(ruteneTaarn.get(s));
-                                } else if (ruteneTaarn.get(s).getY() > y) {
-                                    opp.add(ruteneTaarn.get(s));
-                                } else {
-                                    ned.add(ruteneTaarn.get(s));
-                                }
-                            }
-                            venstreT = venstre.size();
-                            hoyreT = hoyre.size();
-                            oppT = opp.size();
-                            nedT = ned.size();
-                            venstreNedT = venstreNed.size();
-                            hoyreNedT = hoyreNed.size();
-                            venstreOppT = venstreOpp.size();
-                            hoyreOppT = hoyreOpp.size();
                         } else if (b instanceof Taarn) {
                             Taarn t = (Taarn) b;
                             trekk = t.sjekkLovligeTrekk(ruter[i][u]);
-                        } else {
-                            Konge k = (Konge) b;
-                            trekk = k.sjekkLovligeTrekk(ruter[i][u]);
                         }
                         for (int y = 0; y < trekk.size(); y++) {
-                            if (y == venstreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + hoyreT || y == hoyreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT || y == oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT || y == nedT + oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT || y == venstreOppT + venstreNedT || y == hoyreOppT + venstreNedT + venstreOppT + hoyreNedT || y == venstreNedT || y == hoyreNedT + venstreNedT + venstreOppT) {
-                                help = false;
-                            }
-                            Rute sjekker = ruter[trekk.get(y).getX()][trekk.get(y).getY()];
-                            if (sjekker.isOccupied() && trekk.get(y).getX() != r.getX()) {
-                                help = true;
-                            }
-                            if (trekk.get(y).getX() == r.getX() && trekk.get(y).getY() == r.getY() && !help) {
-                                res = true;
-                                sjekk.setBlocking(true);
+                            if (trekk.get(y).getX() == kongePos.getX() && trekk.get(y).getY() == kongePos.getY()) {
+                                sjekk.setBrikke(null);
+                                if (isSjakk(whiteTurn)) {
+                                    sjekk.setBlocking(true);
+                                    res = true;
+                                }
+                                sjekk.setBrikke(test);
                             }
                         }
-                        help = false;
+
                     }
                 }
             }
         } else {
+            for (int i = 0; i < 8; i++) {
+                for (int u = 0; u < 8; u++) {
+                    if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit() && ruter[i][u].getBrikke() instanceof Konge) {
+                        kongePos = ruter[i][u];
+                    }
+                }
+            }
             for (int i = 0; i < 8; i++) {
                 for (int u = 0; u < 8; u++) {
                     if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
@@ -2373,87 +2404,28 @@ class Brett {
                                     x--;
                                 }
                             }
-                        } else if (b instanceof Springer) {
-                            Springer s = (Springer) b;
-                            trekk = s.sjekkLovligeTrekk(ruter[i][u]);
                         } else if (b instanceof Loper) {
                             Loper l = (Loper) b;
                             trekk = l.sjekkLovligeTrekk(ruter[i][u]);
                         } else if (b instanceof Dronning) {
                             Dronning d = (Dronning) b;
                             trekk = d.sjekkLovligeTrekk(ruter[i][u]);
-
-                            Loper lo = new Loper(d.isHvit());
-                            Taarn taa = new Taarn(d.isHvit());
-
-                            ArrayList<Rute> rutene = lo.sjekkLovligeTrekk(ruter[i][u]);
-                            ArrayList<Rute> ruteneTaarn = taa.sjekkLovligeTrekk(ruter[i][u]);
-
-                            ArrayList<Rute> venstreOpp = new ArrayList<>();
-                            ArrayList<Rute> hoyreOpp = new ArrayList<>();
-                            ArrayList<Rute> venstreNed = new ArrayList<>();
-                            ArrayList<Rute> hoyreNed = new ArrayList<>();
-
-                            ArrayList<Rute> hoyre = new ArrayList<>();
-                            ArrayList<Rute> venstre = new ArrayList<>();
-                            ArrayList<Rute> opp = new ArrayList<>();
-                            ArrayList<Rute> ned = new ArrayList<>();
-                            int tellerL = rutene.size();
-                            int tellerT = ruteneTaarn.size();
-                            int x = i;
-                            int y = u;
-
-                            for (int a = 0; a < tellerL; a++) {
-                                if (rutene.get(a).getX() < x && rutene.get(a).getY() > y) {
-                                    venstreOpp.add(rutene.get(a));
-                                } else if (rutene.get(a).getX() > x && rutene.get(a).getY() > y) {
-                                    hoyreOpp.add(rutene.get(a));
-                                } else if (rutene.get(a).getX() < x && rutene.get(a).getY() < y) {
-                                    venstreNed.add(rutene.get(a));
-                                } else {
-                                    hoyreNed.add(rutene.get(a));
-                                }
-                            }
-                            for (int s = 0; s < tellerT; s++) {
-                                if (ruteneTaarn.get(s).getX() > x) {
-                                    hoyre.add(ruteneTaarn.get(s));
-                                } else if (ruteneTaarn.get(s).getX() < x) {
-                                    venstre.add(ruteneTaarn.get(s));
-                                } else if (ruteneTaarn.get(s).getY() > y) {
-                                    opp.add(ruteneTaarn.get(s));
-                                } else {
-                                    ned.add(ruteneTaarn.get(s));
-                                }
-                            }
-                            venstreT = venstre.size();
-                            hoyreT = hoyre.size();
-                            oppT = opp.size();
-                            nedT = ned.size();
-                            venstreNedT = venstreNed.size();
-                            hoyreNedT = hoyreNed.size();
-                            venstreOppT = venstreOpp.size();
-                            hoyreOppT = hoyreOpp.size();
                         } else if (b instanceof Taarn) {
                             Taarn t = (Taarn) b;
                             trekk = t.sjekkLovligeTrekk(ruter[i][u]);
-                        } else {
-                            Konge k = (Konge) b;
-                            trekk = k.sjekkLovligeTrekk(ruter[i][u]);
                         }
+
                         for (int y = 0; y < trekk.size(); y++) {
-                            if (y == venstreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + hoyreT || y == hoyreT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT || y == oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT || y == nedT + oppT + hoyreOppT + venstreNedT + venstreOppT + hoyreNedT + venstreT + hoyreT || y == venstreOppT + venstreNedT || y == hoyreOppT + venstreNedT + venstreOppT + hoyreNedT || y == venstreNedT || y == hoyreNedT + venstreNedT + venstreOppT) {
-                                help = false;
-                            }
-                            Rute sjekker = ruter[trekk.get(y).getX()][trekk.get(y).getY()];
-                            if (sjekker.isOccupied() && trekk.get(y).getX() != r.getX()) {
-                                help = true;
-                            }
-                            if (trekk.get(y).getX() == r.getX() && trekk.get(y).getY() == r.getY() && !help) {
-                                res = true;
-                                sjekk.setBlocking(true);
+                            if (trekk.get(y).getX() == kongePos.getX() && trekk.get(y).getY() == kongePos.getY()) {
+                                sjekk.setBrikke(null);
+                                if (isSjakk(whiteTurn)) {
+                                    sjekk.setBlocking(true);
+                                    res = true;
+                                }
+                                sjekk.setBrikke(test);
                             }
                         }
-                        help = false;
+
                     }
                 }
             }
@@ -2567,6 +2539,7 @@ class Brett {
     public boolean isSjakkMatt(boolean whiteTurn, boolean isSjakk) {
         ArrayList<Rute> muligeMoves = whatPiecesBlockCheck(whiteTurn);
         ArrayList<Rute> legal = new ArrayList<>();
+        isSjakk = isSjakk(whiteTurn);
         if (muligeMoves.size() <= 1 && isSjakk) {
             if (whiteTurn) {
                 for (int i = 0; i < 8; i++) {
@@ -2594,7 +2567,6 @@ class Brett {
         }
         return false;
     }
-   
 
     /**
      * Oppdaterer en brikke hvis en bonde kommer helt over på andre siden av
