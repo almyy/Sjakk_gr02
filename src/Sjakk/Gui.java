@@ -207,6 +207,7 @@ class Gui extends JFrame {
 
         public Rutenett() {
             setLayout(new GridLayout(8, 8));
+            setResizable(false);
             for (int i = 7; i >= 0; i--) {
                 for (int j = 0; j < 8; j++) {
 
