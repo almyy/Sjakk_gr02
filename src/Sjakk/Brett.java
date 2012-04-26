@@ -1701,7 +1701,13 @@ class Brett {
                     if (ruter[i][u].isOccupied() && !ruter[i][u].getBrikke().isHvit()) {
                         trekk = sjekkLovligeTrekk(ruter[i][u]);
                         if (ruter[i][u].getBrikke() instanceof Springer) {
-                            horse = ruter[i][u];
+                            ArrayList<Rute> sjekkHest = sjekkLovligeTrekk(ruter[i][u]);
+                            for(int v = 0; v < sjekkHest.size();v++){
+                                if(sjekkHest.get(v).getX() == kongePos.getX() && sjekkHest.get(v).getY() == kongePos.getY()){
+                                    horse = ruter[i][u];
+                                }
+                            }
+                            
                         }/*
                          * Sjekker om noen av de svarte brikkene kan angripe den
                          * hvite kongen
@@ -1768,9 +1774,9 @@ class Brett {
                     if (ruter[i][u].isOccupied() && ruter[i][u].getBrikke().isHvit()) {
                         trekk = sjekkLovligeTrekk(ruter[i][u]);
                         if (ruter[i][u].getBrikke() instanceof Springer) {
-                            trekk = sjekkLovligeTrekk(ruter[i][u]);
-                            for (int y = 0; y < trekk.size(); y++) {
-                                if (trekk.get(y).getY() == kongePos.getY() && trekk.get(y).getX() == kongePos.getX()) {
+                            ArrayList<Rute> sjekkHest = sjekkLovligeTrekk(ruter[i][u]);
+                            for(int v = 0; v < sjekkHest.size();v++){
+                                if(sjekkHest.get(v).getX() == kongePos.getX() && sjekkHest.get(v).getY() == kongePos.getY()){
                                     horse = ruter[i][u];
                                 }
                             }
