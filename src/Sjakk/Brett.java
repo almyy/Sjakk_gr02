@@ -2099,7 +2099,7 @@ class Brett {
                         while (ru.getX() - tx < 0) {
                             tx--;
                             if (ruter[tx][ru.getY()].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
                         }/*
@@ -2131,7 +2131,7 @@ class Brett {
                         while (tx - ru.getX() < 0) {
                             tx++;
                             if (ruter[tx][ru.getY()].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
                         }
@@ -2155,7 +2155,7 @@ class Brett {
                         while (ty - ru.getY() < 0) {
                             ty++;
                             if (ruter[ru.getX()][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
                         }
@@ -2185,7 +2185,7 @@ class Brett {
                         while (ru.getY() - ty > 0) {
                             ty--;
                             if (ruter[ru.getX()][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
                         }
@@ -2201,6 +2201,7 @@ class Brett {
             }
             for (int i = 0; i < tellerVO; i++) {
                 ru = ruter[venstreOpp.get(i).getX()][venstreOpp.get(i).getY()];
+                ArrayList<Rute> replace = new ArrayList<>();
                 if ((ru != null && ru.isOccupied() && !ru.getBrikke().isHvit() && (ru.getBrikke() instanceof Dronning || ru.getBrikke() instanceof Loper))) {
                     if (blocker instanceof Dronning || blocker instanceof Loper) {
                         lovligeTrekk.add(venstreOpp.get(i));
@@ -2212,7 +2213,7 @@ class Brett {
                             tx--;
                             ty++;
                             if (ruter[tx][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
                         }
@@ -2223,6 +2224,7 @@ class Brett {
                                 return lovligeTrekk;
                             }
                             lovligeTrekk.add(new Rute(helpTx, helpTy));
+                            replace.add(new Rute(helpTx,helpTy));
                         }
                     }
                     if (blocker instanceof Bonde) {
@@ -2245,7 +2247,7 @@ class Brett {
                             tx++;
                             ty++;
                             if (ruter[tx][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
                         }
@@ -2277,7 +2279,7 @@ class Brett {
                             tx--;
                             ty--;
                             if (ruter[tx][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
                         }
@@ -2309,7 +2311,7 @@ class Brett {
                             tx++;
                             ty--;
                             if (ruter[tx][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
                         }
@@ -2339,7 +2341,7 @@ class Brett {
                         while (ru.getX() - tx < 0) {
                             tx--;
                             if (ruter[tx][ru.getY()].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
                         }
@@ -2363,7 +2365,7 @@ class Brett {
                         while (tx - ru.getX() < 0) {
                             tx++;
                             if (ruter[tx][ru.getY()].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ru.getY()));
                         }
@@ -2387,7 +2389,7 @@ class Brett {
                         while (ty - ru.getY() < 0) {
                             ty++;
                             if (ruter[ru.getX()][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
                         }
@@ -2417,7 +2419,7 @@ class Brett {
                         while (ru.getY() - ty > 0) {
                             ty--;
                             if (ruter[ru.getX()][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(ru.getX(), ty));
                         }
@@ -2444,7 +2446,7 @@ class Brett {
                             tx--;
                             ty++;
                             if (ruter[tx][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
                         }
@@ -2477,7 +2479,7 @@ class Brett {
                             tx++;
                             ty++;
                             if (ruter[tx][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
                         }
@@ -2509,7 +2511,7 @@ class Brett {
                             tx--;
                             ty--;
                             if (ruter[tx][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
                         }
@@ -2541,7 +2543,7 @@ class Brett {
                             tx++;
                             ty--;
                             if (ruter[tx][ty].isOccupied()) {
-                                return lovligeTrekk;
+                                break;
                             }
                             lovligeTrekk.add(new Rute(tx, ty));
                         }
